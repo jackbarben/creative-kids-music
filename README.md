@@ -1,5 +1,15 @@
 # Creative Kids Music
 
+## Website Infrastructure
+
+**Domain:** creativekidsmusic.org (purchased via Namecheap)
+**Hosting:** Vercel (free tier with automatic deployments)
+**Email:** Zoho Mail (free tier)
+- jack@creativekidsmusic.org - for known contacts and personal correspondence
+- connect@creativekidsmusic.org - for public inquiries and new connections
+
+**Deployment:** GitHub → Vercel automatic deployment from master branch
+
 ## New This Year: Creative Kids Music Program (After School)
 
 This fall, we're launching a brand-new, 4-day-a-week music immersion program for children:

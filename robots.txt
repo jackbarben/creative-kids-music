@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://creativekidsmusic.org/sitemap.xml
+
+# Block verification files
+Disallow: /zohoverify/
