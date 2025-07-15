@@ -24,6 +24,12 @@ This fall, we're launching a brand-new, 4-day-a-week music immersion program for
 
 ### What Is It?
 
+**Music is a language—let your child speak it.**
+
+**Imagine · Jam · Breathe · Bloom**
+
+Creative Kids guides rising 3rd‑ to 5th‑graders to imagine new sounds, jam on real instruments, breathe into mindful focus, and bloom into confident creators—playing shoulder‑to‑shoulder with professional musicians along the way as they learn to craft music that is uniquely their own.
+
 Have you ever wanted to be a musician?
 Pick up an instrument and just play?
 Sing your own songs? Improvise? Compose?
