@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Kids Music</title>
+    <title>Creative Kids Music - Where Every Child Becomes a Musician</title>
     <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="description" content="After-school music immersion program for grades K-6. Multi-instrument, creative music education where joy meets excellence.">
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLQ2GTXRTL"></script>
@@ -12,25 +13,457 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-CLQ2GTXRTL');
     </script>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f0f8ff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 {
-            color: #333;
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: #3a3a3a;
+            background: linear-gradient(to bottom, #f8faf5 0%, #e8f0e0 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section with Tree */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .tree-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .tree-container img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+            max-width: 800px;
+        }
+        
+        .logo-text {
+            font-family: 'Amatic SC', cursive;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            color: #5a7c3a;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #7a9b5a;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #5a5a5a;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Musical Notes Animation */
+        .musical-notes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .note {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: float 15s infinite;
+        }
+        
+        .note:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .note:nth-child(2) { left: 30%; animation-delay: 3s; }
+        .note:nth-child(3) { left: 50%; animation-delay: 6s; }
+        .note:nth-child(4) { left: 70%; animation-delay: 9s; }
+        .note:nth-child(5) { left: 90%; animation-delay: 12s; }
+        
+        @keyframes float {
+            0% {
+                bottom: -10%;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(30px) rotate(360deg);
+            }
+        }
+        
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: #7a9b5a;
+            color: white;
+            box-shadow: 0 4px 15px rgba(122, 155, 90, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #6a8a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(122, 155, 90, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #7a9b5a;
+            border: 2px solid #7a9b5a;
+        }
+        
+        .btn-secondary:hover {
+            background: #7a9b5a;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Info Cards */
+        .info-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            color: #5a7c3a;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .card-content {
+            color: #5a5a5a;
+            line-height: 1.6;
+        }
+        
+        /* Program Details */
+        .program-details {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-label {
+            font-weight: 700;
+            color: #7a9b5a;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .detail-value {
+            font-size: 1.1rem;
+            color: #5a5a5a;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(122, 155, 90, 0.1);
+            border-radius: 30px;
+            margin: 40px 20px;
+        }
+        
+        .contact-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 3rem;
+            color: #5a7c3a;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            font-size: 1.2rem;
+            color: #5a5a5a;
+            margin-bottom: 2rem;
+        }
+        
+        .email-link {
+            color: #7a9b5a;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .email-link:hover {
+            color: #5a7c3a;
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #7a7a7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding: 60px 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🎵 Creative Kids Music 🎵</h1>
-    <p>Welcome! Full website coming soon...</p>
-    <p>Contact: info@creativekidsmusic.org</p>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Creative Kids Music</a>
+            <button class="mobile-menu-toggle">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="program.html">Program</a></li>
+                <li><a href="enrollment.html">Enrollment</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Musical Notes Animation -->
+    <div class="musical-notes">
+        <span class="note">♪</span>
+        <span class="note">♫</span>
+        <span class="note">♪</span>
+        <span class="note">♬</span>
+        <span class="note">♪</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="tree-container">
+            <img src="media/logos/treecolors2.jpg" alt="Musical Tree">
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="logo-text">Creative Kids Music</h1>
+            <p class="tagline">Where Every Child Becomes a Musician</p>
+            
+            <p class="hero-description">
+                A revolutionary after-school music program that nurtures creativity, 
+                builds confidence, and develops real musical skills through joy and exploration. 
+                Your child won't just learn to play an instrument—they'll become a whole musician.
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="#program" class="btn btn-primary">Discover Our Program</a>
+                <a href="#contact" class="btn btn-secondary">Start Your Free Week</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="info-section" id="program">
+        <div class="cards-container">
+            <div class="info-card">
+                <div class="card-icon">🎼</div>
+                <h3 class="card-title">Multi-Instrument Magic</h3>
+                <p class="card-content">
+                    Piano, ukulele, percussion, and voice—every child explores them all. 
+                    Building a complete musical foundation, not just technical skills.
+                </p>
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">✨</div>
+                <h3 class="card-title">Creative From Day One</h3>
+                <p class="card-content">
+                    Improvise, compose, and create original music from your very first day. 
+                    Because music is a language meant to be spoken, not just read.
+                </p>
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">🌱</div>
+                <h3 class="card-title">Small Groups, Big Growth</h3>
+                <p class="card-content">
+                    Maximum 12 students per group ensures personalized attention 
+                    while experiencing the joy of making music together.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Details -->
+    <section class="program-details">
+        <h2 class="card-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">
+            Program Details
+        </h2>
+        
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="detail-label">Schedule</div>
+                <div class="detail-value">Monday - Thursday<br>3:30 - 5:30 PM</div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-label">Ages</div>
+                <div class="detail-value">Grades K-6<br>All levels welcome</div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-label">Group Size</div>
+                <div class="detail-value">Maximum 12 students<br>Personalized attention</div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-label">Extended Care</div>
+                <div class="detail-value">Available until 6:00 PM<br>Optional add-on</div>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 30px; font-style: italic; color: #7a9b5a;">
+            "Music is too important to be boring"
+        </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="contact-title">Ready to Begin?</h2>
+        <p class="contact-info">
+            Give your child the gift of musical joy and creativity.<br>
+            Start with a FREE trial week—no obligation, just exploration.
+        </p>
+        <p class="contact-info">
+            <a href="mailto:info@creativekidsmusic.org" class="email-link">info@creativekidsmusic.org</a>
+        </p>
+        <a href="mailto:info@creativekidsmusic.org?subject=Free%20Trial%20Week%20Inquiry" class="btn btn-primary">
+            Schedule Your Free Week
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Creative Kids Music. All rights reserved.</p>
+        <p>creativekidsmusic.org | info@creativekidsmusic.org</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

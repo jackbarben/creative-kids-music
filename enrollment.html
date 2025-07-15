@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment - Creative Kids Music</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="description" content="Enroll your child in Creative Kids Music. Pricing, schedules, and registration information.">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLQ2GTXRTL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CLQ2GTXRTL');
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 3rem 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(122, 155, 90, 0.2);
+            border: 3px solid #7a9b5a;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #7a9b5a;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .price {
+            font-size: 3rem;
+            color: #5a7c3a;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Amatic SC', cursive;
+        }
+        
+        .price-period {
+            font-size: 1.2rem;
+            color: #7a9b5a;
+            font-weight: 400;
+        }
+        
+        .enrollment-steps {
+            counter-reset: step-counter;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 80px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: #7a9b5a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .enrollment-form {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Creative Kids Music</a>
+            <button class="mobile-menu-toggle">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="program.html">Program</a></li>
+                <li><a href="enrollment.html" class="active">Enrollment</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tree Watermark -->
+    <img src="media/logos/treecolors2.jpg" alt="" class="tree-watermark">
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 class="page-title">Join Creative Kids Music</h1>
+        <p class="page-subtitle">Start your child's musical journey with a FREE trial week!</p>
+    </header>
+
+    <!-- Pricing Section -->
+    <section class="content-section">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Trial Week</h3>
+                <div class="price">FREE</div>
+                <p class="price-period">No obligation</p>
+                <ul style="text-align: left; padding-left: 20px; margin: 20px 0; list-style: none;">
+                    <li style="margin-bottom: 10px;">✓ Full program access</li>
+                    <li style="margin-bottom: 10px;">✓ All 4 days included</li>
+                    <li style="margin-bottom: 10px;">✓ Meet the instructor</li>
+                    <li style="margin-bottom: 10px;">✓ Experience our approach</li>
+                    <li style="margin-bottom: 10px;">✓ No credit card required</li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card featured">
+                <span class="featured-badge">MOST POPULAR</span>
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Full Program</h3>
+                <div class="price">$[X]</div>
+                <p class="price-period">per month</p>
+                <ul style="text-align: left; padding-left: 20px; margin: 20px 0; list-style: none;">
+                    <li style="margin-bottom: 10px;">✓ 4 days per week</li>
+                    <li style="margin-bottom: 10px;">✓ All instruments included</li>
+                    <li style="margin-bottom: 10px;">✓ Materials provided</li>
+                    <li style="margin-bottom: 10px;">✓ Performance opportunities</li>
+                    <li style="margin-bottom: 10px;">✓ 4-month semester commitment</li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Extended Care</h3>
+                <div class="price">+$20</div>
+                <p class="price-period">per week</p>
+                <ul style="text-align: left; padding-left: 20px; margin: 20px 0; list-style: none;">
+                    <li style="margin-bottom: 10px;">✓ 5:30-6:00 PM care</li>
+                    <li style="margin-bottom: 10px;">✓ Supervised activities</li>
+                    <li style="margin-bottom: 10px;">✓ Homework time</li>
+                    <li style="margin-bottom: 10px;">✓ Instrument practice</li>
+                    <li style="margin-bottom: 10px;">✓ Flexible scheduling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <p style="color: #7a9b5a; font-size: 1.1rem; margin-bottom: 1rem;">
+                <strong>Sibling Discount:</strong> 10% off for second child
+            </p>
+            <p style="color: #5a5a5a;">
+                Payment plans available • Scholarships offered based on need
+            </p>
+        </div>
+    </section>
+
+    <!-- Enrollment Steps -->
+    <section class="content-section" style="background: rgba(122, 155, 90, 0.05); border-radius: 30px; padding: 60px 40px;">
+        <h2 class="section-title">How to Enroll</h2>
+        
+        <div class="enrollment-steps">
+            <div class="step">
+                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Submit Your Application</h3>
+                <p>Fill out our simple online form with basic information about your child and preferences.</p>
+            </div>
+            
+            <div class="step">
+                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Schedule Your Free Week</h3>
+                <p>We'll contact you within 24 hours to schedule your child's trial week at a time that works for you.</p>
+            </div>
+            
+            <div class="step">
+                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Experience the Program</h3>
+                <p>Your child attends all four days, experiencing the full program with no obligation to continue.</p>
+            </div>
+            
+            <div class="step">
+                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Confirm Enrollment</h3>
+                <p>If it's a great fit, complete enrollment with your first payment. Welcome to our musical family!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrollment Form -->
+    <section class="content-section">
+        <h2 class="section-title">Start Your Free Trial Week</h2>
+        
+        <form class="enrollment-form" action="#" method="POST">
+            <h3 style="color: #5a7c3a; margin-bottom: 2rem; text-align: center;">Child Information</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="child-first">Child's First Name *</label>
+                    <input type="text" id="child-first" name="child-first" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="child-last">Child's Last Name *</label>
+                    <input type="text" id="child-last" name="child-last" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="child-age">Age *</label>
+                    <input type="number" id="child-age" name="child-age" class="form-control" min="5" max="12" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="child-grade">Grade (Fall 2025) *</label>
+                    <select id="child-grade" name="child-grade" class="form-control" required>
+                        <option value="">Select Grade</option>
+                        <option value="K">Kindergarten</option>
+                        <option value="1">1st Grade</option>
+                        <option value="2">2nd Grade</option>
+                        <option value="3">3rd Grade</option>
+                        <option value="4">4th Grade</option>
+                        <option value="5">5th Grade</option>
+                        <option value="6">6th Grade</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="school">Current School</label>
+                <input type="text" id="school" name="school" class="form-control" placeholder="[Local Elementary School]">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="experience">Previous Musical Experience</label>
+                <textarea id="experience" name="experience" class="form-control" rows="3" 
+                    placeholder="Has your child taken music lessons before? Do they play any instruments?"></textarea>
+            </div>
+            
+            <h3 style="color: #5a7c3a; margin: 2rem 0; text-align: center;">Parent/Guardian Information</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="parent-first">First Name *</label>
+                    <input type="text" id="parent-first" name="parent-first" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="parent-last">Last Name *</label>
+                    <input type="text" id="parent-last" name="parent-last" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address *</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required>
+            </div>
+            
+            <h3 style="color: #5a7c3a; margin: 2rem 0; text-align: center;">Program Preferences</h3>
+            
+            <div class="form-group">
+                <label class="form-label">Services Interested In:</label>
+                <div style="margin-top: 10px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 400;">
+                        <input type="checkbox" name="services" value="program" checked> 
+                        <span style="margin-left: 8px;">Full After-School Program</span>
+                    </label>
+                    <label style="display: block; margin-bottom: 10px; font-weight: 400;">
+                        <input type="checkbox" name="services" value="extended"> 
+                        <span style="margin-left: 8px;">Extended Care (until 6:00 PM)</span>
+                    </label>
+                    <label style="display: block; margin-bottom: 10px; font-weight: 400;">
+                        <input type="checkbox" name="services" value="pickup"> 
+                        <span style="margin-left: 8px;">School Pickup Service (if available)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="start-date">Preferred Trial Week Start Date</label>
+                <input type="date" id="start-date" name="start-date" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="questions">Questions or Special Considerations</label>
+                <textarea id="questions" name="questions" class="form-control" rows="3" 
+                    placeholder="Allergies, learning differences, scheduling constraints, etc."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 20px; font-weight: 400;">
+                    <input type="checkbox" name="scholarship" value="yes"> 
+                    <span style="margin-left: 8px;">I would like information about scholarships</span>
+                </label>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+                <p style="margin-top: 1rem; color: #7a7a7a; font-size: 0.9rem;">
+                    We'll contact you within 24 hours to schedule your free trial week
+                </p>
+            </div>
+        </form>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section" style="background: rgba(255, 255, 255, 0.6); border-radius: 30px; padding: 60px 40px;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="info-card mb-3">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">What if my child misses a day?</h3>
+                <p>Life happens! While consistent attendance helps children progress, we understand occasional absences. 
+                We'll help your child catch up and stay connected with their group.</p>
+            </div>
+            
+            <div class="info-card mb-3">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Do you provide instruments?</h3>
+                <p>Yes! All instruments and materials are provided during program hours. As children progress, 
+                we can guide families interested in purchasing instruments for home practice.</p>
+            </div>
+            
+            <div class="info-card mb-3">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">What's your refund policy?</h3>
+                <p>We offer a full refund for any unused portion of the semester if you need to withdraw, 
+                minus a small administrative fee. We want this to work for your family!</p>
+            </div>
+            
+            <div class="info-card">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">How do scholarships work?</h3>
+                <p>We believe every child deserves access to quality music education. Our scholarship program 
+                offers partial to full tuition assistance based on need. The application process is simple 
+                and confidential.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Creative Kids Music. All rights reserved.</p>
+        <p>creativekidsmusic.org | info@creativekidsmusic.org</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Form submission (placeholder)
+        document.querySelector('.enrollment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your application! We will contact you within 24 hours to schedule your free trial week.');
+        });
+    </script>
+</body>
+</html>
