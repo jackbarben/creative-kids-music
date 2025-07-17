@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Creative Kids Music</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="description" content="Meet the instructor and learn about our philosophy at Creative Kids Music.">
+    <meta name="description" content="Discover the story behind Creative Kids Music and our approach to joyful music education.">
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLQ2GTXRTL"></script>
@@ -20,6 +20,135 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .origin-story {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 30px;
+            padding: 60px 40px;
+            margin: 40px auto;
+            max-width: 900px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .origin-story p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #4a4a4a;
+            margin-bottom: 1.5rem;
+        }
+        
+        .origin-story p:first-of-type::first-letter {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #7a9b5a;
+            float: left;
+            line-height: 1;
+            margin-right: 8px;
+            margin-top: -5px;
+            font-family: 'Amatic SC', cursive;
+        }
+        
+        .approach-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .approach-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .approach-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .approach-card h3 {
+            color: #5a7c3a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .proof-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        
+        .proof-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #5a5a5a;
+        }
+        
+        .proof-list li:before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: #7a9b5a;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .founder-section {
+            background: linear-gradient(135deg, rgba(122, 155, 90, 0.1), rgba(122, 155, 90, 0.05));
+            border-radius: 30px;
+            padding: 60px 40px;
+            margin: 60px auto;
+            max-width: 900px;
+        }
+        
+        .founder-content {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .founder-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .founder-bio {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #5a5a5a;
+        }
+        
+        @media (max-width: 768px) {
+            .founder-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .founder-image {
+                margin: 0 auto;
+            }
+            
+            .origin-story {
+                padding: 40px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -42,153 +171,86 @@
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1 class="page-title">About Creative Kids Music</h1>
-        <p class="page-subtitle" style="font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem;">Music is a language—let your child speak it.</p>
+        <h1 class="page-title">Explore the Creative Kids Music Project</h1>
+        <p class="page-subtitle" style="font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem;">Where learning feels like play and joy blooms from discovery.</p>
         <p style="font-size: 1.2rem; color: #7a9b5a; font-weight: 500;">Imagine · Jam · Breathe · Bloom</p>
     </header>
 
-    <!-- Our Philosophy -->
+    <!-- Origin Story -->
     <section class="content-section">
-        <h2 class="section-title">Our Philosophy</h2>
-        <div class="info-card mb-4">
-            <h3 style="font-family: 'Amatic SC', cursive; font-size: 2rem; color: #7a9b5a; margin-bottom: 1rem;">
-                "Music is too important to be boring"
-            </h3>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #5a5a5a;">
-                At Creative Kids Music, we believe that traditional music education often misses the mark. 
-                Too many programs focus on perfection over passion, technique over creativity, and reading over doing. 
-                We're different. We believe that music is a language—and like any language, children learn it best 
-                through exploration, play, and meaningful expression.
+        <h2 class="section-title">Origin Story</h2>
+        <div class="origin-story">
+            <p>
+                In 2009 I attended Victor Wooten's Music/Nature Camp, eager to study with a musician I had admired for years. I first heard Wooten perform with <strong>Béla Fleck</strong> in Cincinnati and was immediately enthralled—especially when he offered a solo rendition of Bach's <em>Cello Suite No. 1</em>, a piece I had explored on trombone. When he began improvising on its themes, I knew I had found a musical hero, and that moment ultimately led me to his camp.
+            </p>
+            
+            <p>
+                Camp instruction looked nothing like traditional music education. Victor began by attuning our minds to listening: half the sessions were outdoors, training us to notice details we usually miss and to connect fully with the world around us. Group playing carried the same focus—step out of your head, pay close attention to what others are doing, and make them sound better so you sound better too. <strong>Joe Craven led forty‑five minutes of free improvisation with the entire group—electric, inspiring, and proof that a shared groove can make improvisers out of everyone.</strong> I watched a woman who had never played bass sit in with the band and sound like a pro, and I saw a technically clean guitar solo reborn when Victor helped the player shift from "trying to sound great" to simply <em>feeling the groove</em>.
+            </p>
+            
+            <p>
+                Since that initial experience I have been exploring how to bring this way of attending to music into both private lessons and group programs. I ran <strong>Island Beat Music‑Nature Camps</strong> for three summers on Mercer Island, launched the first <strong>Creative Kids Music Project</strong> in Renton, WA, and later directed <strong>UpBeat</strong> in New Hampshire. With each season I've iterated and refined Victor's lessons—testing what sparks immediate musical joy, seeing what falls flat, and discovering how to give children (and adults) an experience that leaves them wanting more, then using that spark to fuel ongoing exploration and growth.
+            </p>
+            
+            <p style="font-weight: 600; color: #5a7c3a;">
+                The Vancouver‑based Creative Kids Music Project is the latest—and most complete—expression of that journey. Here, nature‑inspired listening games, multi‑instrument exploration, and groove‑first ensemble work converge to help young musicians discover not just how music sounds but how it <em>feels</em>.
             </p>
         </div>
+    </section>
 
-        <div class="grid-2">
-            <div class="info-card">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Every Child is Musical</h3>
-                <p>There's no such thing as a "non-musical" child. Some children sing, some move, 
-                some drum on everything in sight—but all children have music within them. 
-                Our job is to help them find their unique musical voice.</p>
+    <!-- Our Approach -->
+    <section class="content-section">
+        <h2 class="section-title">Our Approach</h2>
+        
+        <div class="approach-grid">
+            <div class="approach-card">
+                <h3>Play → Practice Loop</h3>
+                <p>We don't pit fun against discipline; we weave them together. Play sparks curiosity, curiosity fuels practice, and practice opens new doors for play—an upward spiral that keeps kids eager to grow.</p>
             </div>
             
-            <div class="info-card">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Joy Leads to Excellence</h3>
-                <p>When children love what they're doing, they naturally want to do it well. 
-                We create an environment where excellence emerges from enthusiasm, 
-                not from pressure or competition.</p>
-            </div>
-            
-            <div class="info-card">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Creation from Day One</h3>
-                <p>Why wait years before letting children create their own music? 
-                From their very first day, our students improvise, compose, and express 
-                themselves musically. They're not just learning music—they're making it.</p>
-            </div>
-            
-            <div class="info-card">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Community Over Competition</h3>
-                <p>Music is meant to be shared. Our small groups create a supportive community 
-                where children inspire each other, collaborate on projects, and discover the 
-                joy of making music together.</p>
+            <div class="approach-card">
+                <h3>Whole‑Brain Music‑Making</h3>
+                <p>Neuroscience shows music lights up motor, language, and emotion centers at once. Students learn to <strong>zoom in</strong> with their thinking mind to polish details, then <strong>zoom out</strong> with their creative mind to enter the space where "mistakes" become new ideas. They use their whole selves—and each part supports the other.</p>
             </div>
         </div>
     </section>
 
-    <!-- Meet Your Instructor -->
+    <!-- Proof in Practice -->
     <section class="content-section" style="background: rgba(255, 255, 255, 0.5); border-radius: 30px; padding: 60px 40px;">
-        <h2 class="section-title">Meet Your Instructor</h2>
+        <h2 class="section-title">Proof in Practice</h2>
         
-        <div style="max-width: 800px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <!-- Placeholder for instructor photo -->
-                <div style="width: 200px; height: 200px; background: #e0e0e0; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; color: #999; overflow: hidden;">
-                    <img src="media/photos/jack.jpg" alt="Jack - Founder & Lead Instructor" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                
-                <h3 style="font-size: 1.8rem; color: #5a7c3a; margin-bottom: 0.5rem;">[Your Name]</h3>
-                <p style="color: #7a9b5a; font-style: italic; font-size: 1.2rem;">Founder & Lead Instructor</p>
+        <ul class="proof-list">
+            <li>Picking up an unfamiliar instrument and jamming with pros within minutes.</li>
+            <li>Improvising riffs and vocal lines that grow into full songs.</li>
+            <li>Kids co‑writing lyrics, recording tracks, and sharing performances.</li>
+            <li>Playing in ensembles where every student has a defined part and no one is left behind.</li>
+        </ul>
+    </section>
+
+    <!-- Founder Snapshot -->
+    <section class="founder-section">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Founder Snapshot</h2>
+        
+        <div class="founder-content">
+            <div class="founder-image">
+                <img src="media/photos/jack.jpg" alt="Jack Barben - Founder & Lead Instigator">
             </div>
             
-            <div style="text-align: left; line-height: 1.8; color: #5a5a5a;">
-                <p class="mb-3">
-                    [Your background and journey in music education. Share your story about how you discovered 
-                    your passion for teaching music to children, your educational background, and what led you 
-                    to create Creative Kids Music.]
-                </p>
-                
-                <p class="mb-3">
-                    <strong>Education & Training:</strong><br>
-                    • [Your degrees and certifications]<br>
-                    • [Specialized training in music education]<br>
-                    • [Any relevant workshops or methodologies studied]
-                </p>
-                
-                <p class="mb-3">
-                    <strong>Teaching Experience:</strong><br>
-                    • [Years of experience teaching]<br>
-                    • [Previous positions or programs]<br>
-                    • [Special achievements or recognition]
-                </p>
-                
-                <p class="mb-3">
-                    <strong>Musical Background:</strong><br>
-                    • [Instruments you play]<br>
-                    • [Performance experience]<br>
-                    • [Composition or other musical activities]
-                </p>
-                
+            <div class="founder-bio">
+                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Jack Barben — Founder & Lead Instigator</h3>
                 <p>
-                    <strong>Teaching Philosophy:</strong><br>
-                    "[A personal quote about your approach to teaching music to children. What drives you? 
-                    What do you hope every child takes away from your program? What makes your approach unique?]"
+                    I grew up in a small Michigan town, playing trombone in the school band, leading my youth‑group band on guitar, and writing songs to perform with friends in a local garage outfit. College added classical studies in voice, piano, and trombone—and a conviction that music thrives when genres and settings collide. Over the last 25 years I've worked as a church musician, choir director, and private teacher, guiding students of all ages on piano, voice, guitar, trombone, and drums. When I'm not making music you'll find me in the mountains, on the sea, or on a meditation cushion—often with my two amazing kids (ages 9 and 13). These experiences shape the Creative Kids Music Project, where nature, mindfulness, and joyful exploration meet solid musical craft.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Why Choose Us -->
-    <section class="content-section">
-        <h2 class="section-title">Why Creative Kids Music?</h2>
-        
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <p style="font-size: 1.2rem; line-height: 1.8; color: #5a5a5a; margin-bottom: 3rem;">
-                In a world of screens and schedules, music offers children something irreplaceable: 
-                a chance to create, express, and connect. Here's what makes our program special:
-            </p>
-        </div>
-        
-        <div class="grid-2">
-            <div style="text-align: left;">
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Multi-Instrument Foundation</h3>
-                <p style="margin-bottom: 1.5rem;">Unlike traditional lessons that lock children into one instrument, 
-                we expose them to piano, ukulele, percussion, and voice—building a complete musical foundation.</p>
-                
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Small Group Magic</h3>
-                <p style="margin-bottom: 1.5rem;">With a maximum of 12 students per group, children get individual attention 
-                while experiencing the joy and motivation of learning with peers.</p>
-                
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Creative Curriculum</h3>
-                <p>Our curriculum balances structure with freedom, technique with creativity, 
-                and individual growth with group collaboration.</p>
-            </div>
-            
-            <div style="text-align: left;">
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Age-Appropriate Excellence</h3>
-                <p style="margin-bottom: 1.5rem;">We maintain high standards while honoring where children are developmentally. 
-                Excellence looks different at every age, and we celebrate each milestone.</p>
-                
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Inclusive Community</h3>
-                <p style="margin-bottom: 1.5rem;">Music is for everyone. We welcome all children regardless of experience, 
-                learning style, or background. Our scholarships ensure financial constraints don't limit access.</p>
-                
-                <h3 style="color: #7a9b5a; margin-bottom: 1rem;">✓ Convenience for Families</h3>
-                <p>After-school hours, optional extended care, and potential school pickup make 
-                it easy for working families to give their children this enriching experience.</p>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="program.html" class="btn btn-primary">Learn More About Our Program</a>
-        </div>
+    <!-- Call to Action -->
+    <section class="content-section" style="text-align: center; padding: 80px 20px;">
+        <h2 style="font-family: 'Amatic SC', cursive; font-size: 3rem; color: #5a7c3a; margin-bottom: 2rem;">
+            Ready for your child to discover their sound?
+        </h2>
+        <a href="enrollment.html" class="btn btn-primary">Sign Up for the Adventure</a>
     </section>
 
     <!-- Footer -->
