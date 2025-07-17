@@ -10,7 +10,8 @@
       "Bash(git push:*)",
       "Bash(rm:*)",
       "Bash(cp:*)",
-      "Bash(explorer.exe:*)"
+      "Bash(explorer.exe:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }
