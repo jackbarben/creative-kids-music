@@ -50,7 +50,7 @@
             transform: translate(-50%, -50%);
             width: 80%;
             max-width: 600px;
-            opacity: 0.15;
+            opacity: 0.08;
             z-index: 1;
         }
         
@@ -64,6 +64,11 @@
             z-index: 2;
             position: relative;
             max-width: 800px;
+            background: rgba(248, 250, 245, 0.85);
+            padding: 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .logo-text {
@@ -73,6 +78,7 @@
             color: #5a7c3a;
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
         
         .tagline {
@@ -594,8 +600,7 @@
             });
         });
         
-        // Auto-advance carousel every 5 seconds
-        setInterval(nextSlide, 5000);
+        // Auto-advance removed - manual scrolling only
         
         // Touch/swipe support for mobile
         let startX = 0;
