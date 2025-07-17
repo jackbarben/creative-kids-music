@@ -96,6 +96,11 @@ class AudioPlayer {
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('loadedmetadata', () => this.updateTimeDisplay());
         this.audio.addEventListener('ended', () => this.nextTrack());
+        this.audio.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            console.error('Failed to load:', this.audio.src);
+            this.elements.trackTitle.textContent = 'Error loading track';
+        });
     }
     
     loadTrack(index) {
