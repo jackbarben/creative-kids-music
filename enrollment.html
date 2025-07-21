@@ -173,12 +173,11 @@
 
     <!-- Pricing Section -->
     <section class="content-section">
-        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <h2 class="section-title">Pricing</h2>
         
         <div class="pricing-cards">
             
             <div class="pricing-card featured">
-                <span class="featured-badge">MOST POPULAR</span>
                 <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Full Program</h3>
                 <div class="price">$[X]</div>
                 <p class="price-period">per month</p>
@@ -197,9 +196,9 @@
                 <p class="price-period">per week</p>
                 <ul style="text-align: left; padding-left: 20px; margin: 20px 0; list-style: none;">
                     <li style="margin-bottom: 10px;">✓ 5:30-6:00 PM care</li>
+                    <li style="margin-bottom: 10px;">✓ Outdoor play</li>
                     <li style="margin-bottom: 10px;">✓ Supervised activities</li>
-                    <li style="margin-bottom: 10px;">✓ Homework time</li>
-                    <li style="margin-bottom: 10px;">✓ Instrument practice</li>
+                    <li style="margin-bottom: 10px;">✓ Safe environment</li>
                     <li style="margin-bottom: 10px;">✓ Flexible scheduling</li>
                 </ul>
             </div>
@@ -210,7 +209,7 @@
                 <strong>Sibling Discount:</strong> 10% off for second child
             </p>
             <p style="color: #5a5a5a;">
-                Payment plans available • Scholarships offered based on need
+                Payment plans available • Scholarships offered based on need and interest
             </p>
         </div>
     </section>
@@ -219,22 +218,9 @@
     <section class="content-section" style="background: rgba(122, 155, 90, 0.05); border-radius: 30px; padding: 60px 40px;">
         <h2 class="section-title">How to Enroll</h2>
         
-        <div class="enrollment-steps">
-            <div class="step">
-                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Submit Your Application</h3>
-                <p>Fill out our simple online form with basic information about your child and preferences.</p>
-            </div>
-            
-            <div class="step">
-                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Schedule Your Start Date</h3>
-                <p>We'll contact you within 24 hours to schedule your child's start date at a time that works for you.</p>
-            </div>
-            
-            <div class="step">
-                <h3 style="color: #5a7c3a; margin-bottom: 0.5rem;">Complete Enrollment</h3>
-                <p>Finalize enrollment with your first payment and welcome to our musical family!</p>
-            </div>
-        </div>
+        <p style="text-align: center; font-size: 1.1rem; line-height: 1.8; max-width: 600px; margin: 0 auto;">
+            Fill out the form to secure a place in the program. Details to follow.
+        </p>
     </section>
 
     <!-- Enrollment Form -->
@@ -333,11 +319,6 @@
             </div>
             
             <div class="form-group">
-                <label class="form-label" for="start-date">Preferred Start Date</label>
-                <input type="date" id="start-date" name="start-date" class="form-control">
-            </div>
-            
-            <div class="form-group">
                 <label class="form-label" for="questions">Questions or Special Considerations</label>
                 <textarea id="questions" name="questions" class="form-control" rows="3" 
                     placeholder="Allergies, learning differences, scheduling constraints, etc."></textarea>
@@ -352,43 +333,8 @@
             
             <div style="text-align: center; margin-top: 2rem;">
                 <button type="submit" class="btn btn-primary">Submit Application</button>
-                <p style="margin-top: 1rem; color: #7a7a7a; font-size: 0.9rem;">
-                    We'll contact you within 24 hours to confirm enrollment
-                </p>
             </div>
         </form>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="content-section" style="background: rgba(255, 255, 255, 0.6); border-radius: 30px; padding: 60px 40px;">
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        
-        <div style="max-width: 800px; margin: 0 auto;">
-            <div class="info-card mb-3">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">What if my child misses a day?</h3>
-                <p>Life happens! While consistent attendance helps children progress, we understand occasional absences. 
-                We'll help your child catch up and stay connected with their group.</p>
-            </div>
-            
-            <div class="info-card mb-3">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Do you provide instruments?</h3>
-                <p>Yes! All instruments and materials are provided during program hours. As children progress, 
-                we can guide families interested in purchasing instruments for home practice.</p>
-            </div>
-            
-            <div class="info-card mb-3">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">What's your refund policy?</h3>
-                <p>We offer a full refund for any unused portion of the semester if you need to withdraw, 
-                minus a small administrative fee. We want this to work for your family!</p>
-            </div>
-            
-            <div class="info-card">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">How do scholarships work?</h3>
-                <p>We believe every child deserves access to quality music education. Our scholarship program 
-                offers partial to full tuition assistance based on need. The application process is simple 
-                and confidential.</p>
-            </div>
-        </div>
     </section>
 
     <!-- Footer -->
@@ -406,7 +352,7 @@
         // Form submission (placeholder)
         document.querySelector('.enrollment-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your application! We will contact you within 24 hours to confirm enrollment.');
+            alert('Thank you for your application!');
         });
     </script>
 </body>
