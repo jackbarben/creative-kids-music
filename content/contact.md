@@ -24,7 +24,7 @@ We'd love to hear from you! Reach out to learn more about Creative Kids Music.
 **Weekends:** Email for fastest response
 
 ## Quick Links
-- **Ready to enroll?** [Schedule Free Trial](#)
+- **Ready to enroll?** [Contact Us](#)
 - **Want to visit?** [Book a Tour](#)
 - **General questions?** Use the form below
 
@@ -33,7 +33,7 @@ We'd love to hear from you! Reach out to learn more about Creative Kids Music.
 Currently accepting applications for Fall 2024. Spots fill quickly!
 
 **Can I observe a class?**
-Yes! Contact us to schedule a brief observation during our trial week.
+Yes! Contact us to schedule a brief observation.
 
 **Do you offer scholarships?**
 We believe music education should be accessible. Contact us about scholarship opportunities.

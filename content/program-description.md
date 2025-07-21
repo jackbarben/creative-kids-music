@@ -22,4 +22,4 @@ We don't just teach instruments—we create musicians. Through our innovative, j
 - **Professional instructors:** Experienced educators who love what they do
 
 ## Call to Action
-Ready to give your child the gift of music? Join us for a free trial week!
+Ready to give your child the gift of music? Contact us to learn more!

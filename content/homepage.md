@@ -3,7 +3,7 @@
 ## Hero Section
 **Headline:** Where Every Child Becomes a Musician
 **Subheadline:** Join our revolutionary 4-day-a-week music immersion program for grades K-6
-**CTA Button:** Start Free Trial Week
+**CTA Button:** Enroll Now
 
 ## Program Highlights (3 columns)
 ### 🎵 Multi-Instrument Mastery
@@ -40,6 +40,6 @@ Professional-level instruction with no prerequisites. Excellence is our standard
 
 ## Call to Action
 **Ready to unlock your child's musical potential?**
-Join us for a free trial week and see the Creative Kids difference.
+Join us and see the Creative Kids difference.
 
-**CTA Buttons:** Schedule Trial | Learn More | Contact Us
+**CTA Buttons:** Enroll Now | Learn More | Contact Us

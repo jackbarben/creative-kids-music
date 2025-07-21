@@ -33,15 +33,10 @@ Join the Creative Kids Music Program and watch your child discover their musical
 - Payment plans available
 - Sibling discounts: 10% off second child
 
-### Trial Week
-**FREE** - Try before you commit!
-- Full access to all activities
-- No obligation to continue
-- Must register in advance
 
 ## Enrollment Process
 1. **Submit Application** - Basic information and music experience
-2. **Schedule Trial Week** - Free trial period
+2. **Schedule Start Date** - Choose when to begin
 3. **Confirm Enrollment** - Secure your spot with first payment
 4. **Welcome Package** - Orientation materials and schedule
 
@@ -73,4 +68,4 @@ A: We understand life happens. Make-up sessions available for extended absences.
 - **Phone:** [Your Phone]
 - **Text:** [Your Phone]
 
-**Ready to enroll? Start with our free trial week!**
+**Ready to enroll? Contact us today!**
