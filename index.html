@@ -36,76 +36,76 @@
         /* Hero Section with Tree */
         .hero {
             position: relative;
-            min-height: 100vh;
+            min-height: 95vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
-        
+
         .tree-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 600px;
-            opacity: 0.3;
+            width: 90%;
+            max-width: 900px;
+            opacity: 0.15;
             z-index: 1;
         }
-        
+
         .tree-container img {
             width: 100%;
             height: auto;
         }
-        
+
         .hero-content {
             text-align: center;
             z-index: 2;
             position: relative;
-            max-width: 800px;
+            max-width: 900px;
         }
-        
+
         .logo-text {
             font-family: 'Amatic SC', cursive;
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(4rem, 10vw, 7rem);
             font-weight: 700;
             color: #5a7c3a;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             letter-spacing: 2px;
-            text-shadow: 
+            text-shadow:
                 3px 3px 6px rgba(255, 255, 255, 1),
                 -1px -1px 3px rgba(255, 255, 255, 0.8),
                 1px 1px 3px rgba(255, 255, 255, 0.8);
         }
-        
+
         .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: #7a9b5a;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #5a7c3a;
             font-weight: 300;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             font-style: italic;
-            text-shadow: 
+            text-shadow:
                 2px 2px 4px rgba(255, 255, 255, 1),
                 -1px -1px 2px rgba(255, 255, 255, 0.8);
         }
-        
+
         .hero-description {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             line-height: 1.8;
-            color: #4a4a4a;
+            color: #3a3a3a;
             margin-bottom: 3rem;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
             font-weight: 500;
-            text-shadow: 
+            text-shadow:
                 1px 1px 2px rgba(255, 255, 255, 0.9),
                 0 0 20px rgba(248, 250, 245, 0.8);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(1px);
-            -webkit-backdrop-filter: blur(1px);
-            padding: 20px 30px;
+            -webkit-backdrop-filter: blur(3px);
+            padding: 30px 40px;
             border-radius: 20px;
         }
         
@@ -156,31 +156,31 @@
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            margin-top: 3rem;
         }
-        
+
         .btn {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 20px 50px;
+            font-size: 1.4rem;
+            font-weight: 600;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 50px;
             transition: all 0.3s ease;
             display: inline-block;
             position: relative;
             overflow: hidden;
         }
-        
+
         .btn-primary {
             background: #7a9b5a;
             color: white;
-            box-shadow: 0 4px 15px rgba(122, 155, 90, 0.3);
+            box-shadow: 0 6px 20px rgba(122, 155, 90, 0.4);
         }
-        
+
         .btn-primary:hover {
             background: #6a8a4a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(122, 155, 90, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(122, 155, 90, 0.5);
         }
         
         .btn-secondary {
@@ -322,18 +322,37 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero {
-                min-height: auto;
-                padding: 60px 20px;
+                min-height: 90vh;
+                padding: 40px 20px;
             }
-            
+
+            .tree-container {
+                max-width: 700px;
+            }
+
+            .logo-text {
+                font-size: clamp(3rem, 10vw, 5rem);
+            }
+
+            .tagline {
+                font-size: clamp(1.5rem, 5vw, 2.2rem);
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+                padding: 25px 30px;
+            }
+
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .btn {
                 width: 100%;
-                max-width: 300px;
+                max-width: 350px;
+                padding: 18px 40px;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -347,9 +366,7 @@
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="program.html">Program</a></li>
-                <li><a href="enrollment.html">Enrollment</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html">Stay Updated</a></li>
             </ul>
         </div>
     </nav>
@@ -372,15 +389,23 @@
         <div class="hero-content">
             <h1 class="logo-text">Creative Kids Music</h1>
             <p class="tagline">Where Every Child Becomes a Musician</p>
-            
+
             <p class="hero-description">
-                A revolutionary after-school music program that nurtures creativity, 
-                builds confidence, and develops real musical skills through joy and exploration. 
+                A revolutionary music program that nurtures creativity,
+                builds confidence, and develops real musical skills through joy and exploration.
                 Your child won't just learn to play an instrument—they'll become a whole musician.
             </p>
-            
+
+            <div style="background: rgba(122, 155, 90, 0.15); backdrop-filter: blur(3px); padding: 35px 45px; border-radius: 25px; margin: 3rem auto; max-width: 650px; border: 3px solid rgba(122, 155, 90, 0.4);">
+                <p style="font-size: 2.5rem; font-weight: 700; color: #5a7c3a; margin-bottom: 1rem;">Coming Soon!</p>
+                <p style="font-size: 1.5rem; color: #4a4a4a; line-height: 1.6; margin: 0;">
+                    Workshops: Coming early 2026<br>
+                    <strong>Full Program Launch: Fall 2026</strong>
+                </p>
+            </div>
+
             <div class="cta-buttons">
-                <a href="#program" class="btn btn-primary">Discover Our Program</a>
+                <a href="contact.html" class="btn btn-primary">Stay Updated</a>
             </div>
         </div>
     </section>
@@ -417,30 +442,19 @@
         </div>
     </section>
 
-    <!-- Program Details -->
+    <!-- Vision Section -->
     <section class="program-details">
         <h2 class="card-title" style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">
-            Program Details
+            Our Vision
         </h2>
-        
-        <div class="detail-grid">
-            <div class="detail-item">
-                <div class="detail-label">Schedule</div>
-                <div class="detail-value">Monday - Thursday<br>3:30 - 5:00 PM</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">Ages</div>
-                <div class="detail-value">rising 3rd to 5th graders<br>All levels welcome</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">Group Size</div>
-                <div class="detail-value">4-8 students<br>Two adults per group</div>
-            </div>
-            
-        </div>
-        
+
+        <p style="text-align: center; font-size: 1.15rem; line-height: 1.8; color: #4a4a4a; max-width: 700px; margin: 0 auto;">
+            Creative Kids Music Project brings together professional musicians and young learners
+            in a space where creativity, skill-building, and joy converge. Through hands-on workshops
+            and a comprehensive after-school program, we're building a community where every child
+            discovers the musician within.
+        </p>
+
         <p style="text-align: center; margin-top: 30px; font-style: italic; color: #7a9b5a;">
             "Music is the pursuit of possibility" - Joe Craven
         </p>
@@ -546,16 +560,16 @@
 
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
-        <h2 class="contact-title">Ready to Begin?</h2>
+        <h2 class="contact-title">Be the First to Know</h2>
         <p class="contact-info">
-            Give your child the gift of musical joy and creativity.<br>
-            Contact us for more information.
+            Want to hear about upcoming workshops and our Fall 2026 launch?<br>
+            Sign up to stay updated on Creative Kids Music.
         </p>
         <p class="contact-info">
             <a href="mailto:info@creativekidsmusic.org" class="email-link">info@creativekidsmusic.org</a>
         </p>
         <a href="contact.html" class="btn btn-primary">
-            Contact Us
+            Stay Updated
         </a>
     </section>
 

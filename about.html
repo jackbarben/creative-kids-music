@@ -25,10 +25,24 @@
             background: rgba(255, 255, 255, 0.7);
             border-radius: 30px;
             padding: 60px 40px;
-            margin: 40px auto;
+            margin: 10px auto 40px;
             max-width: 900px;
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 6px solid #7a9b5a;
+            position: relative;
+        }
+
+        .origin-story::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(122, 155, 90, 0.03) 0%, transparent 50%, rgba(122, 155, 90, 0.03) 100%);
+            border-radius: 30px;
+            pointer-events: none;
         }
         
         .origin-story p {
@@ -36,8 +50,10 @@
             line-height: 1.9;
             color: #4a4a4a;
             margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .origin-story p:first-of-type::first-letter {
             font-size: 3.5rem;
             font-weight: 700;
@@ -47,6 +63,23 @@
             margin-right: 8px;
             margin-top: -5px;
             font-family: 'Amatic SC', cursive;
+        }
+
+        .origin-story .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            z-index: 1;
+        }
+
+        .origin-story .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #7a9b5a, transparent);
         }
         
         .approach-grid {
@@ -79,8 +112,10 @@
             list-style: none;
             padding: 0;
             margin: 30px 0;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .proof-list li {
             position: relative;
             padding-left: 35px;
@@ -89,13 +124,13 @@
             line-height: 1.6;
             color: #5a5a5a;
         }
-        
+
         .proof-list li:before {
-            content: "•";
+            content: "♪";
             position: absolute;
             left: 10px;
             color: #7a9b5a;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
         
@@ -159,9 +194,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html" class="active">About</a></li>
-                <li><a href="program.html">Program</a></li>
-                <li><a href="enrollment.html">Enrollment</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html">Stay Updated</a></li>
             </ul>
         </div>
     </nav>
@@ -171,92 +204,109 @@
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1 class="page-title">Explore the Creative Kids Music Project</h1>
-        <p style="font-size: 1.2rem; color: #7a9b5a; font-weight: 500;">Imagine · Jam · Breathe · Bloom</p>
+        <h1 class="page-title">About — Creative Kids Music Project</h1>
     </header>
 
-    <!-- Origin Story -->
+    <!-- Main Content -->
     <section class="content-section">
-        <h2 class="section-title">Our Story</h2>
         <div class="origin-story">
             <p>
-                The spark for everything I do now was lit in 2009, deep in the Tennessee woods, when I attended Victor Wooten's Music / Nature Camp. I had followed his music for years and was thrilled to meet and study with him. My first glimpse of his genius had come at a Béla Fleck concert in Cincinnati, where Victor paused mid‑set to play Bach's Cello Suite No. 1, a piece I knew well from my own trombone practice. Then he slipped off the written page and began to improvise around its themes, and in that instant he became a musical hero.
+                A new kind of music school is coming to Vancouver. We help kids (including the grown-up kind!) discover the musician that's already inside them—and develop it into a lifelong practice of listening, creativity, and play.
             </p>
-            
             <p>
-                The camp itself turned every idea I held about music lessons upside down. Victor asked us to notice how we were using our minds as we played. Half our sessions took place outdoors, where we engaged in practices to notice all of the details we normally miss. Music sessions were about how to use our attention to guide our listening, transforming our music making instantaneously. This experience started me on a journey to transform my own teaching and bring the wonder and inspiration I had experienced there to my students.
+                Starting in early 2026, we're hosting weekend workshops, featuring core activities such as playing drums, xylophones and keyboards, jamming with pros, improvising, and using music to create connection. In the Fall we'll open our full‑year program at St. Luke's.
             </p>
-            
+
+            <h2 class="section-title" style="margin-top: 3rem;">Inspiration</h2>
             <p>
-                Ever since that week I have tried to carry the same spirit into my own teaching. I started the Island Beat Music / Nature Camps on Mercer Island, launched the first Creative Kids Music Project in Renton, Washington, and later directed UpBeat kids music project in New Hampshire. Each iteration I experimented. I noted what sparked instant joy, what fell flat, and what kept students—young and old—coming back hungry for more.
+                The spark for my work was lit in 2009, deep in the Tennessee woods at a Music/Nature camp. That week didn't just change how I play; it changed how I pay attention. It showed me that musical growth is less about piling on information and more about waking up the faculties we already possess: perception, curiosity, and the courage to respond.
             </p>
-            
-            <p style="font-weight: 600; color: #5a7c3a;">
-                Today that journey has led me to Vancouver to begin again with the Creative Kids Music Project at St Luke's. My goal is to help every student discover the musician within and to learn how to nurture and cultivate that side of themselves in every part of their life.
+            <p>
+                Since then, my purpose has been simple: help people—especially kids—discover the musician that already lives inside them, and show them how to use that way of being to become curious learners in the world.
             </p>
+
+            <h2 class="section-title" style="margin-top: 3rem;">What I'm Building</h2>
+            <p>
+                I'm creating a school that treats music as a living language and a lifelong companion. The goal is not merely to make "students who play songs," but to cultivate musicians—people who listen deeply, notice acutely, and create generously. The school will:
+            </p>
+            <ul class="proof-list">
+                <li>Reveal natural musical ability rather than impose technique.</li>
+                <li>Develop attention and intention as the primary instrument.</li>
+                <li>Connect music with nature to expand listening and awareness.</li>
+                <li>Foster community through shared music-making and mentorship.</li>
+                <li>Translate musicianship into life skills: focus, curiosity, spacious attention, adaptability, learning how to learn, patience, freedom of expression and play.</li>
+            </ul>
+
+            <h2 class="section-title" style="margin-top: 3rem;">Influences That Shape the Approach</h2>
+            <p><strong>Victor Wooten</strong> — His ideas reminded me that music is a language and that groove, listening, and presence come before notes. Practice matters, but how we attend while we play matters more. I borrow his emphasis on listening first, jamming early, and learning from direct experience.</p>
+
+            <p><strong>Valborg Werbeck‑Svärdström</strong> — <em>Uncovering the Voice</em> teaches that the true voice is not forced into being; it is invited. We uncover the voice, rather than train it. We discover that skills develop through deep observation, listening and awareness.</p>
+
+            <p><strong>W. A. Mathieu</strong> — <em>Harmonic Experience</em> opens ears to resonance, just intonation, and internal hearing. From Mathieu we adopt tuning games, drone‑based singing, and the felt sense of intervals—so harmony becomes something you experience in the body, not just read on a page.</p>
+
+            <p style="font-style: italic; color: #5a7c3a; margin-top: 2rem;">
+                These influences meet in a single question: How do we create conditions where the inner musician can shine through?
+            </p>
+
+            <h2 class="section-title" style="margin-top: 3rem;">Journey So Far</h2>
+            <p>
+                Out of that question I started Island Beat Music/Nature Camps on Mercer Island, launched the first Creative Kids Music Project in Renton, WA, and later directed UpBeat in New Hampshire. With each iteration I experimented, noted what sparked immediate joy, what fell flat, and what kept learners—young and old—coming back hungry for more. That experimentation brings me now to Vancouver and a fresh beginning for the Creative Kids Music Project at St. Luke's/San Lucas Episcopal Church.
+            </p>
+
+            <h2 class="section-title" style="margin-top: 3rem;">Pedagogical Pillars</h2>
+            <p><strong>Attention is the instrument.</strong> We train noticing: posture, breath, the room's soundscape, the way a single note blooms and fades. Technique grows from refined attention.</p>
+
+            <p><strong>Listening before speaking.</strong> Every session begins with listening practices—indoors and outdoors. Students learn to "tune" themselves to drones, birdsong, and each other before we add complexity.</p>
+
+            <p><strong>Voice is primary.</strong> Whether you play trombone or turntables, we sing daily. Gentle Werbeck‑inspired vocal work develops a free, resonant tone and a personal relationship to pitch.</p>
+
+            <p><strong>Harmony is felt, not memorized.</strong> We use drones, call‑and‑response, and movement to embody intervals and rhythm. Theory is learned through the ear and body first, then named.</p>
+
+            <p><strong>Nature as teacher.</strong> Outdoor sessions sharpen awareness and broaden the idea of what counts as "music." Students learn silence, space, and the rhythm of attention.</p>
+
+            <p><strong>Community jams.</strong> Beginners play with advanced students often—like toddlers learning language at the dinner table. Structured improvisation builds confidence and groove.</p>
+
+            <h2 class="section-title" style="margin-top: 3rem;">Core Activities</h2>
+            <p><strong>Circle Singing</strong> — Bobby McFerrin inspired a cappella singing, fully improvised singing, building off simple loops.</p>
+
+            <p><strong>Improvisation</strong> — Creating grooves, riffs, melodies, and rhythms in real time, learning to speak the language of music.</p>
+
+            <p><strong>Solfège & Rhythm Lab</strong> — Whiteboard notation, clapping/stepping patterns, sing what you write.</p>
+
+            <p><strong>Listening & Meditation</strong> — Soundwalks, drone‑tuning, breath/attention practices.</p>
+
+            <p><strong>Composition</strong> — Learn to create loops and patterns and then put them together into larger musical structures that become songs.</p>
+
+            <p><strong>World Rhythms</strong> — Become a master of time, learning to feel the flows of rhythm and groove from around the world.</p>
+
+            <p><strong>Jamming with pros</strong> — Regularly play music with other high level musicians, the most crucial and oft neglected part of musical education.</p>
+
+            <h2 class="section-title" style="margin-top: 3rem;">For Parents and Partners</h2>
+            <p><strong>Why this matters</strong> — Children who learn to listen deeply grow into adults who can focus, empathize, and adapt and find joy as they learn and grow. Music gives them an ideal path to practice those capacities every day.</p>
+
+            <p><strong>What changes you'll see</strong> — Increased self‑confidence, better self‑regulation, more curiosity, and a noticeable ease with learning new things.</p>
         </div>
     </section>
 
-    <!-- How We Work -->
-    <section class="content-section">
-        <h2 class="section-title">How We Work</h2>
-        
-        <div class="approach-grid">
-            <div class="approach-card">
-                <h3>Play and Practice Together</h3>
-                <p>Fun and discipline feed each other. We play to spark curiosity, let curiosity lead us into practice, and use practice to unlock new ways to play—the cycle keeps momentum and joy alive.</p>
-            </div>
-            
-            <div class="approach-card">
-                <h3>Neuroscience: Zoom In, Zoom Out</h3>
-                <p>Music lights up movement, language, and emotion at once. We learn to notice the different parts of the mind and how each one shapes the music‑making process. We zoom in to polish tricky passages, then zoom out to find our place in the groove and slip into flow. Detail work and big‑picture listening strengthen each other.</p>
-            </div>
-            
-            <div class="approach-card">
-                <h3>Playing with Pros</h3>
-                <p>Students rehearse and perform side‑by‑side with professional musicians, both in class and onstage. Their energy and expertise let students feel the groove firsthand and absorb the musical language in real time.</p>
-            </div>
-            
-            <div class="approach-card">
-                <h3>Learning How to Learn</h3>
-                <p>We lay out every step of the process, making sure no stages are skipped and strong foundations are built. Large goals become a series of clear, achievable tasks, turning practice into an efficient, engaging path students can follow on their own.</p>
-            </div>
-            
-            <div class="approach-card">
-                <h3>Finding the Creative Self</h3>
-                <p>Through mindful listening, open improvisation, and supportive feedback, we help every player trust their ideas and bring an authentic voice to the music.</p>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Founder Snapshot -->
+    <!-- Invitation -->
     <section class="founder-section">
-        <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Founder Snapshot</h2>
-        
-        <div class="founder-content">
-            <div class="founder-image">
-                <img src="media/photos/jack.jpg" alt="Jack Barben - Founder & Lead Instigator">
-            </div>
-            
-            <div class="founder-bio">
-                <h3 style="color: #5a7c3a; margin-bottom: 1rem;">Jack Barben — Founder & Lead Instigator</h3>
-                <p>
-                    Jack began piano at age 5 and has spent a lifetime exploring music across genres and cultures. His classical training includes studies at Cedarville University, Aspen Music Festival, and Peabody Conservatory, complemented by explorations in Hindustani voice and West African drumming. He plays piano, trombone, guitar, organ, drums, bansuri flute, and whatever else makes sound.
-                </p>
-                <p>
-                    With over 25 years of teaching experience, Jack has developed an approach that draws out the natural musicality in every student. Inspired by Victor Wooten and Joe Craven, he believes music is a language best learned through jamming, play, and community. His innovative programs include Island Beat Music/Nature Camps and multiple iterations of the Creative Kids Music Project. When not making music, you'll find him in the mountains, on the sea, or on a meditation cushion.
-                </p>
-            </div>
+        <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Invitation</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="font-size: 1.15rem; line-height: 1.9; color: #5a5a5a; margin-bottom: 2rem;">
+                The Creative Kids Music Project at St. Luke's is an invitation—to hear more, to notice more, and to bring more of ourselves to the world. Every child arrives musical. Our work is to uncover that truth, nurture it, and let it grow.
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.9; color: #5a7c3a; font-weight: 600;">
+                If this resonates, let's build it together: a place where kids discover their natural musical talent, become musicians in their own right, and carry that way of listening into everything they do.
+            </p>
         </div>
     </section>
 
     <!-- Call to Action -->
     <section class="content-section" style="text-align: center; padding: 80px 20px;">
         <h2 style="font-family: 'Amatic SC', cursive; font-size: 3rem; color: #5a7c3a; margin-bottom: 2rem;">
-            Ready for your child to discover their sound?
+            Want to be part of this journey?
         </h2>
-        <a href="enrollment.html" class="btn btn-primary">Sign Up for the Adventure</a>
+        <a href="contact.html" class="btn btn-primary">Stay Updated</a>
     </section>
 
     <!-- Footer -->
