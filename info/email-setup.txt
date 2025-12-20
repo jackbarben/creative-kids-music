@@ -1,0 +1,159 @@
+EMAIL SETUP DOCUMENTATION
+Created: November 4, 2025
+Domain: creativekidsmusic.org
+
+===============================================================================
+CURRENT SETUP (as of Nov 4, 2025)
+===============================================================================
+
+EMAIL SERVICE: Zoho Mail (Free Tier)
+- Active since: July 7, 2025
+- Access: https://mail.zoho.com
+- Admin Console: https://mailadmin.zoho.com
+
+CURRENT EMAIL ACCOUNTS:
+1. jack@creativekidsmusic.org (primary account)
+2. info@creativekidsmusic.org (added Nov 4, 2025)
+   - Currently forwarding to jack@ OR set as alias
+
+ZOHO ACCOUNT LIMITS:
+- Free tier: Up to 5 users
+- Storage: 5GB per user
+- Features: Webmail, mobile apps, IMAP/SMTP access
+
+===============================================================================
+DNS CONFIGURATION
+===============================================================================
+
+DNS MANAGED BY: Vercel
+- Nameservers: ns1.vercel-dns.com, ns2.vercel-dns.com
+- DNS Records Location: Vercel Dashboard > Project > Domains > DNS Records
+- Vercel Project: creativekidsmusic.org
+
+CURRENT DNS RECORDS FOR EMAIL (Zoho):
+- MX Record: mx3.zoho.com (Priority: 50)
+- TXT Record (SPF): v=spf1 include:zohomail.com ~all
+- TXT Record (DKIM): zmail._domainkey (authentication key)
+
+===============================================================================
+DOMAIN REGISTRATION
+===============================================================================
+
+REGISTRAR: Namecheap
+- Registered: July 7, 2025
+- Account: jackbarben
+- Domain managed at: https://namecheap.com
+
+NOTE: DNS is NOT managed in Namecheap (managed by Vercel instead)
+      Namecheap shows "cPanel" message but this is outdated - ignore it
+
+===============================================================================
+NAMECHEAP PRIVATE EMAIL (PURCHASED BUT NOT ACTIVE)
+===============================================================================
+
+STATUS: Purchased Nov 4, 2025, NOT currently in use
+- Service: Namecheap Private Email
+- Cost: ~$1/month
+- Validity: Nov 4, 2025 - Nov 4, 2026
+- Mailboxes: 1 mailbox purchased (not yet created)
+- Storage: 5GB email + 2GB file storage
+- Access when active: https://privateemail.com
+
+REQUIRED DNS RECORDS FOR NAMECHEAP EMAIL (not currently configured):
+- MX Record: mx1.privateemail.com (Priority: 10)
+- MX Record: mx2.privateemail.com (Priority: 10)
+- TXT Record (SPF): v=spf1 include:spf.privateemail.com ~all
+
+===============================================================================
+FUTURE PLAN: MIGRATE TO NAMECHEAP EMAIL
+===============================================================================
+
+REASON: Already paid for Namecheap Private Email subscription
+
+MIGRATION STEPS NEEDED:
+1. Create mailbox in Namecheap Private Email dashboard
+   - Create info@creativekidsmusic.org mailbox
+   - Create jack@creativekidsmusic.org mailbox (if needed)
+
+2. UPDATE DNS RECORDS IN VERCEL:
+   - Log into Vercel Dashboard
+   - Go to Project > Domains > DNS Records
+   - REMOVE current Zoho records:
+     * Delete MX record: mx3.zoho.com
+     * Delete TXT record: v=spf1 include:zohomail.com ~all
+     * Delete DKIM record: zmail._domainkey
+
+   - ADD Namecheap records:
+     * Add MX: mx1.privateemail.com (Priority: 10)
+     * Add MX: mx2.privateemail.com (Priority: 10)
+     * Add TXT: v=spf1 include:spf.privateemail.com ~all
+
+3. Wait for DNS propagation (up to 4 hours, usually faster)
+
+4. Test new email by sending to info@creativekidsmusic.org
+
+5. Optional: Export/backup any important emails from Zoho before canceling
+
+IMPORTANT NOTES:
+- Changing DNS records will BREAK existing Zoho email
+- Do this during low-traffic time
+- Test thoroughly before canceling Zoho
+- Can configure Namecheap email in phone/desktop apps via IMAP/SMTP
+
+NAMECHEAP EMAIL SERVER SETTINGS (for mail apps):
+- Incoming (IMAP): mail.privateemail.com (Port: 993, SSL)
+- Outgoing (SMTP): mail.privateemail.com (Port: 465, SSL)
+
+===============================================================================
+WEBSITE EMAIL DISPLAY
+===============================================================================
+
+Website currently shows: info@creativekidsmusic.org
+- Displayed on: index.html, contact.html, and other pages
+- If email changes, update all HTML files with new address
+
+===============================================================================
+TRANSACTIONAL EMAIL (RESEND)
+===============================================================================
+
+PURPOSE: Sends automated confirmation emails from the website
+- Used for: registration confirmations, admin notifications
+- Does NOT replace Zoho (which handles regular mailbox email)
+
+SERVICE: Resend (resend.com)
+- Account: Creative Kids Music Project
+- API Key: Stored in .env.local as RESEND_API_KEY
+- From Address: noreply@creativekidsmusic.org
+- Admin Notifications: jack@creativekidsmusic.org
+
+DNS RECORDS ADDED TO VERCEL (Dec 19, 2024):
+
+1. DKIM (TXT record):
+   Name: resend._domainkey
+   Value: p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDLvs2rJ6UU31hbNKn8N+ptfb8TustGAZ+cNXOvSkA5OINN78KxB20EvKkPPtrtVRqTmgqJPdR5o6Xs2UKz2N5peWmm/idE9uEiPiCHo/Y2EoBV4rdLk/+XM29AgMH4GUmJGWSoiq/RLa9JhFhAvVR8J0PpBArZJk5CO8ujwLq07QIDAQAB
+   TTL: 3600
+
+2. SPF MX (MX record):
+   Name: send
+   Value: feedback-smtp.us-east-1.amazonses.com
+   Priority: 10
+   TTL: 60
+
+3. SPF TXT (TXT record):
+   Name: send
+   Value: v=spf1 include:amazonses.com ~all
+   TTL: 60
+
+4. DMARC (TXT record):
+   Name: _dmarc
+   Value: v=DMARC1; p=none;
+   TTL: 3600
+
+===============================================================================
+ADDITIONAL NOTES
+===============================================================================
+
+- zohoverify folder in project root: Used for initial Zoho domain verification
+- Zoho handles regular mailbox email (jack@, info@)
+- Resend handles transactional/automated email (noreply@)
+- Both services can run simultaneously without conflict
