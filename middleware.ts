@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
+import { updateSession } from './lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
   // Skip Supabase middleware if credentials aren't configured yet
