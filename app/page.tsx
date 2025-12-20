@@ -10,7 +10,7 @@ export default function Home() {
 
       <main>
         {/* Hero - Spare, image-forward */}
-        <section className="py-16 md:py-24 lg:min-h-[90vh] lg:flex lg:items-center">
+        <section className="pt-16 pb-8 md:pt-24 md:pb-12">
           <div className="w-full max-w-6xl mx-auto px-6 md:px-12">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               {/* Text */}
@@ -44,9 +44,9 @@ export default function Home() {
         </section>
 
         {/* Programs - Clean cards */}
-        <section className="py-24 bg-white">
+        <section className="pt-8 pb-24 bg-white">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <div className="mb-16">
+            <div className="mb-12">
               <Image
                 src="/media/photos/homepage.jpg"
                 alt="Children making music together"
@@ -56,7 +56,7 @@ export default function Home() {
               />
             </div>
 
-            <h2 className="font-display text-2xl font-semibold text-slate-800 mb-16">
+            <h2 className="font-display text-2xl font-semibold text-slate-800 mb-12">
               Programs
             </h2>
 
