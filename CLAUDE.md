@@ -68,17 +68,22 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 ## Running Migrations
 
-Migrations are in `supabase/migrations/`. Run them via Supabase Dashboard:
+Migrations are in `supabase/migrations/`. Run via psql:
 
-1. Go to https://supabase.com/dashboard
-2. Select project `creative-kids-music`
-3. Go to **SQL Editor**
-4. Paste the migration SQL and click **Run**
+```bash
+# Using DATABASE_URL from .env.local
+psql "$DATABASE_URL" -f supabase/migrations/XXX_name.sql
 
-| Migration | Purpose |
-|-----------|---------|
-| `001_initial_schema.sql` | All core tables |
-| `002_magic_links.sql` | Parent portal tokens |
+# Or directly:
+psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler.supabase.com:5432/postgres" -f supabase/migrations/XXX_name.sql
+```
+
+| Migration | Purpose | Status |
+|-----------|---------|--------|
+| `001_initial_schema.sql` | All core tables | ✅ Applied |
+| `002_magic_links.sql` | Parent portal tokens | ✅ Applied |
+
+**Credentials**: See `info/supabase-info.txt` for database password.
 
 ---
 
