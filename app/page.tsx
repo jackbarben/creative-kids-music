@@ -10,17 +10,17 @@ export default function Home() {
 
       <main>
         {/* Hero - Spare, image-forward */}
-        <section className="pt-16 pb-8 md:pt-24 md:pb-12">
+        <section className="pt-12 pb-16 md:pt-20 md:pb-24">
           <div className="w-full max-w-6xl mx-auto px-6 md:px-12">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text */}
               <div className="order-2 lg:order-1">
-                <h1 className="font-display text-5xl md:text-6xl font-semibold text-slate-800 leading-[1.1] tracking-tight">
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-800 leading-[1.1] tracking-tight">
                   Your child is<br />
                   already a<br />
                   musician.
                 </h1>
-                <p className="mt-8 text-xl text-slate-600 leading-relaxed max-w-md">
+                <p className="mt-6 text-lg md:text-xl text-slate-600 leading-relaxed max-w-md">
                   We help them discover that.
                 </p>
                 <p className="mt-4 text-slate-600 leading-relaxed max-w-md">
@@ -28,14 +28,14 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Image */}
+              {/* Tree Image */}
               <div className="order-1 lg:order-2 flex justify-center">
                 <Image
                   src="/media/logos/treecolors2.png"
                   alt="A tree with musical instruments growing from its branches"
-                  width={500}
-                  height={600}
-                  className="w-full max-w-md"
+                  width={400}
+                  height={480}
+                  className="w-full max-w-xs md:max-w-sm"
                   priority
                 />
               </div>
@@ -43,19 +43,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Programs - Clean cards */}
-        <section className="pt-8 pb-24 bg-white">
+        {/* Programs */}
+        <section className="py-20 md:py-28 bg-white">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <div className="mb-12">
-              <Image
-                src="/media/photos/homepage.jpg"
-                alt="Children making music together"
-                width={1200}
-                height={600}
-                className="w-full rounded-lg shadow-sm"
-              />
-            </div>
-
             <h2 className="font-display text-2xl font-semibold text-slate-800 mb-12">
               Programs
             </h2>
@@ -99,6 +89,16 @@ export default function Home() {
                   The place where music becomes theirs.
                 </p>
               </Link>
+            </div>
+
+            <div className="mt-16">
+              <Image
+                src="/media/photos/homepage.jpg"
+                alt="Children making music together"
+                width={1200}
+                height={600}
+                className="w-full rounded-lg shadow-sm"
+              />
             </div>
           </div>
         </section>
