@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -63,6 +64,16 @@ export default function FAQPage() {
                   </p>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-16">
+              <Image
+                src="/media/photos/faq.jpg"
+                alt="Children playing music"
+                width={800}
+                height={500}
+                className="w-full rounded-lg shadow-sm"
+              />
             </div>
           </div>
         </section>

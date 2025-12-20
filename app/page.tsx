@@ -46,6 +46,16 @@ export default function Home() {
         {/* Programs - Clean cards */}
         <section className="py-24 bg-white">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="mb-16">
+              <Image
+                src="/media/photos/homepage.jpg"
+                alt="Children making music together"
+                width={1200}
+                height={600}
+                className="w-full rounded-lg shadow-sm"
+              />
+            </div>
+
             <h2 className="font-display text-2xl font-semibold text-slate-800 mb-16">
               Programs
             </h2>
@@ -89,16 +99,6 @@ export default function Home() {
                   The place where music becomes theirs.
                 </p>
               </Link>
-            </div>
-
-            <div className="mt-16">
-              <Image
-                src="/media/photos/homepage.jpg"
-                alt="Children making music together"
-                width={1200}
-                height={600}
-                className="w-full rounded-lg shadow-sm"
-              />
             </div>
           </div>
         </section>
