@@ -37,7 +37,7 @@ export default async function ParentDashboardPage({ params }: PageProps) {
       <Header />
       <main className="min-h-[60vh] py-16 px-6 bg-cream-50">
         <div className="max-w-3xl mx-auto">
-          <h1 className="font-fraunces text-3xl font-bold text-stone-800 mb-2">
+          <h1 className="font-syne text-3xl font-bold text-stone-800 mb-2">
             My Registrations
           </h1>
           <p className="text-stone-600 mb-8">
@@ -90,10 +90,10 @@ export default async function ParentDashboardPage({ params }: PageProps) {
             <p className="text-sm text-stone-600">
               Need to make changes? Contact us at{' '}
               <a
-                href="mailto:connect@creativekidsmusic.org"
+                href="mailto:info@creativekidsmusic.org"
                 className="text-forest-600 hover:underline"
               >
-                connect@creativekidsmusic.org
+                info@creativekidsmusic.org
               </a>
             </p>
           </div>

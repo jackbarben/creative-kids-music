@@ -4,113 +4,117 @@ import Footer from '@/components/Footer'
 
 export default function SummerCampPage() {
   return (
-    <div className="min-h-screen bg-cream-50 font-nunito">
+    <div className="min-h-screen bg-cream-50">
       <Header />
 
       <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-terracotta-50 to-cream-50 py-24">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-terracotta-100 rounded-full opacity-20 blur-3xl" />
-          <div className="max-w-3xl mx-auto px-6 text-center">
-            <h1 className="font-fraunces text-5xl md:text-6xl font-bold text-stone-800 mb-8">
-              Summer Camp
-            </h1>
-          </div>
-        </section>
-
-        {/* Content */}
-        <section className="py-16 bg-cream-50">
-          <article className="max-w-2xl mx-auto px-6">
-            <div className="prose prose-lg prose-stone max-w-none space-y-8">
-              <p className="text-xl leading-relaxed text-stone-700">
-                Imagine your kid waking up each morning and walking into something alive—a week where music, nature, and play weave together into a single immersive experience. That&apos;s Creative Kids Music Camp.
-              </p>
-
-              <div className="my-16 py-8 border-t border-b border-stone-200">
-                <p className="leading-relaxed text-stone-600">
-                  We start each day outside. Sitting in stillness. Walking barefoot. Listening for the farthest sound, the quietest sound. Senses open before a single note is played.
+        <section className="pt-24 pb-24 md:pt-32 md:pb-32">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="grid md:grid-cols-12 gap-12 md:gap-16 lg:gap-20">
+              {/* Main Content */}
+              <div className="md:col-span-7">
+                <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase mb-6">
+                  June 22–27, 2026
                 </p>
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  This isn&apos;t separate from music—it&apos;s how we prepare for it. When the body is awake and the mind is quiet, music flows.
+                <h1 className="font-display text-5xl md:text-6xl font-semibold text-slate-800 leading-[0.95] tracking-tight">
+                  Summer Camp
+                </h1>
+
+                <p className="mt-12 text-xl text-slate-700 font-medium leading-relaxed">
+                  A week where music, nature, and play weave together into a single immersive experience.
                 </p>
+
+                <div className="mt-8 space-y-6 text-lg text-slate-600 leading-relaxed">
+                  <p>
+                    Each day begins outside—sitting in stillness, walking barefoot, listening for the farthest sound, the quietest sound. When the body is awake and the mind is open, music flows.
+                  </p>
+                  <p>
+                    Then we go deeper. Kids hold the bass line while others carry the melody. They add rhythm, create texture, write their own songs, pick up new instruments. Professional musicians are there all week, playing alongside them, and each day a guest instructor arrives, weaving in movement, voice, rhythm, composition—another thread added to the week.
+                  </p>
+                </div>
+
+                <div className="mt-16 pt-16 border-t border-slate-200">
+                  <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
+                    The Finale
+                  </h2>
+                  <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
+                    <p>
+                      Friday evening, parents gather to share dinner and hear what their kids have been creating. Sunday morning, the children help create and transform the musical tapestry of the 10am St. Luke&apos;s service.
+                    </p>
+                    <p>
+                      What they carry home is bigger than any performance: a freedom to make music they&apos;ve never felt before.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <p className="leading-relaxed text-stone-600">
-                Then we go deep. We build on the foundational elements of music—groove, pattern, listening, space—and expand from there. Kids learn to take different roles: holding the bass line, carrying the melody, adding rhythm, creating texture. They write their own songs. They pick up new instruments. If they already play one, they bring it and find new ways to use it.
-              </p>
+              {/* Sidebar - aligned with title */}
+              <div className="md:col-span-5">
+                <div className="md:sticky md:top-32">
+                  <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
+                    Details
+                  </h2>
 
-              <p className="leading-relaxed text-stone-600">
-                Professional musicians are there all week, playing alongside them, guiding them deeper into what music can be.
-              </p>
+                  <div className="space-y-6">
+                    <div className="pb-6 border-b border-slate-200">
+                      <p className="font-display font-semibold text-slate-800">Dates</p>
+                      <p className="text-sm text-slate-500 mt-2">
+                        June 22–27, 2026 (Mon–Fri)
+                      </p>
+                    </div>
+                    <div className="pb-6 border-b border-slate-200">
+                      <p className="font-display font-semibold text-slate-800">Time</p>
+                      <p className="text-sm text-slate-500 mt-2">
+                        8:30 AM – 5:00 PM daily<br />
+                        Lunch included
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-display font-semibold text-slate-800">Performance</p>
+                      <p className="text-sm text-slate-500 mt-2">
+                        Sunday, June 29 · 9–11 AM
+                      </p>
+                    </div>
+                  </div>
 
-              <p className="leading-relaxed text-stone-600">
-                Each day a guest instructor arrives—a dancer, a drummer, a singer, a songwriter—each one bringing their own gift, another thread woven into the week.
-              </p>
+                  <div className="mt-10 pt-10 border-t border-slate-200 space-y-2 text-sm text-slate-600">
+                    <p>Ages 9–13</p>
+                    <p>$400 per child · $10 off siblings</p>
+                    <p className="text-slate-400">Tuition assistance available</p>
+                  </div>
 
-              <div className="my-16 py-8 border-t border-b border-stone-200">
-                <p className="leading-relaxed text-stone-600">
-                  Friday evening is the dress rehearsal. Parents gather, share dinner, and hear what their kids have been creating all week.
-                </p>
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  Sunday morning, they perform at the 10am service—using what they&apos;ve learned to transform a community gathering into something special.
-                </p>
+                  <div className="mt-10 pt-10 border-t border-slate-200 text-sm text-slate-400">
+                    <p>St. Luke&apos;s / San Lucas Episcopal Church</p>
+                    <p>426 E Fourth Plain Blvd, Vancouver, WA</p>
+                  </div>
+
+                  <Link
+                    href="/summer-camp/register"
+                    className="mt-10 block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
+                  >
+                    Register
+                  </Link>
+                </div>
               </div>
-
-              <p className="text-xl leading-relaxed text-stone-700">
-                What they carry home is bigger than any performance: a freedom to make music they&apos;ve never felt before. Confidence and creativity in their bones. The knowledge that they can do this—and keep doing it.
-              </p>
             </div>
-          </article>
-        </section>
-
-        {/* Details */}
-        <section className="py-16 bg-terracotta-50">
-          <div className="max-w-2xl mx-auto px-6 text-center">
-            <h2 className="font-fraunces text-3xl font-bold text-stone-800 mb-8">
-              June 22–28, 2026
-            </h2>
-
-            <div className="text-stone-600 space-y-2">
-              <p>Monday–Friday, 8:30 AM – 5:00 PM</p>
-              <p>Sunday performance at 10 AM</p>
-            </div>
-
-            <div className="mt-8 text-stone-600 space-y-2">
-              <p>Ages 9–13</p>
-              <p>$400 per child &bull; $10 off siblings</p>
-              <p className="text-sm text-stone-500">Tuition assistance available</p>
-            </div>
-
-            <div className="mt-8 text-stone-500 text-sm">
-              <p>St. Luke&apos;s/San Lucas Episcopal Church</p>
-              <p>4106 NE St. Johns Rd, Vancouver, WA</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Register CTA */}
-        <section className="py-16 bg-cream-50">
-          <div className="max-w-2xl mx-auto px-6 text-center">
-            <Link
-              href="/summer-camp/register"
-              className="inline-block px-8 py-4 bg-terracotta-500 text-white rounded-lg font-medium hover:bg-terracotta-600 transition-colors text-lg"
-            >
-              Register Now
-            </Link>
-            <p className="mt-6 text-stone-500">
-              Questions?{' '}
-              <a
-                href="mailto:connect@creativekidsmusic.org"
-                className="text-terracotta-500 hover:text-terracotta-600 underline"
-              >
-                connect@creativekidsmusic.org
-              </a>
-            </p>
           </div>
         </section>
       </main>
 
+      {/* Spacer for mobile sticky button */}
+      <div className="md:hidden h-24"></div>
+
       <Footer />
+
+      {/* Mobile sticky Register button */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-cream-50/95 backdrop-blur-sm border-t border-slate-200">
+        <Link
+          href="/summer-camp/register"
+          className="block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
+        >
+          Register · $400
+        </Link>
+      </div>
     </div>
   )
 }

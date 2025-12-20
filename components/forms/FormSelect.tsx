@@ -11,6 +11,7 @@ interface FormSelectProps {
   defaultValue?: string
   placeholder?: string
   className?: string
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export default function FormSelect({
@@ -22,6 +23,7 @@ export default function FormSelect({
   defaultValue,
   placeholder = 'Select an option',
   className = '',
+  onChange,
 }: FormSelectProps) {
   const id = useId()
 
@@ -36,6 +38,7 @@ export default function FormSelect({
         name={name}
         required={required}
         defaultValue={defaultValue || ''}
+        onChange={onChange}
         className={`
           w-full px-4 py-2 rounded-lg border
           ${error ? 'border-red-400' : 'border-stone-300'}

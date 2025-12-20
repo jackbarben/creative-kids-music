@@ -115,8 +115,9 @@ Subject: Workshop Registration Confirmed
 Subject: Summer Camp Registration Confirmed
 
 - Orange accent color (#c2410c)
-- Camp dates: June 22–28, 2026
-- Time: Monday–Friday, 8:30 AM – 5:00 PM
+- Camp dates: June 22–27, 2026 (Mon–Fri)
+- Time: 8:30 AM – 5:00 PM · Lunch included
+- Sunday performance: June 29, 9–11 AM
 - Lists children and ages
 - Emergency contact confirmation
 - Payment information

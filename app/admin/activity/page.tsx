@@ -26,7 +26,7 @@ export default async function ActivityAdmin() {
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
-        <h2 className="font-fraunces text-xl font-bold text-stone-800 mb-2">
+        <h2 className="font-syne text-xl font-bold text-stone-800 mb-2">
           Activity Log
         </h2>
         <p className="text-stone-500 mb-6">
@@ -80,7 +80,7 @@ export default async function ActivityAdmin() {
 
       {/* What gets logged */}
       <div className="bg-stone-100 rounded-2xl border border-stone-200 p-6">
-        <h3 className="font-fraunces text-lg font-bold text-stone-800 mb-4">What Gets Logged</h3>
+        <h3 className="font-syne text-lg font-bold text-stone-800 mb-4">What Gets Logged</h3>
         <ul className="space-y-2 text-stone-600 text-sm">
           <li className="flex items-center gap-2">
             <span className="w-2 h-2 bg-forest-500 rounded-full"></span>

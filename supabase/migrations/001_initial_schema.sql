@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS workshops (
   start_time TIME DEFAULT '15:30',
   end_time TIME DEFAULT '19:30',
   location TEXT DEFAULT 'St. Luke''s/San Lucas Episcopal Church',
-  address TEXT DEFAULT '4106 NE St. Johns Rd, Vancouver, WA 98661',
+  address TEXT DEFAULT '426 E Fourth Plain Blvd, Vancouver, WA 98661',
   description TEXT,
   capacity INT DEFAULT 12,
   price_cents INT DEFAULT 7500,

@@ -101,8 +101,9 @@ A dorm common room, ten years later. Her friends quit music after high school—
 
 | Detail | Value |
 |--------|-------|
-| **When** | June 22–28, 2026 (Sunday arrival, M–F program) |
-| **Time** | 8:30 AM – 5:00 PM |
+| **When** | June 22–27, 2026 (Mon–Fri) |
+| **Time** | 8:30 AM – 5:00 PM · Lunch included |
+| **Performance** | Sunday, June 29 · 9–11 AM |
 | **Ages** | 9–13 |
 | **Tuition** | $400 for the week |
 

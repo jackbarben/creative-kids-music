@@ -59,7 +59,7 @@ export default async function CampRegistrationDetail({
           >
             &larr; Back to Camp
           </Link>
-          <h1 className="font-fraunces text-2xl font-bold text-stone-800">
+          <h1 className="font-syne text-2xl font-bold text-stone-800">
             {registration.parent_name}
           </h1>
           <p className="text-stone-500">
@@ -81,7 +81,7 @@ export default async function CampRegistrationDetail({
         <div className="lg:col-span-2 space-y-6">
           {/* Contact Info */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Contact</h2>
+            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-stone-500">Email</dt>
@@ -100,7 +100,7 @@ export default async function CampRegistrationDetail({
 
           {/* Emergency Contact */}
           <div className="bg-red-50 rounded-xl border border-red-200 p-6">
-            <h2 className="font-fraunces text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
+            <h2 className="font-syne text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-red-600">Name</dt>
@@ -121,7 +121,7 @@ export default async function CampRegistrationDetail({
 
           {/* Children */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-fraunces text-lg font-bold text-stone-800 mb-4">
+            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">
               Children ({registration.children.length})
             </h2>
             <div className="space-y-4">
@@ -176,7 +176,7 @@ export default async function CampRegistrationDetail({
           {/* Optional Info */}
           {(registration.how_heard || registration.excited_about || registration.message) && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
+              <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
               <dl className="space-y-4">
                 {registration.how_heard && (
                   <div>
@@ -205,7 +205,7 @@ export default async function CampRegistrationDetail({
         <div className="space-y-6">
           {/* Payment */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Payment</h2>
+            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Payment</h2>
             <dl className="space-y-3">
               <div className="flex justify-between">
                 <dt className="text-stone-500">Total</dt>

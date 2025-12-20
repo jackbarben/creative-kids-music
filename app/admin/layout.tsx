@@ -54,7 +54,7 @@ export default function AdminLayout({
       <aside className="fixed inset-y-0 left-0 w-64 bg-white border-r border-stone-200">
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-stone-200">
-          <Link href="/admin" className="font-fraunces text-xl font-bold text-forest-600">
+          <Link href="/admin" className="font-syne text-xl font-bold text-forest-600">
             CKM Admin
           </Link>
         </div>
@@ -116,7 +116,7 @@ export default function AdminLayout({
       <main className="ml-64">
         {/* Header */}
         <header className="h-16 bg-white border-b border-stone-200 flex items-center px-8">
-          <h1 className="font-fraunces text-xl font-bold text-stone-800">
+          <h1 className="font-syne text-xl font-bold text-stone-800">
             {navigation.find(n => n.href === pathname)?.name || 'Admin'}
           </h1>
         </header>

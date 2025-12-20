@@ -39,4 +39,6 @@ next-env.d.ts
 .vscode/
 info/domain-info.txt
 info/supabase-info.txt
+client_secret_*.json
+*:Zone.Identifier
 .claude/

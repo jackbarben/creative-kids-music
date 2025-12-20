@@ -86,7 +86,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
       <p><strong>Time:</strong> 3:30 – 7:30 PM</p>
       <p><strong>Location:</strong> St. Luke's/San Lucas Episcopal Church<br>
-      4106 NE St. Johns Rd, Vancouver, WA</p>
+      426 E Fourth Plain Blvd, Vancouver, WA</p>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Payment</h2>
       <p>${paymentNote}</p>
@@ -95,7 +95,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Reply to this email or contact us at
-        <a href="mailto:connect@creativekidsmusic.org" style="color: #166534;">connect@creativekidsmusic.org</a>
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
@@ -166,11 +166,11 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Camp Details</h2>
 
-      <p><strong>Dates:</strong> June 22–28, 2026</p>
-      <p><strong>Time:</strong> Monday–Friday, 8:30 AM – 5:00 PM</p>
-      <p><strong>Sunday Performance:</strong> 10:00 AM</p>
+      <p><strong>Dates:</strong> June 22–27, 2026 (Mon–Fri)</p>
+      <p><strong>Time:</strong> 8:30 AM – 5:00 PM · Lunch included</p>
+      <p><strong>Sunday Performance:</strong> June 29 · 9–11 AM</p>
       <p><strong>Location:</strong> St. Luke's/San Lucas Episcopal Church<br>
-      4106 NE St. Johns Rd, Vancouver, WA</p>
+      426 E Fourth Plain Blvd, Vancouver, WA</p>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Your Registration</h2>
 
@@ -189,7 +189,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Reply to this email or contact us at
-        <a href="mailto:connect@creativekidsmusic.org" style="color: #c2410c;">connect@creativekidsmusic.org</a>
+        <a href="mailto:info@creativekidsmusic.org" style="color: #c2410c;">info@creativekidsmusic.org</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
@@ -250,7 +250,7 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Reply to this email or contact us at
-        <a href="mailto:connect@creativekidsmusic.org" style="color: #44403c;">connect@creativekidsmusic.org</a>
+        <a href="mailto:info@creativekidsmusic.org" style="color: #44403c;">info@creativekidsmusic.org</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
@@ -316,7 +316,7 @@ export async function sendMagicLinkEmail(data: MagicLinkEmailData): Promise<Emai
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Contact us at
-        <a href="mailto:connect@creativekidsmusic.org" style="color: #166534;">connect@creativekidsmusic.org</a>
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">

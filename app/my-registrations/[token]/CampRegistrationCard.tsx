@@ -41,7 +41,7 @@ export function CampRegistrationCard({
       {/* Header */}
       <div className="bg-terracotta-50 px-6 py-4 border-b border-terracotta-200">
         <div className="flex items-center justify-between">
-          <h2 className="font-fraunces text-lg font-bold text-terracotta-800">
+          <h2 className="font-syne text-lg font-bold text-terracotta-800">
             Summer Camp 2026
           </h2>
           <div className="flex gap-2">
@@ -60,9 +60,9 @@ export function CampRegistrationCard({
         {/* Camp Info */}
         <div>
           <h3 className="text-sm font-medium text-stone-500 mb-2">Dates</h3>
-          <p className="text-stone-800">June 22–28, 2026</p>
-          <p className="text-stone-600 text-sm">Monday–Friday, 8:30 AM – 5:00 PM</p>
-          <p className="text-stone-600 text-sm">Sunday Performance at 10:00 AM</p>
+          <p className="text-stone-800">June 22–27, 2026</p>
+          <p className="text-stone-600 text-sm">Monday–Friday, 8:30 AM – 5:00 PM · Lunch included</p>
+          <p className="text-stone-600 text-sm">Sunday performance, June 29 · 9–11 AM</p>
         </div>
 
         {/* Children */}

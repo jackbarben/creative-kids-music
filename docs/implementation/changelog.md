@@ -4,7 +4,7 @@ Chronological log of implementation progress.
 
 ---
 
-## 2024-12-19 - Phase 5.5: Parent Accounts (Complete)
+## 2025-12-19 - Phase 5.5: Parent Accounts (Complete)
 
 ### Summary
 Implemented magic link access for parents to view and manage their registrations.
@@ -52,7 +52,7 @@ Run the SQL migration in Supabase Dashboard:
 
 ---
 
-## 2024-12-19 - Phase 9: Polish & Testing (In Progress)
+## 2025-12-19 - Phase 9: Polish & Testing (In Progress)
 
 ### Summary
 Quality improvements and production-readiness checks.
@@ -76,7 +76,7 @@ Quality improvements and production-readiness checks.
 
 ---
 
-## 2024-12-19 - Phase 7: Email Notifications (Complete)
+## 2025-12-19 - Phase 7: Email Notifications (Complete)
 
 ### Summary
 Implemented transactional email system using Resend for registration confirmations and admin notifications.
@@ -120,7 +120,7 @@ Implemented transactional email system using Resend for registration confirmatio
 
 ---
 
-## 2024-12-19 - Export Functionality (Complete)
+## 2025-12-19 - Export Functionality (Complete)
 
 ### Summary
 Added CSV export for all admin registration lists.
@@ -150,7 +150,7 @@ Added CSV export for all admin registration lists.
 
 ---
 
-## 2024-12-19 - Phase 6: Admin Detail Views (Complete)
+## 2025-12-19 - Phase 6: Admin Detail Views (Complete)
 
 ### Summary
 Added clickable detail views for all admin registration tables with status/payment management.
@@ -206,7 +206,7 @@ Added clickable detail views for all admin registration tables with status/payme
 
 ---
 
-## 2024-12-19 - Phase 5: Registration Forms (Complete)
+## 2025-12-19 - Phase 5: Registration Forms (Complete)
 
 ### Summary
 Built all registration forms with server actions, multi-child support, and confirmation pages.
@@ -279,7 +279,7 @@ Created `/components/forms/` with:
 
 ---
 
-## 2024-12-19 - Phase 4: Public Pages (Complete)
+## 2025-12-19 - Phase 4: Public Pages (Complete)
 
 ### Summary
 Built public-facing content pages with narrative, non-commercial design approach.
@@ -310,7 +310,7 @@ Built public-facing content pages with narrative, non-commercial design approach
 
 ---
 
-## 2024-12-19 - Phase 3: Database & Core Data (Complete)
+## 2025-12-19 - Phase 3: Database & Core Data (Complete)
 
 ### Summary
 Created database schema, TypeScript types, and connected admin pages to real data.
@@ -384,7 +384,7 @@ Run the SQL migration in Supabase Dashboard:
 
 ---
 
-## 2024-12-19 - Phase 2: Authentication & Admin Shell (Complete)
+## 2025-12-19 - Phase 2: Authentication & Admin Shell (Complete)
 
 ### Summary
 Set up Supabase authentication and built the admin portal shell.
@@ -426,7 +426,7 @@ Set up Supabase authentication and built the admin portal shell.
 
 ---
 
-## 2024-12-19 - Phase 1: Design Exploration (Complete)
+## 2025-12-19 - Phase 1: Design Exploration (Complete)
 
 ### Summary
 Built 3 design styles, reviewed with stakeholder, selected **Warm & Organic**.
@@ -453,7 +453,7 @@ Built 3 design styles, reviewed with stakeholder, selected **Warm & Organic**.
 
 ---
 
-## 2024-12-19 - Phase 0: Project Setup
+## 2025-12-19 - Phase 0: Project Setup
 
 ### Completed
 - Archived existing static site to `/archive/`
@@ -501,7 +501,7 @@ Built 3 design styles, reviewed with stakeholder, selected **Warm & Organic**.
 
 ---
 
-## 2024-12-19 - Project Migration to Linux Filesystem
+## 2025-12-19 - Project Migration to Linux Filesystem
 
 ### Why
 Hot reload wasn't working reliably. The project was on `/mnt/c/Code/...` (Windows filesystem via WSL2), which has known issues with file change notifications (inotify).

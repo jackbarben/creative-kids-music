@@ -59,7 +59,7 @@ export function RegistrationCard({
       {/* Header */}
       <div className="bg-forest-50 px-6 py-4 border-b border-forest-200">
         <div className="flex items-center justify-between">
-          <h2 className="font-fraunces text-lg font-bold text-forest-800">
+          <h2 className="font-syne text-lg font-bold text-forest-800">
             Workshop Registration
           </h2>
           <div className="flex gap-2">

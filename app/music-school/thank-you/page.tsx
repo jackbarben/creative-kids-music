@@ -10,7 +10,7 @@ export default function MusicSchoolThankYouPage() {
       <main>
         <section className="py-24 bg-cream-50">
           <div className="max-w-2xl mx-auto px-6 text-center">
-            <h1 className="font-fraunces text-4xl md:text-5xl font-bold text-stone-800 mb-6">
+            <h1 className="font-syne text-4xl md:text-5xl font-bold text-stone-800 mb-6">
               You&apos;re on the list.
             </h1>
             <p className="text-xl text-stone-600 mb-8">

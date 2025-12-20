@@ -18,6 +18,7 @@ const initialState: CampFormState = {}
 export default function CampRegistrationForm() {
   const [state, formAction] = useFormState(submitCampRegistration, initialState)
   const [childCount, setChildCount] = useState(1)
+  const [howHeard, setHowHeard] = useState('')
 
   const PRICE = 400
   const SIBLING_DISCOUNT = 10
@@ -47,7 +48,7 @@ export default function CampRegistrationForm() {
 
       {/* Child Information */}
       <section>
-        <h3 className="font-fraunces text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Who&apos;s coming to camp?
         </h3>
         <ChildFields
@@ -62,7 +63,7 @@ export default function CampRegistrationForm() {
 
       {/* Parent Information */}
       <section>
-        <h3 className="font-fraunces text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Parent/Guardian
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -92,7 +93,7 @@ export default function CampRegistrationForm() {
 
       {/* Emergency Contact */}
       <section>
-        <h3 className="font-fraunces text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Emergency Contact
         </h3>
         <p className="text-sm text-stone-500 mb-4">
@@ -123,7 +124,7 @@ export default function CampRegistrationForm() {
 
       {/* Payment */}
       <section>
-        <h3 className="font-fraunces text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Payment
         </h3>
 
@@ -149,7 +150,7 @@ export default function CampRegistrationForm() {
             {
               value: 'later',
               label: 'Pay before camp begins',
-              description: 'Payment due by June 15, 2026',
+              description: 'Must be paid online by June 15, 2026 (no cash or check)',
             },
             {
               value: 'assistance',
@@ -170,23 +171,34 @@ export default function CampRegistrationForm() {
 
       {/* Optional */}
       <section className="border-t border-stone-200 pt-8">
-        <h3 className="font-fraunces text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Optional
         </h3>
         <div className="space-y-6">
-          <FormSelect
-            label="How did you hear about us?"
-            name="how_heard"
-            options={[
-              { value: 'friend', label: 'Friend or family' },
-              { value: 'church', label: 'St. Luke\'s / San Lucas' },
-              { value: 'school', label: 'School' },
-              { value: 'social', label: 'Social media' },
-              { value: 'search', label: 'Online search' },
-              { value: 'workshop', label: 'Attended a workshop' },
-              { value: 'other', label: 'Other' },
-            ]}
-          />
+          <div>
+            <FormSelect
+              label="How did you hear about us?"
+              name="how_heard"
+              options={[
+                { value: 'friend', label: 'Friend or family' },
+                { value: 'church', label: 'St. Luke\'s / San Lucas' },
+                { value: 'school', label: 'School' },
+                { value: 'social', label: 'Social media' },
+                { value: 'search', label: 'Online search' },
+                { value: 'workshop', label: 'Attended a workshop' },
+                { value: 'other', label: 'Other' },
+              ]}
+              onChange={(e) => setHowHeard(e.target.value)}
+            />
+            {howHeard === 'other' && (
+              <FormField
+                label="Please specify"
+                name="how_heard_other"
+                className="mt-3"
+                placeholder="How did you hear about us?"
+              />
+            )}
+          </div>
           <FormTextarea
             label="What are you most excited about?"
             name="excited_about"

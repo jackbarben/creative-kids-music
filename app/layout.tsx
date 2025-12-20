@@ -1,24 +1,23 @@
 import type { Metadata } from 'next'
-import { Nunito, Fraunces } from 'next/font/google'
+import { Source_Serif_4, Inter } from 'next/font/google'
 import './globals.css'
 
-// Warm & Organic - friendly body font
-const nunito = Nunito({
+// Display font - elegant serif, sophisticated but warm
+const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-nunito',
+  variable: '--font-serif',
 })
 
-// Warm & Organic - display font with character
-const fraunces = Fraunces({
+// Body font - clean, highly readable
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-fraunces',
+  variable: '--font-inter',
 })
 
 export const metadata: Metadata = {
   title: 'Creative Kids Music',
-  description: 'A new kind of music school. Where music takes root.',
+  description: 'Your child is already a musician. We help them discover that.',
 }
 
 export default function RootLayout({
@@ -27,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   )

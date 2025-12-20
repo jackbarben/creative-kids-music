@@ -52,7 +52,7 @@ export default function WaitlistForm() {
 
       <div className="border-t border-stone-200 pt-6">
         <p className="text-sm text-stone-500 mb-4">
-          Optional: Tell us about your child
+          Tell us about your child
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
@@ -62,12 +62,13 @@ export default function WaitlistForm() {
           <FormSelect
             label="Grade (Fall 2026)"
             name="child_grade"
+            required
             options={[
+              { value: '3rd', label: '3rd Grade' },
               { value: '4th', label: '4th Grade' },
               { value: '5th', label: '5th Grade' },
               { value: '6th', label: '6th Grade' },
               { value: '7th', label: '7th Grade' },
-              { value: '8th', label: '8th Grade' },
             ]}
           />
           <FormField
@@ -77,13 +78,13 @@ export default function WaitlistForm() {
           <FormSelect
             label="Number of children"
             name="num_children"
+            required
             options={[
               { value: '1', label: '1 child' },
               { value: '2', label: '2 children' },
               { value: '3', label: '3 children' },
               { value: '4', label: '4+ children' },
             ]}
-            defaultValue="1"
           />
         </div>
       </div>

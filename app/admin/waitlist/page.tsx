@@ -17,7 +17,7 @@ export default async function WaitlistAdmin() {
     <div className="space-y-6">
       {/* Music School info */}
       <div className="bg-stone-100 rounded-2xl border border-stone-200 p-6">
-        <h3 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Program Info</h3>
+        <h3 className="font-syne text-lg font-bold text-stone-800 mb-4">Program Info</h3>
         <div className="bg-white rounded-xl p-4 border border-stone-200">
           <p className="font-semibold text-stone-800">After-School Music Program</p>
           <p className="text-sm text-stone-600">3 days per week, Fall 2026</p>
@@ -32,7 +32,7 @@ export default async function WaitlistAdmin() {
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="font-fraunces text-xl font-bold text-stone-800 mb-2">
+            <h2 className="font-syne text-xl font-bold text-stone-800 mb-2">
               Music School Waitlist
             </h2>
             <p className="text-stone-500">

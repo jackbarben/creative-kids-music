@@ -4,54 +4,64 @@ import WaitlistForm from './WaitlistForm'
 
 export default function MusicSchoolPage() {
   return (
-    <div className="min-h-screen bg-cream-50 font-nunito">
+    <div className="min-h-screen bg-cream-50">
       <Header />
 
       <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-stone-100 to-cream-50 py-24">
-          <div className="absolute top-20 right-10 w-64 h-64 bg-stone-200 rounded-full opacity-20 blur-3xl" />
-          <div className="max-w-3xl mx-auto px-6 text-center">
-            <p className="text-stone-500 mb-4">Coming Fall 2026</p>
-            <h1 className="font-fraunces text-5xl md:text-6xl font-bold text-stone-800 mb-8">
-              Music School
-            </h1>
-          </div>
-        </section>
+        <section className="pt-24 pb-24 md:pt-32 md:pb-32">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="grid md:grid-cols-12 gap-12 md:gap-16 lg:gap-24">
+              {/* Main Content */}
+              <div className="md:col-span-7">
+                <p className="text-xs text-lavender-600 font-semibold tracking-widest uppercase mb-6">
+                  Coming Fall 2026
+                </p>
+                <h1 className="font-display text-5xl md:text-6xl font-semibold text-slate-800 leading-[0.95] tracking-tight">
+                  Music School
+                </h1>
 
-        {/* Content */}
-        <section className="py-16 bg-cream-50">
-          <article className="max-w-2xl mx-auto px-6">
-            <div className="prose prose-lg prose-stone max-w-none space-y-8">
-              <p className="text-xl leading-relaxed text-stone-700">
-                The workshops plant a seed. The summer camp lets it take root. The music school is where it grows.
-              </p>
+                <p className="mt-12 text-xl text-slate-700 font-medium leading-relaxed">
+                  This is where it grows.
+                </p>
 
-              <p className="leading-relaxed text-stone-600">
-                Coming this fall: Creative Kids Music School. Three afternoons a week, kids go deeper into everything they&apos;ve tasted.
-              </p>
+                <div className="mt-8 space-y-6 text-lg text-slate-600 leading-relaxed">
+                  <p>
+                    Three afternoons a week, kids go deeper—improvising, composing, learning to lead and teach. They explore new instruments, find real collaborators, and discover a place to belong.
+                  </p>
+                  <p>
+                    The creative flow stops being special and starts being theirs—a field they can walk into whenever they want.
+                  </p>
+                </div>
 
-              <p className="leading-relaxed text-stone-600">
-                This is where they&apos;re headed: improvising, composing, leading, teaching. Exploring new instruments and understanding how music fits together. Finding real collaborators and a place to belong.
-              </p>
+                <div className="mt-16 pt-16 border-t border-slate-200">
+                  <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
+                    Program Structure
+                  </h2>
+                  <div className="space-y-4 text-slate-600">
+                    <p>3 days per week, after school</p>
+                    <p>Small cohort model</p>
+                    <p>Professional musicians as guides</p>
+                    <p>Performance opportunities throughout the year</p>
+                  </div>
+                </div>
+              </div>
 
-              <p className="text-xl leading-relaxed text-stone-700 my-12">
-                The creative flow they&apos;ve tasted stops being special and starts being theirs—a field they can walk into whenever they want.
-              </p>
+              {/* Sidebar - Waitlist */}
+              <div className="md:col-span-5">
+                <div className="md:sticky md:top-32">
+                  <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">
+                    Waitlist
+                  </h2>
+                  <p className="text-2xl text-slate-800 font-display font-semibold mb-2">
+                    Join the Waitlist
+                  </p>
+                  <p className="text-slate-500 mb-10">
+                    Be the first to know when registration opens.
+                  </p>
+                  <WaitlistForm />
+                </div>
+              </div>
             </div>
-          </article>
-        </section>
-
-        {/* Waitlist Signup */}
-        <section className="py-16 bg-stone-100">
-          <div className="max-w-xl mx-auto px-6">
-            <h2 className="font-fraunces text-2xl font-bold text-stone-800 mb-2 text-center">
-              Join the Waitlist
-            </h2>
-            <p className="text-stone-600 mb-8 text-center">
-              Be the first to know when registration opens.
-            </p>
-            <WaitlistForm />
           </div>
         </section>
       </main>

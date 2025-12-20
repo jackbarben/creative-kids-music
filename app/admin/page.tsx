@@ -12,7 +12,7 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       {/* Welcome message */}
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
-        <h2 className="font-fraunces text-2xl font-bold text-stone-800 mb-2">
+        <h2 className="font-syne text-2xl font-bold text-stone-800 mb-2">
           Welcome to Creative Kids Music Admin
         </h2>
         <p className="text-stone-600">
@@ -70,7 +70,7 @@ export default async function AdminDashboard() {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
-        <h3 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Quick Actions</h3>
+        <h3 className="font-syne text-lg font-bold text-stone-800 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <QuickAction
             title="View Workshop Registrations"
@@ -93,7 +93,7 @@ export default async function AdminDashboard() {
 
       {/* Setup Progress */}
       <div className="bg-forest-50 rounded-2xl border border-forest-200 p-6">
-        <h3 className="font-fraunces text-lg font-bold text-forest-800 mb-4">Setup Progress</h3>
+        <h3 className="font-syne text-lg font-bold text-forest-800 mb-4">Setup Progress</h3>
         <div className="space-y-3">
           <SetupItem done>Supabase connected</SetupItem>
           <SetupItem done>Admin authentication working</SetupItem>

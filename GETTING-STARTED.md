@@ -92,7 +92,7 @@ npm run dev
 | Stone | #44403c | Text |
 
 ### Typography
-- **Fraunces**: Display headings (`font-fraunces`)
+- **Fraunces**: Display headings (`font-syne`)
 - **Nunito**: Body text (`font-nunito`)
 
 ---

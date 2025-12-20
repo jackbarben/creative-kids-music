@@ -51,7 +51,7 @@ export default async function WorkshopsAdmin() {
     <div className="space-y-6">
       {/* Workshops Overview */}
       <div className="bg-forest-50 rounded-2xl border border-forest-200 p-6">
-        <h3 className="font-fraunces text-lg font-bold text-forest-800 mb-4">Workshop Schedule</h3>
+        <h3 className="font-syne text-lg font-bold text-forest-800 mb-4">Workshop Schedule</h3>
         {workshops.length === 0 ? (
           <div className="bg-white rounded-xl p-6 text-center border border-forest-200">
             <p className="text-stone-500">No workshops found. Run the database migration to add initial workshops.</p>
@@ -85,7 +85,7 @@ export default async function WorkshopsAdmin() {
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="font-fraunces text-xl font-bold text-stone-800 mb-2">
+            <h2 className="font-syne text-xl font-bold text-stone-800 mb-2">
               Workshop Registrations
             </h2>
             <p className="text-stone-500">

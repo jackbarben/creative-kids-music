@@ -199,7 +199,7 @@ bg-cream-50, bg-cream-100, bg-forest-50, bg-terracotta-50
 text-forest-600, text-terracotta-500, text-stone-800
 
 // Fonts
-font-fraunces, font-nunito
+font-syne, font-nunito
 ```
 
 ---

@@ -1,5 +1,86 @@
 # Creative Kids Music - Project Context
 
+## Design Work Rules
+
+**Do not change content during design iterations.** When redesigning, preserve all text/copy exactly as written. Only modify styling, layout, fonts, and colors.
+
+---
+
+## Brand Guide
+
+### Primary Message: The Belief
+**Your child is already a musician. We help them discover that.**
+
+### Secondary Message: The Transformation
+At Creative Kids, children make real music from day one alongside professional musicians—building not just musical skill, but lasting confidence, creativity, and the ability to collaborate and show up with others for life.
+
+### Proof Points
+
+**Immediate Performance**
+Children jam, solo, and perform in their very first workshop—not after months of preparation.
+
+**Ensemble as Teacher**
+We create musical flow together. This kind of learning is impossible alone—it only happens when you're playing with others.
+
+**Presence Over Pedagogy**
+Professional musicians model what can't be taught with words. Kids absorb mastery by being in the room with it.
+
+**Tested, Not Theoretical**
+30 years of music education expertise. These concepts are iterated, tested, and refined—not borrowed from a book.
+
+### Voice & Tone
+- **Warm and grounded** — not salesy, not urgent, nothing to prove
+- **Quiet confidence** — "I know something you don't know, and I can show you"
+- **Actions over arguments** — we don't persuade, we invite and demonstrate
+- **Plain language** — no edu-jargon, no fluff, no performance of expertise
+- **Counter-cultural but not combative** — we're not attacking traditional lessons, we've just found something better
+
+### Visual Anchor: The Tree with Piano-Key Roots
+This image makes the philosophy visible: music as foundation, growth as natural. The roots aren't visible in performance—but they're what makes everything above ground possible.
+
+### The Test
+Before publishing any material, ask:
+1. **Could a competitor say this?** If yes, it's not distinctive enough.
+2. **Are we trying to convince, or inviting to experience?** Always invite.
+3. **Does it sound like us?** Warm, grounded, quietly confident.
+
+---
+
+## Typography System
+
+### Fonts
+- **Display**: Source Serif 4 (`font-display`) — headings, titles, emphasis
+- **Body**: Inter (`font-sans` / default) — paragraphs, UI text
+
+### Scale (use consistently across all pages)
+
+| Element | Class | Usage |
+|---------|-------|-------|
+| **Page Title** | `font-display text-5xl md:text-6xl font-semibold` | One per page, the main H1 |
+| **Section Label** | `text-xs uppercase tracking-widest font-semibold` | Above titles (e.g., "Winter/Spring 2026") |
+| **Lead Text** | `text-2xl md:text-3xl` | Opening statement, big idea |
+| **Body** | `text-base` (default) | Main content paragraphs |
+| **Emphasis** | `text-xl font-medium` | Key takeaway, closing statement |
+| **Card Title** | `font-display text-2xl font-semibold` | Program cards, sidebar headings |
+| **Small/Meta** | `text-sm` | Details, dates, prices, addresses |
+
+### Colors (text)
+| Purpose | Class |
+|---------|-------|
+| Headings | `text-slate-800` |
+| Lead/emphasis | `text-slate-700` or `text-slate-800` |
+| Body text | `text-slate-600` |
+| Meta/secondary | `text-slate-500` or `text-slate-400` |
+| Labels | `text-sage-600` or `text-lavender-600` |
+
+### Rules
+- Maximum 3-4 text sizes per page
+- Display font only for headings and card titles, never body text
+- Labels are always: `text-xs uppercase tracking-widest font-semibold`
+- Avoid mixing too many slate shades in one section
+
+---
+
 ## What This Project Is
 
 Creative Kids Music is a children's music education program in Vancouver, WA offering workshops, a summer camp, and an upcoming after-school music school. The program teaches kids (ages 9-13) to be complete musicians—improvising, composing, and performing with confidence.
@@ -10,7 +91,7 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 - **Tech**: Next.js 14.2.x with App Router, TypeScript, Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
-- **Auth**: Supabase Auth (email/password)
+- **Auth**: Supabase Auth (email/password + Google OAuth)
 - **Email**: Resend (transactional emails)
 - **Design**: Warm & Organic (forest green, terracotta, cream)
 - **Hosting**: Vercel (auto-deploy from GitHub master branch)
@@ -173,7 +254,7 @@ npm run dev
 ### Typography
 | Font | Class | Usage |
 |------|-------|-------|
-| Fraunces | `font-fraunces` | Display headings |
+| Fraunces | `font-syne` | Display headings |
 | Nunito | `font-nunito` | Body text (default) |
 
 ---
@@ -187,8 +268,9 @@ npm run dev
 - **Ages**: 9–13
 
 ### Summer Camp (June 2026)
-- **Dates**: June 22–28, 2026
-- **Time**: 8:30 AM – 5:00 PM (Sunday performance 10 AM)
+- **Dates**: June 22–27, 2026 (Mon–Fri)
+- **Time**: 8:30 AM – 5:00 PM · Lunch included
+- **Sunday Performance**: June 29, 9–11 AM
 - **Cost**: $400
 - **Ages**: 9–13
 
@@ -207,6 +289,29 @@ npm run dev
 | `/docs/implementation/email.md` | Email system details |
 | `/docs/vision/implementation-plan.md` | Original phased plan |
 | `/info/email-setup.txt` | DNS/email configuration |
+
+---
+
+## Testing
+
+**Test email**: `jackbarben3@gmail.com`
+**Admin password**: `CreativeKids2025`
+
+Test data exists in the database for this email:
+- Workshop registration (2 workshops, 2 children)
+- Waitlist signup
+
+To test:
+- **Admin portal**: Go to `/auth/login`, use test email + password
+- **Parent portal**: Go to `/my-registrations`, enter the test email, check inbox for magic link
+
+---
+
+## Known Limitations
+
+- **Google OAuth**: Configured and working (shows Supabase project ID in redirect URL - this is normal)
+- **Scheduled reminders**: Deferred to post-launch (no Vercel Cron set up)
+- **Payment integration**: External link only (no webhook from church platform)
 
 ---
 

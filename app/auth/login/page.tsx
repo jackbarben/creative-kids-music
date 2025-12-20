@@ -54,7 +54,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo/Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="font-fraunces text-3xl font-bold text-forest-600">
+          <Link href="/" className="font-syne text-3xl font-bold text-forest-600">
             Creative Kids Music
           </Link>
           <p className="text-stone-500 mt-2">Admin Portal</p>
@@ -62,7 +62,7 @@ export default function LoginPage() {
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
-          <h1 className="font-fraunces text-2xl font-bold text-stone-800 mb-6 text-center">
+          <h1 className="font-syne text-2xl font-bold text-stone-800 mb-6 text-center">
             Sign In
           </h1>
 

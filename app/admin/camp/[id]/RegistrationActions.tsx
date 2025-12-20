@@ -44,7 +44,7 @@ export default function RegistrationActions({
 
   return (
     <div className="bg-white rounded-xl border border-stone-200 p-6">
-      <h2 className="font-fraunces text-lg font-bold text-stone-800 mb-4">Actions</h2>
+      <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Actions</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

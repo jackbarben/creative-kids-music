@@ -10,7 +10,7 @@ export function WaitlistCard({ signup }: WaitlistCardProps) {
       {/* Header */}
       <div className="bg-stone-50 px-6 py-4 border-b border-stone-200">
         <div className="flex items-center justify-between">
-          <h2 className="font-fraunces text-lg font-bold text-stone-700">
+          <h2 className="font-syne text-lg font-bold text-stone-700">
             Music School Waitlist
           </h2>
           <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-800">

@@ -6,7 +6,7 @@
 **Hosting:** Vercel (free tier with automatic deployments)
 **Email:** Zoho Mail (free tier)
 - jack@creativekidsmusic.org - for known contacts and personal correspondence
-- connect@creativekidsmusic.org - for public inquiries and new connections
+- info@creativekidsmusic.org - for public inquiries and new connections
 
 **Deployment:** GitHub → Vercel automatic deployment from master branch
 

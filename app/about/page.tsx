@@ -1,100 +1,104 @@
-import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-cream-50 font-nunito">
+    <div className="min-h-screen bg-cream-50">
       <Header />
 
       <main>
         {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-cream-100 to-cream-50 py-24">
-          <div className="absolute top-20 right-10 w-64 h-64 bg-forest-100 rounded-full opacity-20 blur-3xl" />
-          <div className="max-w-3xl mx-auto px-6 text-center">
-            <h1 className="font-fraunces text-5xl md:text-6xl font-bold text-stone-800 mb-8">
+        <section className="pt-24 pb-16 md:pt-32 md:pb-24">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <h1 className="font-display text-5xl md:text-6xl font-semibold text-slate-800 leading-[0.95] tracking-tight">
               About
             </h1>
           </div>
         </section>
 
         {/* Content */}
-        <section className="py-16 bg-cream-50">
-          <article className="max-w-2xl mx-auto px-6">
-            <div className="prose prose-lg prose-stone max-w-none space-y-8">
-              <p className="text-xl leading-relaxed text-stone-700">
-                A new kind of music school is coming to Vancouver. We help kids discover the musician that&apos;s already inside them—and develop it into a lifelong practice of listening, creativity, and play.
+        <section className="pb-24 md:pb-32">
+          <div className="max-w-3xl mx-auto px-6 md:px-12">
+            <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
+                <p>
+                  Jack Barben has been playing music his whole life and teaching it for nearly thirty years. He got his start early—directing bands and choirs as a teenager, then studying piano, voice, and trombone in college, including piano at the Peabody Conservatory. He&apos;s directed music in churches for over twenty years, maintained a private studio for twenty-five, and continued exploring along the way: creating choirs and ensembles, immersing himself in traditions from around the world, and continually expanding his own musical vocabulary.
+                </p>
+                <p>
+                  But early on, he noticed something wasn&apos;t right. Kids would play an instrument for years and never pick it up again. Pianists who studied for a decade needed sheet music just to play. People struggled to sing—and many swore they couldn&apos;t. Music had become something for professionals, completely disconnected from its roots in community and culture.
+                </p>
+                <p>
+                  Everything changed at Victor Wooten&apos;s Music Nature Camp. What if we had music education backwards? What if skill follows experience, not the other way around? Jack began experimenting—running music and nature camps, building improv-based group classes, having students compose and record from day one. He was circling a deeper question: what had been lost, and how could we recultivate it?
+                </p>
+                <p>
+                  Creative Kids Music Project is what emerged—a method refined through decades of experimentation, where children learn music the way humans always have: by doing it, together, with people better than them, in a community that holds them.
+                </p>
+                <p className="text-slate-800 font-medium">
+                  Every child arrives musical. Our work is to uncover that truth, nurture it, and let it grow.
+                </p>
+            </div>
+
+            {/* Our Home */}
+            <div className="mt-16 pt-16 border-t border-slate-200">
+              <h2 className="font-display text-2xl font-semibold text-slate-800 mb-6">
+                Our Home
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Creative Kids Music Project is hosted at St. Luke&apos;s / San Lucas Episcopal Church in the heart of Vancouver—a community that shares our belief in the formative power of music, nature, and creativity.
               </p>
-
-              <div className="my-16 py-8 border-t border-b border-stone-200">
-                <h2 className="font-fraunces text-2xl font-bold text-stone-800 mb-6">Inspiration</h2>
-                <p className="leading-relaxed text-stone-600">
-                  The spark for this work was lit in 2009, deep in the Tennessee woods at a Music/Nature camp. That week didn&apos;t just change how I play; it changed how I pay attention. It showed me that musical growth is less about piling on information and more about waking up the faculties we already possess: perception, curiosity, and the courage to respond.
-                </p>
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  Since then, my purpose has been simple: help people—especially kids—discover the musician that already lives inside them, and show them how to use that way of being to become curious learners in the world.
-                </p>
-              </div>
-
-              <h2 className="font-fraunces text-2xl font-bold text-stone-800">What We&apos;re Building</h2>
-              <p className="leading-relaxed text-stone-600">
-                A school that treats music as a living language and a lifelong companion. The goal is not merely to make &quot;students who play songs,&quot; but to cultivate musicians—people who listen deeply, notice acutely, and create generously.
-              </p>
-
-              <div className="my-16 py-8 border-t border-b border-stone-200">
-                <h2 className="font-fraunces text-2xl font-bold text-stone-800 mb-6">Our Approach</h2>
-
-                <p className="leading-relaxed text-stone-600">
-                  <span className="font-semibold text-stone-700">Attention is the instrument.</span> We train noticing: posture, breath, the room&apos;s soundscape, the way a single note blooms and fades. Technique grows from refined attention.
-                </p>
-
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  <span className="font-semibold text-stone-700">Listening before speaking.</span> Every session begins with listening practices—indoors and outdoors. Students learn to tune themselves to drones, birdsong, and each other before we add complexity.
-                </p>
-
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  <span className="font-semibold text-stone-700">Harmony is felt, not memorized.</span> We use drones, call-and-response, and movement to embody intervals and rhythm. Theory is learned through the ear and body first, then named.
-                </p>
-
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  <span className="font-semibold text-stone-700">Nature as teacher.</span> Outdoor sessions sharpen awareness and broaden the idea of what counts as &quot;music.&quot; Students learn silence, space, and the rhythm of attention.
-                </p>
-
-                <p className="leading-relaxed text-stone-600 mt-6">
-                  <span className="font-semibold text-stone-700">Community jams.</span> Beginners play with advanced students often—like toddlers learning language at the dinner table. Structured improvisation builds confidence and groove.
-                </p>
-              </div>
-
-              <h2 className="font-fraunces text-2xl font-bold text-stone-800">For Parents</h2>
-              <p className="leading-relaxed text-stone-600">
-                Children who learn to listen deeply grow into adults who can focus, empathize, and adapt—and find joy as they learn and grow. Music gives them an ideal path to practice those capacities every day.
-              </p>
-              <p className="leading-relaxed text-stone-600 mt-6">
-                What changes you&apos;ll see: increased self-confidence, better self-regulation, more curiosity, and a noticeable ease with learning new things.
-              </p>
-
-              <div className="my-16 py-8 border-t border-b border-stone-200">
-                <h2 className="font-fraunces text-2xl font-bold text-stone-800 mb-6">An Invitation</h2>
-                <p className="leading-relaxed text-stone-600">
-                  The Creative Kids Music Project at St. Luke&apos;s is an invitation—to hear more, to notice more, and to bring more of ourselves to the world. Every child arrives musical. Our work is to uncover that truth, nurture it, and let it grow.
-                </p>
-                <p className="text-xl leading-relaxed text-forest-600 font-fraunces italic mt-8">
-                  If this resonates, let&apos;s build it together.
-                </p>
+              <div className="mt-8 rounded-lg overflow-hidden border border-slate-200">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2783.8731095673986!2d-122.67088892341044!3d45.64088897107754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5495af41d9f9b9c7%3A0x7c3b5a5d3a5c5a5a!2s426%20E%20Fourth%20Plain%20Blvd%2C%20Vancouver%2C%20WA%2098663!5e0!3m2!1sen!2sus!4v1703084400000!5m2!1sen!2sus"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="St. Luke's / San Lucas Episcopal Church location"
+                ></iframe>
+                <div className="p-4 bg-slate-50">
+                  <p className="font-medium text-slate-800">St. Luke&apos;s / San Lucas Episcopal Church</p>
+                  <p className="text-slate-600 text-sm mt-1">426 E Fourth Plain Blvd, Vancouver, WA 98663</p>
+                  <a
+                    href="https://maps.google.com/?q=426+E+Fourth+Plain+Blvd+Vancouver+WA+98663"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-3 text-sm text-slate-700 hover:text-slate-900 underline underline-offset-4"
+                  >
+                    Get Directions →
+                  </a>
+                </div>
               </div>
             </div>
-          </article>
+
+            {/* Invitation */}
+            <div className="mt-16 pt-16 border-t border-slate-200">
+              <p className="text-xl text-slate-700 font-medium leading-relaxed">
+                The Creative Kids Music Project is an invitation—to hear more, to notice more, and to bring more of ourselves to the world.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Contact */}
-        <section className="py-16 bg-cream-100">
-          <div className="max-w-2xl mx-auto px-6 text-center">
-            <Link
-              href="mailto:connect@creativekidsmusic.org"
-              className="text-forest-600 font-medium hover:text-forest-700 transition-colors"
-            >
-              connect@creativekidsmusic.org
-            </Link>
+        <section className="py-12 border-t border-slate-200">
+          <div className="max-w-6xl mx-auto px-6 md:px-12 text-center">
+            <p className="text-slate-500">
+              Questions?{' '}
+              <a
+                href="mailto:info@creativekidsmusic.org"
+                className="text-slate-700 hover:text-slate-900 underline underline-offset-4"
+              >
+                info@creativekidsmusic.org
+              </a>
+              {' '}or{' '}
+              <a
+                href="tel:+13605242265"
+                className="text-slate-700 hover:text-slate-900 underline underline-offset-4"
+              >
+                (360) 524-2265
+              </a>
+            </p>
           </div>
         </section>
       </main>
