@@ -6,106 +6,92 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 **Tagline:** A new kind of music school. Where music takes root.
 
-## Current State (Phase 2 Complete)
+## Current State
 
-- **Tech**: Next.js 14.2.x with Supabase
+- **Tech**: Next.js 14.2.x with App Router, TypeScript, Tailwind CSS
+- **Database**: Supabase (PostgreSQL)
+- **Auth**: Supabase Auth (email/password)
+- **Email**: Resend (transactional emails)
 - **Design**: Warm & Organic (forest green, terracotta, cream)
-- **Auth**: Working (email/password login)
-- **Admin Portal**: Built with placeholder pages
-- **Database**: Not yet created (Phase 3)
 - **Hosting**: Vercel (auto-deploy from GitHub master branch)
-- **Domain**: creativekidsmusic.org (Namecheap)
-
----
-
-## Programs & Offerings
-
-### Workshops (Spring 2026)
-- **Dates**: February 20, March 20, May 1 (Fridays)
-- **Time**: 3:30 PM – 7:30 PM
-- **Cost**: $75 (tuition assistance available)
-- **Ages**: 9–13
-- **Location**: St. Luke's/San Lucas Episcopal Church, Vancouver, WA
-
-### Summer Camp (June 2026)
-- **Dates**: June 22–28, 2026 (one week, M–F)
-- **Time**: 8:30 AM – 5:00 PM
-- **Cost**: $400
-- **Ages**: 9–13
-
-### Music School (Fall 2026)
-- 3 days/week after-school program
-- Currently collecting waitlist interest only
+- **Domain**: creativekidsmusic.org
 
 ---
 
 ## Site Structure
 
-| Route | Status | Purpose |
-|-------|--------|---------|
-| `/` | ✅ Built | Home - philosophy, vignettes, CTAs |
-| `/auth/login` | ✅ Built | Admin login page |
-| `/admin` | ✅ Built | Admin dashboard (placeholder) |
-| `/admin/workshops` | ✅ Built | Workshop management (placeholder) |
-| `/admin/camp` | ✅ Built | Camp management (placeholder) |
-| `/admin/waitlist` | ✅ Built | Waitlist management (placeholder) |
-| `/admin/activity` | ✅ Built | Activity log (placeholder) |
-| `/workshops` | ⏳ Phase 4 | 3 workshops with registration |
-| `/summer-camp` | ⏳ Phase 4 | Camp with registration |
-| `/music-school` | ⏳ Phase 4 | Fall 2026 teaser + waitlist |
-| `/about` | ⏳ Phase 4 | Philosophy, approach |
+### Public Pages
+| Route | Purpose |
+|-------|---------|
+| `/` | Home page |
+| `/workshops` | Workshop info + registration link |
+| `/workshops/register` | Workshop registration form |
+| `/summer-camp` | Camp info + registration link |
+| `/summer-camp/register` | Camp registration form |
+| `/music-school` | Fall 2026 teaser + waitlist form |
+| `/about` | Philosophy and approach |
+| `/my-registrations` | Parent portal (magic link access) |
+
+### Admin Pages (protected)
+| Route | Purpose |
+|-------|---------|
+| `/auth/login` | Admin login |
+| `/admin` | Dashboard with stats |
+| `/admin/workshops` | Workshop registrations list |
+| `/admin/workshops/[id]` | Registration detail + actions |
+| `/admin/camp` | Camp registrations list |
+| `/admin/camp/[id]` | Registration detail + actions |
+| `/admin/waitlist` | Waitlist signups |
+| `/admin/waitlist/[id]` | Signup detail |
+| `/admin/activity` | Activity log |
 
 ---
 
-## Database (Supabase PostgreSQL)
-
-**Status**: Schema designed, tables not yet created (Phase 3)
+## Database Tables
 
 | Table | Purpose |
 |-------|---------|
 | `workshops` | Workshop definitions (dates, capacity, price) |
-| `workshop_registrations` | Workshop signups with payment info |
-| `camp_registrations` | Summer camp signups with emergency/medical info |
+| `workshop_registrations` | Workshop signups |
+| `workshop_children` | Children linked to workshop registrations |
+| `camp_registrations` | Summer camp signups |
+| `camp_children` | Children linked to camp (with medical info) |
 | `waitlist_signups` | Music school interest list |
+| `magic_links` | Parent portal access tokens |
+| `email_log` | Sent email tracking |
 | `activity_log` | Admin action audit trail |
 
 **Supabase Project**: `creative-kids-music`
 **URL**: `https://qidzeagzbrqxntrqbpzx.supabase.co`
 
-**Auth**: Supabase Auth (email/password working, Google OAuth optional)
+---
+
+## Running Migrations
+
+Migrations are in `supabase/migrations/`. Run them via Supabase Dashboard:
+
+1. Go to https://supabase.com/dashboard
+2. Select project `creative-kids-music`
+3. Go to **SQL Editor**
+4. Paste the migration SQL and click **Run**
+
+| Migration | Purpose |
+|-----------|---------|
+| `001_initial_schema.sql` | All core tables |
+| `002_magic_links.sql` | Parent portal tokens |
 
 ---
 
-## Design System (Warm & Organic)
+## Environment Variables
 
-### Colors
+Required in `.env.local`:
 
-| Name | Hex | Tailwind | Usage |
-|------|-----|----------|-------|
-| Forest | #5a7c3a | `forest-500` | Primary, CTAs |
-| Terracotta | #dc6b47 | `terracotta-500` | Accent, Summer Camp |
-| Cream | #fdf8f0 | `cream-100` | Backgrounds |
-| Stone | #44403c | `stone-800` | Text |
-
-### Typography
-
-| Font | Tailwind | Usage |
-|------|----------|-------|
-| Fraunces | `font-fraunces` | Display headings |
-| Nunito | `font-nunito` | Body text |
-
----
-
-## Key Documentation
-
-| Document | Purpose |
-|----------|---------|
-| `/docs/vision/implementation-plan.md` | Phased build plan |
-| `/docs/vision/database-schema.md` | Database design |
-| `/docs/vision/design-styles.md` | Design decision |
-| `/docs/implementation/changelog.md` | What we built, when |
-| `/docs/implementation/setup-guide.md` | Development setup |
-| `/docs/implementation/decisions.md` | Key decisions made |
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://qidzeagzbrqxntrqbpzx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+RESEND_API_KEY=your-resend-api-key
+```
 
 ---
 
@@ -117,7 +103,9 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 ~/code/creative-kids
 ```
 
-Or from Windows Explorer: `\\wsl$\Ubuntu\home\jbarb\code\creative-kids`
+Or from Windows: `\\wsl$\Ubuntu\home\jbarb\code\creative-kids`
+
+**Important**: Run commands from WSL, not Windows PowerShell.
 
 ### Quick Start
 
@@ -126,10 +114,7 @@ cd ~/code/creative-kids
 npm run dev
 ```
 
-**URLs:**
-- Home: http://localhost:4000
-- Login: http://localhost:4000/auth/login
-- Admin: http://localhost:4000/admin
+**Dev server**: http://localhost:4000
 
 ### Key Commands
 
@@ -141,34 +126,96 @@ npm run dev
 
 ---
 
-## Migration Checklist
+## Key Features
 
-### Completed
-- [x] Phase 0: Next.js project initialized
-- [x] Phase 1: Design exploration (3 styles built, Warm & Organic selected)
-- [x] Phase 2: Authentication & Admin Shell
+### Registration Forms
+- Multi-child support with sibling discounts ($10 off each additional child)
+- Workshop: select multiple dates
+- Camp: includes emergency contact and medical info
+- Honeypot spam prevention
+- Server-side validation
 
-### Remaining
-- [ ] Phase 3: Database & Core Data (create tables, RLS)
-- [ ] Phase 4: Public Pages (workshops, camp, music school, about)
-- [ ] Phase 5: Registration Forms
-- [ ] Phase 5.5: Parent Accounts (magic link)
-- [ ] Phase 6: Admin - View Registrations
-- [ ] Phase 7: Admin - Actions
-- [ ] Phase 8: Email System
-- [ ] Phase 9: Polish & Testing
-- [ ] Phase 10: Launch
+### Email System (Resend)
+- Confirmation emails on registration
+- Admin notifications (flags tuition assistance requests)
+- Magic link emails for parent portal
+- All emails logged to `email_log` table
+
+### Parent Portal (`/my-registrations`)
+- Enter email → receive magic link
+- View all registrations, children, payment status
+- Edit contact info (phone, emergency contact)
+- Links valid 24 hours, one-time use
+
+### Admin Portal
+- View/filter all registrations
+- Update status and payment status
+- Add admin notes
+- CSV export for each section
 
 ---
 
-## Tech Stack
+## Design System
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 14.2.x (App Router) |
-| Database | Supabase (PostgreSQL) |
-| Auth | Supabase Auth |
-| Payments | External (church platform) |
-| Hosting | Vercel |
-| Styling | Tailwind CSS |
-| Fonts | Google Fonts (Fraunces, Nunito) |
+### Colors
+| Name | Tailwind | Usage |
+|------|----------|-------|
+| Forest | `forest-*` | Primary, CTAs |
+| Terracotta | `terracotta-*` | Accent, Camp |
+| Cream | `cream-*` | Backgrounds |
+| Stone | `stone-*` | Text |
+
+### Typography
+| Font | Class | Usage |
+|------|-------|-------|
+| Fraunces | `font-fraunces` | Display headings |
+| Nunito | `font-nunito` | Body text (default) |
+
+---
+
+## Programs
+
+### Workshops (Spring 2026)
+- **Dates**: February 20, March 20, May 1
+- **Time**: 3:30 PM – 7:30 PM
+- **Cost**: $75
+- **Ages**: 9–13
+
+### Summer Camp (June 2026)
+- **Dates**: June 22–28, 2026
+- **Time**: 8:30 AM – 5:00 PM (Sunday performance 10 AM)
+- **Cost**: $400
+- **Ages**: 9–13
+
+### Music School (Fall 2026)
+- Waitlist only for now
+
+---
+
+## Documentation
+
+| Document | Purpose |
+|----------|---------|
+| `/docs/implementation/changelog.md` | What was built, when |
+| `/docs/implementation/forms.md` | Form system details |
+| `/docs/implementation/admin.md` | Admin portal details |
+| `/docs/implementation/email.md` | Email system details |
+| `/docs/vision/implementation-plan.md` | Original phased plan |
+| `/info/email-setup.txt` | DNS/email configuration |
+
+---
+
+## Completed Phases
+
+- [x] Phase 0: Project Setup
+- [x] Phase 1: Design Exploration (Warm & Organic selected)
+- [x] Phase 2: Authentication & Admin Shell
+- [x] Phase 3: Database & Core Data
+- [x] Phase 4: Public Pages
+- [x] Phase 5: Registration Forms
+- [x] Phase 5.5: Parent Accounts (magic link)
+- [x] Phase 6: Admin - View Registrations
+- [x] Phase 7: Admin - Actions
+- [x] Phase 8: Email System
+- [ ] Phase 9: Polish & Testing (in progress)
+- [ ] Phase 10: Launch
