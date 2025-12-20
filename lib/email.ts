@@ -1,7 +1,14 @@
 import { Resend } from 'resend'
 import { createClient } from '@/lib/supabase/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization to avoid build-time errors
+let resend: Resend | null = null
+function getResend() {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
 const ADMIN_EMAIL = 'jack@creativekidsmusic.org'
@@ -107,7 +114,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
   `
 
   try {
-    const { data: result, error } = await resend.emails.send({
+    const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: data.parentEmail,
       subject,
@@ -201,7 +208,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
   `
 
   try {
-    const { data: result, error } = await resend.emails.send({
+    const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: data.parentEmail,
       subject,
@@ -262,7 +269,7 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
   `
 
   try {
-    const { data: result, error } = await resend.emails.send({
+    const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: data.parentEmail,
       subject,
@@ -328,7 +335,7 @@ export async function sendMagicLinkEmail(data: MagicLinkEmailData): Promise<Emai
   `
 
   try {
-    const { data: result, error } = await resend.emails.send({
+    const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: data.email,
       subject,
@@ -398,7 +405,7 @@ export async function sendAdminNotification(data: AdminNotificationData): Promis
   `
 
   try {
-    const { data: result, error } = await resend.emails.send({
+    const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject,
