@@ -1,19 +1,26 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { updateSession } from './lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  // Skip Supabase middleware if credentials aren't configured yet
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    // Still protect admin routes even without Supabase
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/auth/login'
-      return NextResponse.redirect(url)
+  try {
+    // Skip Supabase middleware if credentials aren't configured yet
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      // Still protect admin routes even without Supabase
+      if (request.nextUrl.pathname.startsWith('/admin')) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/auth/login'
+        return NextResponse.redirect(url)
+      }
+      return NextResponse.next()
     }
+
+    // Dynamic import to avoid Edge runtime issues
+    const { updateSession } = await import('./lib/supabase/middleware')
+    return await updateSession(request)
+  } catch (error) {
+    console.error('Middleware error:', error)
+    // Don't block the request if middleware fails
     return NextResponse.next()
   }
-
-  return await updateSession(request)
 }
 
 export const config = {
