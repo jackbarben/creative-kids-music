@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -45,6 +46,16 @@ export default function SummerCampPage() {
                       What they carry home is bigger than any performance: a freedom to make music they&apos;ve never felt before.
                     </p>
                   </div>
+                </div>
+
+                <div className="mt-12">
+                  <Image
+                    src="/media/photos/summer-camp.jpg"
+                    alt="Children at summer music camp"
+                    width={800}
+                    height={500}
+                    className="w-full rounded-lg shadow-sm"
+                  />
                 </div>
               </div>
 

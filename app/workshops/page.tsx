@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getWorkshops } from '@/lib/data'
@@ -47,6 +48,16 @@ export default async function WorkshopsPage() {
                   <p>
                     This is how we teach: we begin from success, supported by masters, and skill follows naturally.
                   </p>
+                </div>
+
+                <div className="mt-12">
+                  <Image
+                    src="/media/photos/workshops.jpg"
+                    alt="Children playing music at a workshop"
+                    width={800}
+                    height={500}
+                    className="w-full rounded-lg shadow-sm"
+                  />
                 </div>
               </div>
 

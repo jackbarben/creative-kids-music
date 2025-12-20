@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import WaitlistForm from './WaitlistForm'
@@ -33,6 +34,16 @@ export default function MusicSchoolPage() {
                   </p>
                 </div>
 
+                <div className="mt-12">
+                  <Image
+                    src="/media/photos/music-school.jpg"
+                    alt="Children learning music together"
+                    width={800}
+                    height={500}
+                    className="w-full rounded-lg shadow-sm"
+                  />
+                </div>
+
                 <div className="mt-16 pt-16 border-t border-slate-200">
                   <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
                     Program Structure
@@ -41,7 +52,7 @@ export default function MusicSchoolPage() {
                     <p>3 days per week, after school</p>
                     <p>Small cohort model</p>
                     <p>Professional musicians as guides</p>
-                    <p>Performance opportunities throughout the year</p>
+                    <p>Performances happen throughout the year, woven into the rhythm of the program.</p>
                   </div>
                 </div>
               </div>

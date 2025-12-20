@@ -90,6 +90,16 @@ export default function Home() {
                 </p>
               </Link>
             </div>
+
+            <div className="mt-16">
+              <Image
+                src="/media/photos/homepage.jpg"
+                alt="Children making music together"
+                width={1200}
+                height={600}
+                className="w-full rounded-lg shadow-sm"
+              />
+            </div>
           </div>
         </section>
       </main>

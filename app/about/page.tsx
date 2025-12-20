@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -19,6 +20,13 @@ export default function AboutPage() {
         {/* Content */}
         <section className="pb-24 md:pb-32">
           <div className="max-w-3xl mx-auto px-6 md:px-12">
+            <Image
+              src="/media/photos/jack.jpg"
+              alt="Jack Barben, founder of Creative Kids Music Project"
+              width={200}
+              height={250}
+              className="float-right ml-8 mb-6 rounded-lg shadow-sm w-40 md:w-52"
+            />
             <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
                 <p>
                   Jack Barben has been playing music his whole life and teaching it for nearly thirty years. He got his start early—directing bands and choirs as a teenager, then studying piano, voice, and trombone in college, including piano at the Peabody Conservatory. He&apos;s directed music in churches for over twenty years, maintained a private studio for twenty-five, and continued exploring along the way: creating choirs and ensembles, immersing himself in traditions from around the world, and continually expanding his own musical vocabulary.
@@ -68,6 +76,15 @@ export default function AboutPage() {
                     Get Directions →
                   </a>
                 </div>
+              </div>
+              <div className="mt-8">
+                <Image
+                  src="/media/photos/st-lukes.jpg"
+                  alt="St. Luke's / San Lucas Episcopal Church"
+                  width={800}
+                  height={500}
+                  className="w-full rounded-lg shadow-sm"
+                />
               </div>
             </div>
 
