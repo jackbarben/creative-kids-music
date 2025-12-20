@@ -48,6 +48,15 @@ export default function AdminLayout({
     )
   }
 
+  if (!user) {
+    router.push('/auth/login')
+    return (
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+        <div className="text-stone-500">Redirecting to login...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-stone-50 font-nunito">
       {/* Sidebar */}
