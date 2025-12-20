@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { getWaitlistSignups } from '@/lib/data'
 
+export const dynamic = 'force-dynamic'
+
 export default async function WaitlistAdmin() {
   const signups = await getWaitlistSignups()
 

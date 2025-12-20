@@ -6,6 +6,8 @@ import { RegistrationCard } from './RegistrationCard'
 import { CampRegistrationCard } from './CampRegistrationCard'
 import { WaitlistCard } from './WaitlistCard'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'My Registrations | Creative Kids Music',
   description: 'View and manage your Creative Kids Music registrations',

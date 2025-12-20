@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { getWorkshops, getWorkshopRegistrations } from '@/lib/data'
 
+export const dynamic = 'force-dynamic'
+
 export default async function WorkshopsAdmin() {
   const workshops = await getWorkshops()
   const registrations = await getWorkshopRegistrations()

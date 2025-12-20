@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { getCampRegistrations } from '@/lib/data'
 
+export const dynamic = 'force-dynamic'
+
 export default async function CampAdmin() {
   const registrations = await getCampRegistrations()
 

@@ -1,5 +1,7 @@
 import { getActivityLog } from '@/lib/data'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ActivityAdmin() {
   const activities = await getActivityLog(100)
 
