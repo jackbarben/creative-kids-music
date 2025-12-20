@@ -83,7 +83,7 @@ export default function Home() {
                   Summer Camp
                 </h3>
                 <p className="mt-4 text-slate-600 leading-relaxed">
-                  Music, nature, and stillness woven into one immersive week—they come home with a freedom to make music they've never felt before.
+                  Music, nature, and stillness woven into one immersive week—they come home with a freedom to make music they&apos;ve never felt before.
                 </p>
               </Link>
 
