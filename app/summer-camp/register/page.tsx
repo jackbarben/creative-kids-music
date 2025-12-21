@@ -15,7 +15,7 @@ export default function CampRegisterPage() {
               Summer Camp Registration
             </h1>
             <p className="text-stone-600">
-              June 22–27, 2026
+              June 22–28, 2026
             </p>
           </div>
         </section>

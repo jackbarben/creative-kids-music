@@ -169,9 +169,9 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Camp Details</h2>
 
-      <p><strong>Dates:</strong> June 22–27, 2026 (Mon–Fri)</p>
+      <p><strong>Dates:</strong> June 22–26, 2026 (Mon–Fri)</p>
       <p><strong>Time:</strong> 8:30 AM – 5:00 PM · Lunch included</p>
-      <p><strong>Sunday Performance:</strong> June 29 · 9–11 AM</p>
+      <p><strong>Sunday Performance:</strong> June 28 · 9–11 AM</p>
       <p><strong>Location:</strong> St. Luke's/San Lucas Episcopal Church<br>
       426 E Fourth Plain Blvd, Vancouver, WA</p>
 

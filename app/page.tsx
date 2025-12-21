@@ -44,54 +44,78 @@ export default function Home() {
         </section>
 
         {/* Programs */}
-        <section className="py-20 md:py-28 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <h2 className="font-display text-2xl font-semibold text-slate-800 mb-12">
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-slate-800 mb-12">
               Programs
             </h2>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Workshops */}
-              <Link href="/workshops" className="group block p-8 bg-cream-50 rounded-lg hover:bg-cream-100 transition-colors">
+              <div className="p-8 bg-cream-50 rounded-lg flex flex-col">
                 <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase">
                   Winter/Spring 2026
                 </p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-slate-800">
                   Workshops
                 </h3>
-                <p className="mt-4 text-slate-600 leading-relaxed">
+                <p className="mt-4 text-slate-600 leading-relaxed flex-grow">
                   No waiting—your child performs alongside professional musicians on day one.
                 </p>
-              </Link>
+                <div className="mt-6 flex gap-3">
+                  <Link href="/workshops/register" className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-full hover:bg-slate-700 transition-colors">
+                    Reserve Now
+                  </Link>
+                  <Link href="/workshops" className="px-4 py-2 border border-slate-300 text-slate-600 text-sm font-medium rounded-full hover:bg-slate-50 transition-colors">
+                    Learn More
+                  </Link>
+                </div>
+              </div>
 
               {/* Summer Camp */}
-              <Link href="/summer-camp" className="group block p-8 bg-cream-50 rounded-lg hover:bg-cream-100 transition-colors">
+              <div className="p-8 bg-cream-50 rounded-lg flex flex-col">
                 <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase">
-                  June 22–27, 2026
+                  June 22–28, 2026
                 </p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-slate-800">
                   Summer Camp
                 </h3>
-                <p className="mt-4 text-slate-600 leading-relaxed">
+                <p className="mt-4 text-slate-600 leading-relaxed flex-grow">
                   Music, nature, and stillness woven into one immersive week—they come home with a freedom to make music they&apos;ve never felt before.
                 </p>
-              </Link>
+                <div className="mt-6 flex gap-3">
+                  <Link href="/summer-camp/register" className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-full hover:bg-slate-700 transition-colors">
+                    Reserve Now
+                  </Link>
+                  <Link href="/summer-camp" className="px-4 py-2 border border-slate-300 text-slate-600 text-sm font-medium rounded-full hover:bg-slate-50 transition-colors">
+                    Learn More
+                  </Link>
+                </div>
+              </div>
 
               {/* Music School */}
-              <Link href="/music-school" className="group block p-8 bg-cream-50 rounded-lg hover:bg-cream-100 transition-colors">
+              <div className="p-8 bg-cream-50 rounded-lg flex flex-col">
                 <p className="text-xs text-lavender-600 font-semibold tracking-widest uppercase">
                   Fall 2026
                 </p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-slate-800">
                   Music School
                 </h3>
-                <p className="mt-4 text-slate-600 leading-relaxed">
+                <p className="mt-4 text-slate-600 leading-relaxed flex-grow">
                   The place where music becomes theirs.
                 </p>
-              </Link>
+                <div className="mt-6 flex gap-3">
+                  <Link href="/music-school" className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-full hover:bg-slate-700 transition-colors">
+                    Join Waitlist
+                  </Link>
+                  <Link href="/music-school" className="px-4 py-2 border border-slate-300 text-slate-600 text-sm font-medium rounded-full hover:bg-slate-50 transition-colors">
+                    Learn More
+                  </Link>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-16 max-w-3xl mx-auto">
+            <div className="mt-24 max-w-3xl mx-auto">
               <Image
                 src="/media/photos/homepage.jpg"
                 alt="Children making music together"

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -24,9 +25,8 @@ export default function Header() {
     { href: '/workshops', label: 'Workshops' },
     { href: '/summer-camp', label: 'Summer Camp' },
     { href: '/music-school', label: 'Music School' },
-    { href: '/about', label: 'About' },
     { href: '/faq', label: 'FAQ' },
-    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
   ]
 
   return (
@@ -36,10 +36,19 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-display text-xl md:text-2xl font-semibold text-slate-800 tracking-tight"
+            className="flex items-center gap-2 md:gap-3"
           >
-            <span className="md:hidden">Creative Kids</span>
-            <span className="hidden md:inline">Creative Kids Music Project</span>
+            <Image
+              src="/favicon.png"
+              alt="Creative Kids Music tree logo"
+              width={36}
+              height={36}
+              className="w-8 h-8 md:w-9 md:h-9"
+            />
+            <span className="font-display text-xl md:text-2xl tracking-tight">
+              <span className="font-bold text-amber-900">Creative Kids</span>
+              <span className="hidden md:inline font-normal text-amber-800/70"> Music Project</span>
+            </span>
           </Link>
 
           {/* Desktop Nav */}
