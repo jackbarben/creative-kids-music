@@ -156,19 +156,14 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
         )}
 
         <FormRadioGroup
-          label="How would you like to pay?"
+          label="Payment"
           name="payment_preference"
           required
           options={[
             {
-              value: 'online',
-              label: 'Pay online now',
-              description: 'You\'ll be directed to our payment page after registration',
-            },
-            {
               value: 'later',
-              label: 'Pay before the workshop',
-              description: 'Must be paid online before start time (no cash or check)',
+              label: 'Standard payment',
+              description: 'We\'ll send payment details in early January',
             },
             {
               value: 'assistance',
@@ -186,7 +181,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
             value={paymentPreference}
           />
           <div className="space-y-3">
-            {['online', 'later', 'assistance'].map((value) => (
+            {['later', 'assistance'].map((value) => (
               <input
                 key={value}
                 type="radio"

@@ -138,19 +138,14 @@ export default function CampRegistrationForm() {
         </div>
 
         <FormRadioGroup
-          label="How would you like to pay?"
+          label="Payment"
           name="payment_preference"
           required
           options={[
             {
-              value: 'online',
-              label: 'Pay online now',
-              description: 'You\'ll be directed to our payment page after registration',
-            },
-            {
               value: 'later',
-              label: 'Pay before camp begins',
-              description: 'Must be paid online by June 15, 2026 (no cash or check)',
+              label: 'Standard payment',
+              description: 'We\'ll send payment details in early January',
             },
             {
               value: 'assistance',
