@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { getCampRegistrationWithChildren } from '@/lib/data'
 import RegistrationActions from './RegistrationActions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function CampRegistrationDetail({
   params,
 }: {
