@@ -60,7 +60,7 @@ interface WorkshopConfirmationData {
 }
 
 export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): Promise<EmailResult> {
-  const subject = 'Workshop Registration Confirmed'
+  const subject = 'Workshop Reservation Confirmed'
 
   const childrenList = data.children
     .map(c => `${c.name} (age ${c.age})`)
@@ -72,17 +72,15 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : data.paymentMethod === 'online'
-    ? `Total: $${data.totalAmount}. Please complete payment at the link below.`
-    : `Total: $${data.totalAmount}. Payment due at the workshop.`
+    : `Total: $${data.totalAmount}. We'll send payment details in early January.`
 
   const html = `
     <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
-      <h1 style="color: #166534; font-size: 24px;">You're registered!</h1>
+      <h1 style="color: #166534; font-size: 24px;">Your spot is reserved!</h1>
 
       <p>Hi ${data.parentName},</p>
 
-      <p>Thank you for registering for Creative Kids Music workshops. We're excited to have your family join us!</p>
+      <p>Thank you for reserving your spot at Creative Kids Music workshops. We're excited to have your family join us!</p>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Registration Details</h2>
 
@@ -151,7 +149,7 @@ interface CampConfirmationData {
 }
 
 export async function sendCampConfirmation(data: CampConfirmationData): Promise<EmailResult> {
-  const subject = 'Summer Camp Registration Confirmed'
+  const subject = 'Summer Camp Reservation Confirmed'
 
   const childrenList = data.children
     .map(c => `${c.name} (age ${c.age})`)
@@ -159,17 +157,15 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : data.paymentMethod === 'online'
-    ? `Total: $${data.totalAmount}. Please complete payment at the link below.`
-    : `Total: $${data.totalAmount}. Payment due before camp begins (June 15).`
+    : `Total: $${data.totalAmount}. We'll send payment details in early January.`
 
   const html = `
     <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
-      <h1 style="color: #c2410c; font-size: 24px;">You're registered for camp!</h1>
+      <h1 style="color: #c2410c; font-size: 24px;">Your spot is reserved!</h1>
 
       <p>Hi ${data.parentName},</p>
 
-      <p>Thank you for registering for Creative Kids Music Summer Camp. We can't wait to see your family in June!</p>
+      <p>Thank you for reserving your spot at Creative Kids Music Summer Camp. We can't wait to see your family in June!</p>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Camp Details</h2>
 

@@ -91,12 +91,12 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-16 max-w-3xl mx-auto">
               <Image
                 src="/media/photos/homepage.jpg"
                 alt="Children making music together"
-                width={1200}
-                height={600}
+                width={800}
+                height={500}
                 className="w-full rounded-lg shadow-sm"
               />
             </div>

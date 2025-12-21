@@ -96,6 +96,32 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 - **Design**: Warm & Organic (forest green, terracotta, cream)
 - **Hosting**: Vercel (auto-deploy from GitHub master branch)
 - **Domain**: creativekidsmusic.org
+- **Status**: Live in production
+
+---
+
+## Production Infrastructure
+
+### Vercel
+- **Project**: `creative-kids-music`
+- **Team**: `jack-barbens-projects`
+- **Production URL**: https://www.creativekidsmusic.org
+- **Framework**: Next.js (must be set in project settings)
+- **Auto-deploy**: From GitHub `master` branch
+- **Node Version**: 22.x
+
+**Important**: If you get `MIDDLEWARE_INVOCATION_FAILED` errors, check that the Vercel project has `framework: nextjs` set (not `null`).
+
+### GitHub
+- **Repository**: https://github.com/jackbarben/creative-kids-music
+- **Branch**: `master` (production)
+
+### Domain (Namecheap)
+- **Domain**: creativekidsmusic.org
+- **DNS**: Pointed to Vercel
+- **Email**: Zoho Mail
+  - jack@creativekidsmusic.org
+  - info@creativekidsmusic.org
 
 ---
 
@@ -310,8 +336,9 @@ To test:
 ## Known Limitations
 
 - **Google OAuth**: Configured and working (shows Supabase project ID in redirect URL - this is normal)
-- **Scheduled reminders**: Deferred to post-launch (no Vercel Cron set up)
-- **Payment integration**: External link only (no webhook from church platform)
+- **Scheduled reminders**: Deferred (no Vercel Cron set up)
+- **Payment integration**: Coming January 2025 - currently accepting reservations only
+- **Middleware**: Removed due to Vercel Edge runtime issues; admin auth handled client-side in layout
 
 ---
 
@@ -327,5 +354,5 @@ To test:
 - [x] Phase 6: Admin - View Registrations
 - [x] Phase 7: Admin - Actions
 - [x] Phase 8: Email System
-- [ ] Phase 9: Polish & Testing (in progress)
-- [ ] Phase 10: Launch
+- [x] Phase 9: Polish & Testing
+- [x] Phase 10: Launch (December 2024)

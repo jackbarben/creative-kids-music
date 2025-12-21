@@ -103,8 +103,11 @@ export default function SummerCampPage() {
                     href="/summer-camp/register"
                     className="mt-10 block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
                   >
-                    Register
+                    Reserve Your Spot
                   </Link>
+                  <p className="mt-3 text-xs text-slate-400 text-center">
+                    Payment details will be sent in early January
+                  </p>
                 </div>
               </div>
             </div>
@@ -123,7 +126,7 @@ export default function SummerCampPage() {
           href="/summer-camp/register"
           className="block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
         >
-          Register · $400
+          Reserve Your Spot · $400
         </Link>
       </div>
     </div>

@@ -11,13 +11,16 @@ export default function CampThankYouPage() {
         <section className="py-24 bg-cream-50">
           <div className="max-w-2xl mx-auto px-6 text-center">
             <h1 className="font-syne text-4xl md:text-5xl font-bold text-stone-800 mb-6">
-              You&apos;re registered for camp.
+              Your spot is reserved.
             </h1>
             <p className="text-xl text-stone-600 mb-4">
               We can&apos;t wait to see you June 22nd.
             </p>
-            <p className="text-stone-500 mb-12">
+            <p className="text-stone-500 mb-8">
               You&apos;ll receive a confirmation email shortly with all the details—what to bring, drop-off info, and what to expect.
+            </p>
+            <p className="text-stone-400 text-sm mb-12">
+              Payment details will be sent in early January.
             </p>
             <Link
               href="/"
