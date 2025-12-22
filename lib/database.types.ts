@@ -82,6 +82,11 @@ export interface Database {
           excited_about: string | null
           message: string | null
           admin_notes: string | null
+          // Parent account fields
+          user_id: string | null
+          cancelled_at: string | null
+          cancellation_reason: string | null
+          version: number
         }
         Insert: {
           id?: string
@@ -108,6 +113,11 @@ export interface Database {
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
+          // Parent account fields
+          user_id?: string | null
+          cancelled_at?: string | null
+          cancellation_reason?: string | null
+          version?: number
         }
         Update: {
           id?: string
@@ -134,6 +144,11 @@ export interface Database {
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
+          // Parent account fields
+          user_id?: string | null
+          cancelled_at?: string | null
+          cancellation_reason?: string | null
+          version?: number
         }
       }
       workshop_children: {
@@ -192,6 +207,11 @@ export interface Database {
           excited_about: string | null
           message: string | null
           admin_notes: string | null
+          // Parent account fields
+          user_id: string | null
+          cancelled_at: string | null
+          cancellation_reason: string | null
+          version: number
         }
         Insert: {
           id?: string
@@ -219,6 +239,11 @@ export interface Database {
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
+          // Parent account fields
+          user_id?: string | null
+          cancelled_at?: string | null
+          cancellation_reason?: string | null
+          version?: number
         }
         Update: {
           id?: string
@@ -246,6 +271,11 @@ export interface Database {
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
+          // Parent account fields
+          user_id?: string | null
+          cancelled_at?: string | null
+          cancellation_reason?: string | null
+          version?: number
         }
       }
       camp_children: {
@@ -286,6 +316,26 @@ export interface Database {
           medical_conditions?: string | null
           special_needs?: string | null
           discount_cents?: number
+          created_at?: string
+        }
+      }
+      authorized_pickups: {
+        Row: {
+          id: string
+          camp_registration_id: string
+          name: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          camp_registration_id: string
+          name: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          camp_registration_id?: string
+          name?: string
           created_at?: string
         }
       }
@@ -432,6 +482,28 @@ export interface Database {
         Args: { workshop_uuid: string }
         Returns: number
       }
+      get_all_children_for_parent: {
+        Args: { p_user_id: string }
+        Returns: {
+          id: string
+          registration_id: string
+          program_type: string
+          child_name: string
+          created_at: string
+        }[]
+      }
+      recalculate_registration_total: {
+        Args: {
+          p_registration_id: string
+          p_program_type: string
+          p_user_id: string
+        }
+        Returns: number
+      }
+      is_registration_owner: {
+        Args: { reg_user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
@@ -467,6 +539,8 @@ export type WaitlistSignupUpdate = Database['public']['Tables']['waitlist_signup
 export type EmailLog = Database['public']['Tables']['email_log']['Row']
 export type ActivityLog = Database['public']['Tables']['activity_log']['Row']
 export type MagicLink = Database['public']['Tables']['magic_links']['Row']
+export type AuthorizedPickup = Database['public']['Tables']['authorized_pickups']['Row']
+export type AuthorizedPickupInsert = Database['public']['Tables']['authorized_pickups']['Insert']
 
 // Registration with children (joined)
 export type WorkshopRegistrationWithChildren = WorkshopRegistration & {
@@ -475,4 +549,5 @@ export type WorkshopRegistrationWithChildren = WorkshopRegistration & {
 
 export type CampRegistrationWithChildren = CampRegistration & {
   children: CampChild[]
+  authorized_pickups?: AuthorizedPickup[]
 }
