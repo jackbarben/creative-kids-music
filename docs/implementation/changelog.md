@@ -4,6 +4,170 @@ Chronological log of implementation progress.
 
 ---
 
+## 2025-12-22 - Parent Accounts v2: Phase 2 - Account Pages (Complete)
+
+### Summary
+Built the parent-facing account pages for login, viewing registrations, and managing account settings. Replaces the old magic link system with proper Supabase Auth accounts.
+
+### New Routes
+
+| Route | Purpose |
+|-------|---------|
+| `/account` | Parent login/dashboard (shows registrations when logged in) |
+| `/account/settings` | Email and password management |
+| `/account/reset-password` | Password reset handler |
+
+### Features
+
+**Login Form**
+- Email/password authentication
+- Google OAuth with redirect to `/account`
+- Forgot password flow (sends reset email)
+- Links to registration pages for new users
+
+**Dashboard**
+- View all workshop and camp registrations
+- See children, payment status, totals
+- Sibling discount displayed when applicable
+- Status badges (pending, confirmed, cancelled, completed)
+- Links to settings and logout
+
+**Registration Cards**
+- Shows program name and dates
+- Lists children with edit/remove buttons (disabled after program starts)
+- Camp cards show authorized pickups
+- Payment summary (total, paid, due)
+- Cancel registration button (disabled after program starts)
+
+**Settings Page**
+- Change email (verification required)
+- Change password
+- Shows connected Google account if OAuth user
+
+### Files Created
+
+```
+app/account/
+├── page.tsx                    # Login/Dashboard page
+├── settings/
+│   └── page.tsx               # Account settings
+└── reset-password/
+    └── page.tsx               # Password reset handler
+
+components/account/
+├── LoginForm.tsx              # Login form with OAuth
+├── Dashboard.tsx              # Registration list
+└── RegistrationCard.tsx       # Registration display card
+```
+
+### Design Notes
+- Uses slate colors (not forest) for neutral account UI
+- Matches site typography (font-display for headings)
+- Responsive design with mobile support
+- Loading states and error handling throughout
+
+### Next Steps
+- Phase 3: Update registration forms with inline account creation
+- Phase 4: Implement edit, add/remove children, cancel features
+
+---
+
+## 2025-12-22 - Parent Accounts v2: Phase 1 - Database Schema (Complete)
+
+### Summary
+Database schema changes to support proper parent accounts with Supabase Auth. Adds user linking, cancellation tracking, optimistic locking, and authorized pickups for camp.
+
+### Migration File
+`supabase/migrations/003_parent_accounts.sql`
+
+### Schema Changes
+
+**workshop_registrations**
+```sql
+ALTER TABLE workshop_registrations ADD COLUMN
+  user_id UUID REFERENCES auth.users(id),
+  cancelled_at TIMESTAMPTZ,
+  cancellation_reason TEXT,
+  version INTEGER NOT NULL DEFAULT 1;
+```
+
+**camp_registrations**
+```sql
+ALTER TABLE camp_registrations ADD COLUMN
+  user_id UUID REFERENCES auth.users(id),
+  cancelled_at TIMESTAMPTZ,
+  cancellation_reason TEXT,
+  version INTEGER NOT NULL DEFAULT 1;
+```
+
+**New Table: authorized_pickups**
+```sql
+CREATE TABLE authorized_pickups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  camp_registration_id UUID NOT NULL REFERENCES camp_registrations(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+### Row Level Security
+
+New RLS policies for parent access to own data:
+- `parents_read_own_workshop_registrations` - Parents can view their registrations
+- `parents_update_own_workshop_registrations` - Parents can update their registrations
+- `parents_read_own_workshop_children` - Parents can view their children
+- `parents_update_own_workshop_children` - Parents can update their children
+- `parents_delete_own_workshop_children` - Parents can remove children
+- Same policies for camp_registrations, camp_children
+- Policies for authorized_pickups (read, update, delete)
+
+**Helper function:**
+```sql
+CREATE OR REPLACE FUNCTION is_registration_owner(reg_user_id UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+  IF reg_user_id IS NOT NULL AND reg_user_id = auth.uid() THEN
+    RETURN TRUE;
+  END IF;
+  RETURN FALSE;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+```
+
+### Helper Functions
+
+**get_all_children_for_parent(p_user_id UUID)**
+- Returns all children across workshop and camp registrations
+- Used for cross-program sibling discount calculation
+
+**recalculate_registration_total(p_registration_id, p_program_type, p_user_id)**
+- Recalculates total after adding/removing children
+- Applies sibling discount ($10 off) for 2nd+ children
+- Increments version for optimistic locking
+
+### TypeScript Types Updated
+- `lib/database.types.ts` updated with all new fields
+- Added `AuthorizedPickup` and `AuthorizedPickupInsert` types
+- Added function type definitions
+- Updated `CampRegistrationWithChildren` to include optional `authorized_pickups`
+
+### Required Action
+Run the migration before deploying:
+```bash
+psql "$DATABASE_URL" -f supabase/migrations/003_parent_accounts.sql
+```
+
+### Key Decisions
+1. **No magic link migration needed** - No existing users to migrate
+2. **Waivers deferred** - Build account system first, add waivers after legal review
+3. **Version column** - For optimistic locking to prevent race conditions
+4. **RLS by user_id only** - No email fallback needed since no legacy data
+
+### Next Steps
+- Phase 2: Build account pages (login, dashboard, settings)
+
+---
+
 ## 2025-12-19 - Phase 5.5: Parent Accounts (Complete)
 
 ### Summary

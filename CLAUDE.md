@@ -137,7 +137,10 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | `/summer-camp/register` | Camp registration form |
 | `/music-school` | Fall 2026 teaser + waitlist form |
 | `/about` | Philosophy and approach |
-| `/my-registrations` | Parent portal (magic link access) |
+| `/account` | Parent login/dashboard |
+| `/account/settings` | Email and password management |
+| `/account/reset-password` | Password reset handler |
+| `/my-registrations` | Parent portal (legacy magic link - being replaced) |
 
 ### Admin Pages (protected)
 | Route | Purpose |
@@ -159,12 +162,13 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | Table | Purpose |
 |-------|---------|
 | `workshops` | Workshop definitions (dates, capacity, price) |
-| `workshop_registrations` | Workshop signups |
+| `workshop_registrations` | Workshop signups (has `user_id` for parent accounts) |
 | `workshop_children` | Children linked to workshop registrations |
-| `camp_registrations` | Summer camp signups |
+| `camp_registrations` | Summer camp signups (has `user_id` for parent accounts) |
 | `camp_children` | Children linked to camp (with medical info) |
+| `authorized_pickups` | People authorized to pick up children at camp |
 | `waitlist_signups` | Music school interest list |
-| `magic_links` | Parent portal access tokens |
+| `magic_links` | Parent portal access tokens (legacy - being removed) |
 | `email_log` | Sent email tracking |
 | `activity_log` | Admin action audit trail |
 
@@ -189,6 +193,7 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 |-----------|---------|--------|
 | `001_initial_schema.sql` | All core tables | ✅ Applied |
 | `002_magic_links.sql` | Parent portal tokens | ✅ Applied |
+| `003_parent_accounts.sql` | user_id linking, authorized_pickups, RLS policies | ⏳ Pending |
 
 **Credentials**: See `info/supabase-info.txt` for database password.
 
@@ -253,7 +258,13 @@ npm run dev
 - Magic link emails for parent portal
 - All emails logged to `email_log` table
 
-### Parent Portal (`/my-registrations`)
+### Parent Portal (`/account`) — In Progress
+- Email/password + Google OAuth login
+- View all registrations, children, payment status
+- Edit account settings (email, password)
+- Coming: inline account creation during registration
+
+### Legacy Parent Portal (`/my-registrations`) — Being Replaced
 - Enter email → receive magic link
 - View all registrations, children, payment status
 - Edit contact info (phone, emergency contact)
@@ -313,6 +324,9 @@ npm run dev
 | `/docs/implementation/forms.md` | Form system details |
 | `/docs/implementation/admin.md` | Admin portal details |
 | `/docs/implementation/email.md` | Email system details |
+| `/docs/implementation/parent-accounts-full-plan.md` | Parent accounts v2 full plan |
+| `/docs/implementation/parent-portal-wireframes.md` | ASCII wireframes for account pages |
+| `/docs/testing/parent-accounts-edge-cases.md` | 131 test scenarios |
 | `/docs/vision/implementation-plan.md` | Original phased plan |
 | `/info/email-setup.txt` | DNS/email configuration |
 
