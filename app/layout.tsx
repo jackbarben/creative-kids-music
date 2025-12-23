@@ -18,6 +18,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Creative Kids Music',
   description: 'Your child is already a musician. We help them discover that.',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({

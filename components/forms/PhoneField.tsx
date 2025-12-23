@@ -1,33 +1,32 @@
 'use client'
 
-import { useId } from 'react'
+import { useState, useId } from 'react'
+import { formatPhoneNumber } from '@/lib/utils/phone'
 
-interface FormFieldProps {
+interface PhoneFieldProps {
   label: string
   name: string
-  type?: 'text' | 'email' | 'tel' | 'number'
   required?: boolean
-  placeholder?: string
   error?: string
   defaultValue?: string
-  min?: number
-  max?: number
   className?: string
 }
 
-export default function FormField({
+export default function PhoneField({
   label,
   name,
-  type = 'text',
   required = false,
-  placeholder,
   error,
   defaultValue,
-  min,
-  max,
   className = '',
-}: FormFieldProps) {
+}: PhoneFieldProps) {
   const id = useId()
+  const [value, setValue] = useState(defaultValue ? formatPhoneNumber(defaultValue) : '')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value)
+    setValue(formatted)
+  }
 
   return (
     <div className={className}>
@@ -36,14 +35,13 @@ export default function FormField({
         {required && <span className="text-terracotta-500 ml-1">*</span>}
       </label>
       <input
-        type={type}
+        type="tel"
         id={id}
         name={name}
         required={required}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        min={min}
-        max={max}
+        value={value}
+        onChange={handleChange}
+        placeholder="(555) 555-5555"
         className={`
           w-full px-4 py-3 rounded-lg border
           ${error ? 'border-red-400' : 'border-stone-300'}

@@ -73,6 +73,7 @@ Each detail view shows full registration information and allows admins to:
 ### Workshop Detail (`/admin/workshops/[id]`)
 
 Sections:
+- **Cancellation Notice**: (if cancelled) Shows cancellation date and reason
 - **Contact**: Parent email, phone
 - **Children**: Names, ages, schools, sibling discounts
 - **Workshops**: List of selected workshop dates
@@ -83,8 +84,10 @@ Sections:
 ### Camp Detail (`/admin/camp/[id]`)
 
 Sections:
+- **Cancellation Notice**: (if cancelled) Shows cancellation date and reason
 - **Contact**: Parent email, phone
 - **Emergency Contact**: Name, phone, relationship (highlighted in red)
+- **Authorized Pickups**: List of people authorized to pick up children (highlighted in blue)
 - **Children**: Names, ages, grades, schools, medical info
   - Allergies (amber badge)
   - Medical conditions (red badge)
@@ -224,15 +227,26 @@ Each list page has an "Export CSV" button (visible when data exists).
 
 ### workshop_registrations
 - Parent info, workshop_ids[], payment info, terms, optional fields
+- `user_id` - Links to parent's Supabase Auth account
+- `cancelled_at`, `cancellation_reason` - Cancellation tracking
+- `version` - Optimistic locking for concurrent updates
 
 ### workshop_children
 - Links to registration, child name/age/school, discount
 
 ### camp_registrations
 - Parent info, emergency contact, payment info, terms, optional fields
+- `user_id` - Links to parent's Supabase Auth account
+- `cancelled_at`, `cancellation_reason` - Cancellation tracking
+- `version` - Optimistic locking for concurrent updates
 
 ### camp_children
 - Links to registration, child name/age/grade/school, medical info, discount
+
+### authorized_pickups
+- `camp_registration_id` - Links to camp registration
+- `name` - Name of authorized pickup person
+- Parent manages via account portal, verified in person at pickup
 
 ### waitlist_signups
 - Parent info, optional child info, message, status

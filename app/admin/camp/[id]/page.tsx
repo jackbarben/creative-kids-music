@@ -78,6 +78,28 @@ export default async function CampRegistrationDetail({
         </div>
       </div>
 
+      {/* Cancellation Notice */}
+      {registration.status === 'cancelled' && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-red-500 text-xl">✕</span>
+            <div>
+              <p className="font-medium text-red-800">Registration Cancelled</p>
+              {registration.cancelled_at && (
+                <p className="text-sm text-red-600">
+                  Cancelled on {formatDate(registration.cancelled_at)}
+                </p>
+              )}
+              {registration.cancellation_reason && (
+                <p className="text-sm text-red-700 mt-1">
+                  Reason: {registration.cancellation_reason}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main Info */}
         <div className="lg:col-span-2 space-y-6">
@@ -119,6 +141,29 @@ export default async function CampRegistrationDetail({
                 </div>
               )}
             </dl>
+          </div>
+
+          {/* Authorized Pickups */}
+          <div className="bg-blue-50 rounded-xl border border-blue-200 p-6">
+            <h2 className="font-syne text-lg font-bold text-blue-800 mb-4">
+              Authorized Pickups
+              {registration.authorized_pickups && registration.authorized_pickups.length > 0 && (
+                <span className="ml-2 text-sm font-normal text-blue-600">
+                  ({registration.authorized_pickups.length})
+                </span>
+              )}
+            </h2>
+            {registration.authorized_pickups && registration.authorized_pickups.length > 0 ? (
+              <ul className="space-y-2">
+                {registration.authorized_pickups.map((pickup) => (
+                  <li key={pickup.id} className="p-3 bg-white rounded-lg text-blue-900">
+                    {pickup.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-blue-600 italic">No authorized pickups added yet</p>
+            )}
           </div>
 
           {/* Children */}

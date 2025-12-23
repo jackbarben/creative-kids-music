@@ -29,6 +29,7 @@ Reusable form components in `/components/forms/`:
 | `FormRadioGroup` | Radio button group |
 | `SubmitButton` | Submit with pending state |
 | `ChildFields` | Multi-child entry with discounts |
+| `AccountSection` | Email entry with inline login/signup |
 
 ### Usage
 
@@ -68,6 +69,50 @@ The `ChildFields` component handles adding/removing children with automatic sibl
 - etc.
 
 Child data is submitted as indexed fields: `child_name_0`, `child_age_0`, `child_name_1`, etc.
+
+---
+
+## Account Section
+
+The `AccountSection` component handles inline account creation/login during registration.
+
+```tsx
+<AccountSection
+  email={email}
+  onEmailChange={setEmail}
+  onUserChange={() => {}}
+  error={state.fieldErrors?.parent_email}
+/>
+```
+
+### How It Works
+
+1. User enters email address
+2. On blur, system checks if email exists in Supabase Auth
+3. Shows different UI based on state:
+
+| State | UI Shown |
+|-------|----------|
+| `idle` | Just email input |
+| `checking` | Loading spinner |
+| `new_user` | Password fields + Google OAuth option |
+| `existing_user` | Login form (password or Google) |
+| `logged_in` | Confirmation with sign-out option |
+
+### Hidden Fields
+
+The component adds hidden fields to the form:
+- `user_id` - The logged-in user's ID (if any)
+- `password` - New password for account creation
+- `confirm_password` - Password confirmation
+
+### Google OAuth Flow
+
+When user clicks "Continue with Google":
+1. Form state saved to sessionStorage
+2. User redirects to Google
+3. After auth, returns to form
+4. Form detects logged-in state and continues
 
 ---
 

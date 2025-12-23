@@ -1,35 +1,96 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useFormState } from 'react-dom'
+import { createClient } from '@/lib/supabase/client'
 import { submitCampRegistration, type CampFormState } from './actions'
 import {
   FormField,
   FormTextarea,
   FormSelect,
-  FormCheckbox,
   FormRadioGroup,
   SubmitButton,
   ChildFields,
+  ChildrenSelectionSection,
+  AccountSection,
+  ParentSection,
+  EmergencyContactSection,
+  AuthorizedPickupsSection,
+  AgreementsSection,
 } from '@/components/forms'
+import type { User } from '@supabase/supabase-js'
 
 const initialState: CampFormState = {}
+
+interface AccountSettings {
+  parent_first_name?: string
+  parent_last_name?: string
+  parent_relationship?: string
+  parent_phone?: string
+  parent2_first_name?: string
+  parent2_last_name?: string
+  parent2_relationship?: string
+  parent2_phone?: string
+  parent2_email?: string
+  emergency_name?: string
+  emergency_phone?: string
+  emergency_relationship?: string
+  default_pickups?: { name: string; phone: string; relationship?: string }[]
+  default_media_consent_internal?: boolean
+  default_media_consent_marketing?: boolean
+}
 
 export default function CampRegistrationForm() {
   const [state, formAction] = useFormState(submitCampRegistration, initialState)
   const [childCount, setChildCount] = useState(1)
   const [howHeard, setHowHeard] = useState('')
+  const [email, setEmail] = useState('')
+  const [user, setUser] = useState<User | null>(null)
+  const [accountSettings, setAccountSettings] = useState<AccountSettings | null>(null)
+  const [showSecondParent, setShowSecondParent] = useState(false)
+
+  const supabase = createClient()
 
   const PRICE = 400
   const SIBLING_DISCOUNT = 10
+  const MAX_SIBLING_DISCOUNT = 30
+
+  // Load account settings when user changes
+  const loadAccountSettings = useCallback(async (userId: string) => {
+    const { data } = await supabase
+      .from('account_settings')
+      .select('*')
+      .eq('user_id', userId)
+      .single()
+
+    if (data && typeof data === 'object') {
+      const row = data as AccountSettings
+      setAccountSettings(row)
+      if (row.parent2_first_name || row.parent2_last_name) {
+        setShowSecondParent(true)
+      }
+    }
+  }, [supabase])
+
+  useEffect(() => {
+    if (user) {
+      loadAccountSettings(user.id)
+    } else {
+      setAccountSettings(null)
+    }
+  }, [user, loadAccountSettings])
 
   const calculateTotal = () => {
     let total = 0
     for (let i = 0; i < childCount; i++) {
-      const discount = i * SIBLING_DISCOUNT
+      const discount = Math.min(i * SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT)
       total += Math.max(0, PRICE - discount)
     }
     return total
+  }
+
+  const handleUserChange = (newUser: User | null) => {
+    setUser(newUser)
   }
 
   return (
@@ -51,76 +112,134 @@ export default function CampRegistrationForm() {
         <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Who&apos;s coming to camp?
         </h3>
-        <ChildFields
-          showGrade
-          showSchool
-          showMedical
-          basePrice={PRICE}
-          siblingDiscount={SIBLING_DISCOUNT}
-          onTotalChange={(_, count) => setChildCount(count)}
-        />
+        {user ? (
+          <ChildrenSelectionSection
+            userId={user.id}
+            showGrade
+            showSchool
+            showMedical
+            showTshirtSize
+            basePrice={PRICE}
+            siblingDiscount={SIBLING_DISCOUNT}
+            maxDiscount={MAX_SIBLING_DISCOUNT}
+            onChildrenChange={(children) => setChildCount(children.length || 1)}
+            fieldErrors={state.fieldErrors}
+          />
+        ) : (
+          <ChildFields
+            showGrade
+            showSchool
+            showMedical
+            showTshirtSize
+            basePrice={PRICE}
+            siblingDiscount={SIBLING_DISCOUNT}
+            onTotalChange={(_, count) => setChildCount(count)}
+          />
+        )}
       </section>
+
+      {/* Account Section */}
+      <AccountSection
+        email={email}
+        onEmailChange={setEmail}
+        onUserChange={handleUserChange}
+        error={state.fieldErrors?.parent_email}
+      />
 
       {/* Parent Information */}
+      <ParentSection
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings ? {
+          parent_first_name: accountSettings.parent_first_name,
+          parent_last_name: accountSettings.parent_last_name,
+          parent_relationship: accountSettings.parent_relationship,
+          parent_phone: accountSettings.parent_phone,
+        } : undefined}
+      />
+
+      {/* Second Parent Section (Camp only) */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
-          Parent/Guardian
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            label="Your name"
-            name="parent_name"
-            required
-            error={state.fieldErrors?.parent_name}
-          />
-          <FormField
-            label="Email"
-            name="parent_email"
-            type="email"
-            required
-            error={state.fieldErrors?.parent_email}
-          />
-          <FormField
-            label="Phone"
-            name="parent_phone"
-            type="tel"
-            required
-            error={state.fieldErrors?.parent_phone}
-            className="md:col-span-2"
-          />
-        </div>
+        {!showSecondParent ? (
+          <button
+            type="button"
+            onClick={() => setShowSecondParent(true)}
+            className="text-sm text-terracotta-600 hover:text-terracotta-700 font-medium"
+          >
+            + Add Second Parent/Guardian
+          </button>
+        ) : (
+          <div className="p-6 bg-stone-50 rounded-lg">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-syne text-xl font-bold text-stone-800">
+                Second Parent/Guardian
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowSecondParent(false)}
+                className="text-sm text-red-600 hover:text-red-700"
+              >
+                Remove
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                label="First Name"
+                name="parent2_first_name"
+                defaultValue={accountSettings?.parent2_first_name}
+              />
+              <FormField
+                label="Last Name"
+                name="parent2_last_name"
+                defaultValue={accountSettings?.parent2_last_name}
+              />
+              <FormField
+                label="Relationship"
+                name="parent2_relationship"
+                placeholder="e.g., Father, Step-mother"
+                defaultValue={accountSettings?.parent2_relationship}
+              />
+              <FormField
+                label="Phone"
+                name="parent2_phone"
+                type="tel"
+                placeholder="(555) 555-5555"
+                defaultValue={accountSettings?.parent2_phone}
+              />
+              <div className="md:col-span-2">
+                <FormField
+                  label="Email"
+                  name="parent2_email"
+                  type="email"
+                  placeholder="email@example.com"
+                  defaultValue={accountSettings?.parent2_email}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* Emergency Contact */}
-      <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
-          Emergency Contact
-        </h3>
-        <p className="text-sm text-stone-500 mb-4">
-          Someone other than the parent/guardian who can be reached in an emergency.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            label="Name"
-            name="emergency_name"
-            required
-            error={state.fieldErrors?.emergency_name}
-          />
-          <FormField
-            label="Phone"
-            name="emergency_phone"
-            type="tel"
-            required
-            error={state.fieldErrors?.emergency_phone}
-          />
-          <FormField
-            label="Relationship to child"
-            name="emergency_relationship"
-            placeholder="e.g., Grandparent, Aunt, Family friend"
-            className="md:col-span-2"
-          />
-        </div>
-      </section>
+      {/* Emergency Contact - key forces remount when account settings load */}
+      <EmergencyContactSection
+        key={accountSettings ? 'loaded' : 'default'}
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings ? {
+          emergency_name: accountSettings.emergency_name,
+          emergency_phone: accountSettings.emergency_phone,
+          emergency_relationship: accountSettings.emergency_relationship,
+        } : undefined}
+      />
+
+      {/* Authorized Pickups - 3 for camp */}
+      <AuthorizedPickupsSection
+        maxPickups={3}
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings?.default_pickups?.map(p => ({
+          name: p.name,
+          phone: p.phone,
+          relationship: p.relationship || '',
+        }))}
+      />
 
       {/* Payment */}
       <section>
@@ -164,6 +283,14 @@ export default function CampRegistrationForm() {
         />
       </section>
 
+      {/* Agreements - with behavior agreement for camp */}
+      <AgreementsSection
+        showBehaviorAgreement={true}
+        fieldErrors={state.fieldErrors}
+        defaultMediaConsentInternal={accountSettings?.default_media_consent_internal || false}
+        defaultMediaConsentMarketing={accountSettings?.default_media_consent_marketing || false}
+      />
+
       {/* Optional */}
       <section className="border-t border-stone-200 pt-8">
         <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
@@ -175,6 +302,7 @@ export default function CampRegistrationForm() {
               label="How did you hear about us?"
               name="how_heard"
               options={[
+                { value: '', label: 'Select...' },
                 { value: 'friend', label: 'Friend or family' },
                 { value: 'church', label: 'St. Luke\'s / San Lucas' },
                 { value: 'school', label: 'School' },
@@ -186,12 +314,17 @@ export default function CampRegistrationForm() {
               onChange={(e) => setHowHeard(e.target.value)}
             />
             {howHeard === 'other' && (
-              <FormField
-                label="Please specify"
-                name="how_heard_other"
-                className="mt-3"
-                placeholder="How did you hear about us?"
-              />
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-stone-700 mb-1">
+                  Please specify
+                </label>
+                <input
+                  type="text"
+                  name="how_heard_other"
+                  placeholder="How did you hear about us?"
+                  className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:border-terracotta-400 focus:ring-2 focus:ring-terracotta-100 outline-none transition-colors"
+                />
+              </div>
             )}
           </div>
           <FormTextarea
@@ -205,20 +338,6 @@ export default function CampRegistrationForm() {
             rows={2}
           />
         </div>
-      </section>
-
-      {/* Terms */}
-      <section className="border-t border-stone-200 pt-8">
-        <FormCheckbox
-          label={
-            <>
-              I accept the program terms and camp policies, including photo/video release for program use.
-            </>
-          }
-          name="terms_accepted"
-          required
-          error={state.fieldErrors?.terms_accepted}
-        />
       </section>
 
       <div className="pt-4">

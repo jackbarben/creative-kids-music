@@ -7,7 +7,8 @@ import type {
   CampRegistration,
   CampChild,
   WaitlistSignup,
-  ActivityLog
+  ActivityLog,
+  AuthorizedPickup
 } from '@/lib/database.types'
 
 // ============================================
@@ -184,10 +185,16 @@ export async function getCampRegistrationWithChildren(id: string) {
     return null
   }
 
+  const { data: pickups } = await supabase
+    .from('authorized_pickups')
+    .select('*')
+    .eq('camp_registration_id', id)
+
   return {
     ...registration,
-    children: children || []
-  } as CampRegistration & { children: CampChild[] }
+    children: children || [],
+    authorized_pickups: pickups || []
+  } as CampRegistration & { children: CampChild[]; authorized_pickups: AuthorizedPickup[] }
 }
 
 // ============================================

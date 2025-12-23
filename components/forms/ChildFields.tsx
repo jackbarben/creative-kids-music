@@ -10,12 +10,14 @@ interface ChildData {
   allergies?: string
   medical?: string
   special?: string
+  tshirtSize?: string
 }
 
 interface ChildFieldsProps {
   showGrade?: boolean
   showSchool?: boolean
   showMedical?: boolean
+  showTshirtSize?: boolean
   basePrice: number
   siblingDiscount: number
   onTotalChange?: (total: number, count: number) => void
@@ -25,16 +27,17 @@ export default function ChildFields({
   showGrade = false,
   showSchool = false,
   showMedical = false,
+  showTshirtSize = false,
   basePrice,
   siblingDiscount,
   onTotalChange,
 }: ChildFieldsProps) {
   const [children, setChildren] = useState<ChildData[]>([
-    { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '' }
+    { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '', tshirtSize: '' }
   ])
 
   const addChild = () => {
-    setChildren([...children, { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '' }])
+    setChildren([...children, { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '', tshirtSize: '' }])
     if (onTotalChange) {
       const newCount = children.length + 1
       onTotalChange(calculateTotal(newCount), newCount)
@@ -170,6 +173,29 @@ export default function ChildFields({
                     onChange={(e) => updateChild(index, 'school', e.target.value)}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
                   />
+                </div>
+              )}
+
+              {showTshirtSize && (
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">
+                    T-Shirt Size <span className="text-terracotta-500">*</span>
+                  </label>
+                  <select
+                    name={`child_tshirt_size_${index}`}
+                    required
+                    value={child.tshirtSize}
+                    onChange={(e) => updateChild(index, 'tshirtSize', e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+                  >
+                    <option value="">Select size</option>
+                    <option value="YS">Youth Small</option>
+                    <option value="YM">Youth Medium</option>
+                    <option value="YL">Youth Large</option>
+                    <option value="AS">Adult Small</option>
+                    <option value="AM">Adult Medium</option>
+                    <option value="AL">Adult Large</option>
+                  </select>
                 </div>
               )}
             </div>

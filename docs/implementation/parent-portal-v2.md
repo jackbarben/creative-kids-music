@@ -1,16 +1,18 @@
 # Parent Portal v2 - Quick Reference
 
+**Status**: Implemented (2025-12-22)
+
 **Full Plan**: See `parent-accounts-full-plan.md`
 
 ---
 
 ## Summary
 
-Replace magic links with Supabase Auth parent accounts:
-- Account created during registration
+Replaced magic links with Supabase Auth parent accounts:
+- Account created during registration (inline)
 - Email/password or Google OAuth
-- Sign waivers in account portal (before program)
-- Self-service: edit info, add children, cancel
+- Self-service: edit info, add/remove children, cancel
+- Waivers: **Deferred** - to be added later
 
 ---
 
@@ -89,12 +91,17 @@ Replace magic links with Supabase Auth parent accounts:
 
 ---
 
-## Implementation Order
+## Implementation Status
 
-1. Database migration (add user_id, waiver fields, cancellation fields)
-2. Account pages (login, dashboard, settings with email change)
-3. Registration form updates (password, account check, Google OAuth state)
-4. Portal features (edit, waivers, add/remove children, cancel, pickups)
-5. Admin updates (waiver status, pickup list)
-6. Scheduled jobs (Vercel cron for waiver reminders)
-7. Cleanup & launch (remove magic links)
+| Phase | Description | Status |
+|-------|-------------|--------|
+| 1 | Database migration (user_id, cancellation, pickups) | Complete |
+| 2 | Account pages (login, dashboard, settings) | Complete |
+| 3 | Registration form updates (inline account creation) | Complete |
+| 4 | Portal features (edit, add/remove children, cancel, pickups) | Complete |
+| 5 | Admin updates (cancellation info, pickup list) | Complete |
+| 6 | Cleanup (remove magic links) | Complete |
+
+**Deferred:**
+- Waiver signing (pending legal review of waiver text)
+- Scheduled waiver reminder emails (no Vercel cron set up yet)

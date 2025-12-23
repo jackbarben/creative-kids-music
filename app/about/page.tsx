@@ -29,19 +29,19 @@ export default function AboutPage() {
             />
             <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
                 <p>
-                  Jack Barben has been playing music his whole life and teaching it for nearly thirty years. He got his start early—directing bands and choirs as a teenager, then studying piano, voice, and trombone in college, including piano at the Peabody Conservatory. He&apos;s directed music in churches for over twenty years, maintained a private studio for twenty-five, and continued exploring along the way: creating choirs and ensembles, immersing himself in traditions from around the world, and continually expanding his own musical vocabulary.
-                </p>
-                <p>
-                  But early on, he noticed something wasn&apos;t right. Kids would play an instrument for years and never pick it up again. Pianists who studied for a decade needed sheet music just to play. People struggled to sing—and many swore they couldn&apos;t. Music had become something for professionals, completely disconnected from its roots in community and culture.
-                </p>
-                <p>
-                  Everything changed at Victor Wooten&apos;s Music Nature Camp. What if we had music education backwards? What if skill follows experience, not the other way around? Jack began experimenting—running music and nature camps, building improv-based group classes, having students compose and record from day one. He was circling a deeper question: what had been lost, and how could we recultivate it?
-                </p>
-                <p>
-                  Creative Kids Music Project is what emerged—a method refined through decades of experimentation, where children learn music the way humans always have: by doing it, together, with people better than them, in a community that holds them.
+                  Jack Barben has been playing music his whole life and teaching it for nearly thirty years. He got his start early—directing bands and choirs as a teenager, then studying piano, voice, and trombone in college, including piano at the Peabody Conservatory. He&apos;s directed music in churches for over twenty years, maintained a private studio for twenty-five, and continued exploring along the way: creating choirs and ensembles, immersing himself in traditions from around the world.
                 </p>
                 <p className="text-slate-800 font-medium">
-                  Every child arrives musical. Our work is to uncover that truth, nurture it, and let it grow.
+                  All of it pointed here.
+                </p>
+                <p>
+                  At Creative Kids, children make real music from day one. They jam, improvise, compose, and perform—not after years of preparation, but as the way in. Professional musicians play alongside them, modeling what can&apos;t be taught with words. Groove comes before theory. Listening before reading. Feel before technique.
+                </p>
+                <p className="text-slate-800 font-medium">
+                  Your child is already a musician. We help them discover that.
+                </p>
+                <p>
+                  From their first session, they&apos;re inside the music—playing in flow with others, making real choices, alive in it now. Something shifts—in what they can do, and in who they know themselves to be. And what they build here—confidence, presence, the ability to show up with others—reaches far beyond any instrument.
                 </p>
             </div>
 
