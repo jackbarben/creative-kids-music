@@ -27,6 +27,7 @@ export default function Header() {
     { href: '/music-school', label: 'Music School' },
     { href: '/faq', label: 'FAQ' },
     { href: '/about', label: 'About' },
+    { href: '/account', label: 'Account' },
   ]
 
   return (

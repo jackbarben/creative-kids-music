@@ -82,6 +82,28 @@ export default async function WorkshopRegistrationDetail({
         </div>
       </div>
 
+      {/* Cancellation Notice */}
+      {registration.status === 'cancelled' && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-red-500 text-xl">✕</span>
+            <div>
+              <p className="font-medium text-red-800">Registration Cancelled</p>
+              {registration.cancelled_at && (
+                <p className="text-sm text-red-600">
+                  Cancelled on {formatDate(registration.cancelled_at)}
+                </p>
+              )}
+              {registration.cancellation_reason && (
+                <p className="text-sm text-red-700 mt-1">
+                  Reason: {registration.cancellation_reason}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main Info */}
         <div className="lg:col-span-2 space-y-6">

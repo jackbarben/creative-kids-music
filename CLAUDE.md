@@ -137,7 +137,9 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | `/summer-camp/register` | Camp registration form |
 | `/music-school` | Fall 2026 teaser + waitlist form |
 | `/about` | Philosophy and approach |
-| `/my-registrations` | Parent portal (magic link access) |
+| `/account` | Parent login/dashboard |
+| `/account/settings` | Email and password management |
+| `/account/reset-password` | Password reset handler |
 
 ### Admin Pages (protected)
 | Route | Purpose |
@@ -159,17 +161,19 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | Table | Purpose |
 |-------|---------|
 | `workshops` | Workshop definitions (dates, capacity, price) |
-| `workshop_registrations` | Workshop signups |
+| `workshop_registrations` | Workshop signups (has `user_id` for parent accounts) |
 | `workshop_children` | Children linked to workshop registrations |
-| `camp_registrations` | Summer camp signups |
+| `camp_registrations` | Summer camp signups (has `user_id` for parent accounts) |
 | `camp_children` | Children linked to camp (with medical info) |
+| `authorized_pickups` | People authorized to pick up children at camp |
 | `waitlist_signups` | Music school interest list |
-| `magic_links` | Parent portal access tokens |
 | `email_log` | Sent email tracking |
 | `activity_log` | Admin action audit trail |
 
 **Supabase Project**: `creative-kids-music`
 **URL**: `https://qidzeagzbrqxntrqbpzx.supabase.co`
+
+**Important**: When debugging database issues, Claude should check Supabase directly using the service role key and API, not ask the user to check manually.
 
 ---
 
@@ -189,6 +193,7 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 |-----------|---------|--------|
 | `001_initial_schema.sql` | All core tables | ✅ Applied |
 | `002_magic_links.sql` | Parent portal tokens | ✅ Applied |
+| `003_parent_accounts.sql` | user_id linking, authorized_pickups, RLS policies | ⏳ Pending |
 
 **Credentials**: See `info/supabase-info.txt` for database password.
 
@@ -250,14 +255,16 @@ npm run dev
 ### Email System (Resend)
 - Confirmation emails on registration
 - Admin notifications (flags tuition assistance requests)
-- Magic link emails for parent portal
 - All emails logged to `email_log` table
 
-### Parent Portal (`/my-registrations`)
-- Enter email → receive magic link
+### Parent Portal (`/account`)
+- Email/password + Google OAuth login
+- Account creation during registration (inline)
 - View all registrations, children, payment status
-- Edit contact info (phone, emergency contact)
-- Links valid 24 hours, one-time use
+- Edit contact info, add/remove children
+- Cancel registration (before program starts)
+- Manage authorized pickups (camp only)
+- Edit account settings (email, password)
 
 ### Admin Portal
 - View/filter all registrations
@@ -313,6 +320,9 @@ npm run dev
 | `/docs/implementation/forms.md` | Form system details |
 | `/docs/implementation/admin.md` | Admin portal details |
 | `/docs/implementation/email.md` | Email system details |
+| `/docs/implementation/parent-accounts-full-plan.md` | Parent accounts v2 full plan |
+| `/docs/implementation/parent-portal-wireframes.md` | ASCII wireframes for account pages |
+| `/docs/testing/parent-accounts-edge-cases.md` | 131 test scenarios |
 | `/docs/vision/implementation-plan.md` | Original phased plan |
 | `/info/email-setup.txt` | DNS/email configuration |
 
@@ -329,7 +339,7 @@ Test data exists in the database for this email:
 
 To test:
 - **Admin portal**: Go to `/auth/login`, use test email + password
-- **Parent portal**: Go to `/my-registrations`, enter the test email, check inbox for magic link
+- **Parent portal**: Go to `/account`, login with email/password or create account during registration
 
 ---
 
@@ -350,9 +360,10 @@ To test:
 - [x] Phase 3: Database & Core Data
 - [x] Phase 4: Public Pages
 - [x] Phase 5: Registration Forms
-- [x] Phase 5.5: Parent Accounts (magic link)
+- [x] Phase 5.5: Parent Accounts (magic link) - **Replaced**
 - [x] Phase 6: Admin - View Registrations
 - [x] Phase 7: Admin - Actions
 - [x] Phase 8: Email System
 - [x] Phase 9: Polish & Testing
 - [x] Phase 10: Launch (December 2024)
+- [x] Phase 11: Parent Accounts v2 (email/password + OAuth, replaces magic links)

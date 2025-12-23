@@ -12,6 +12,7 @@ function getResend() {
 
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
 const ADMIN_EMAIL = 'jack@creativekidsmusic.org'
+const SITE_URL = 'https://creativekidsmusic.org'
 
 type EmailResult = {
   success: boolean
@@ -44,6 +45,11 @@ async function logEmail(
   }
 }
 
+// Format confirmation number (first 8 chars of UUID)
+function formatConfirmationNumber(id: string): string {
+  return id.substring(0, 8).toUpperCase()
+}
+
 // ============================================
 // Workshop Confirmation Email
 // ============================================
@@ -57,54 +63,114 @@ interface WorkshopConfirmationData {
   paymentMethod: string
   tuitionAssistance: boolean
   registrationId: string
+  mediaConsentInternal?: boolean
+  mediaConsentMarketing?: boolean
 }
 
 export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): Promise<EmailResult> {
-  const subject = 'Workshop Reservation Confirmed'
+  const subject = "You're registered! Winter/Spring Music Workshop confirmation"
+  const confirmationNumber = formatConfirmationNumber(data.registrationId)
 
   const childrenList = data.children
     .map(c => `${c.name} (age ${c.age})`)
     .join(', ')
 
   const workshopList = data.workshopDates
-    .map(d => `  • ${d}`)
+    .map(d => `<li style="margin-bottom: 4px;">${d}</li>`)
     .join('\n')
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
     : `Total: $${data.totalAmount}. We'll send payment details in early January.`
 
+  // Media consent summary
+  let mediaConsentText = 'No photo/video permissions granted'
+  if (data.mediaConsentInternal && data.mediaConsentMarketing) {
+    mediaConsentText = 'Internal documentation and marketing use'
+  } else if (data.mediaConsentInternal) {
+    mediaConsentText = 'Internal documentation only'
+  } else if (data.mediaConsentMarketing) {
+    mediaConsentText = 'Marketing use only'
+  }
+
   const html = `
     <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
-      <h1 style="color: #166534; font-size: 24px;">Your spot is reserved!</h1>
+      <h1 style="color: #166534; font-size: 24px; margin-bottom: 8px;">You're registered!</h1>
+      <p style="color: #78716c; margin-top: 0;">Winter/Spring Music Workshop</p>
 
       <p>Hi ${data.parentName},</p>
 
-      <p>Thank you for reserving your spot at Creative Kids Music workshops. We're excited to have your family join us!</p>
+      <p>Thank you for registering for our Winter/Spring Music Workshop! We're excited to have you join us.</p>
 
-      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Registration Details</h2>
+      <div style="background: #f5f5f4; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #44403c; font-size: 16px; margin: 0 0 16px 0;">Registration Summary</h2>
 
-      <p><strong>Children:</strong> ${childrenList}</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Confirmation #</td>
+            <td style="padding: 4px 0; font-weight: 600;">${confirmationNumber}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Participant(s)</td>
+            <td style="padding: 4px 0;">${childrenList}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c; vertical-align: top;">Workshop Date(s)</td>
+            <td style="padding: 4px 0;">
+              <ul style="margin: 0; padding-left: 16px;">${workshopList}</ul>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Time</td>
+            <td style="padding: 4px 0;">3:30 – 7:30 PM</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Location</td>
+            <td style="padding: 4px 0;">St. Luke's/San Lucas Episcopal Church<br>426 E Fourth Plain Blvd, Vancouver, WA</td>
+          </tr>
+        </table>
+      </div>
 
-      <p><strong>Workshops:</strong></p>
-      <div style="margin-left: 16px; white-space: pre-line;">${workshopList}</div>
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What's Included</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li>Music instruction and group activities</li>
+        <li>Dinner for all participants</li>
+        <li>Parent showcase performance at the end</li>
+      </ul>
 
-      <p><strong>Time:</strong> 3:30 – 7:30 PM</p>
-      <p><strong>Location:</strong> St. Luke's/San Lucas Episcopal Church<br>
-      426 E Fourth Plain Blvd, Vancouver, WA</p>
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What You Agreed To</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li><a href="${SITE_URL}/terms/liability-waiver" style="color: #166534;">Liability Waiver</a></li>
+        <li><a href="${SITE_URL}/terms/program-terms" style="color: #166534;">Program Terms & Conditions</a></li>
+        <li>Media Consent: ${mediaConsentText}</li>
+      </ul>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Payment</h2>
       <p>${paymentNote}</p>
 
+      <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #166534; font-size: 16px; margin: 0 0 12px 0;">What Happens Next</h2>
+        <ol style="color: #57534e; padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 8px;"><strong>Save this email</strong> for your records</li>
+          <li style="margin-bottom: 8px;"><strong>Mark your calendar</strong> with the workshop date(s)</li>
+          <li style="margin-bottom: 8px;"><strong>Watch for our welcome email</strong> — We'll send detailed information about a week before</li>
+          <li><strong>Plan to join us for the showcase</strong> — Parents are invited back at the end!</li>
+        </ol>
+      </div>
+
       <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
 
       <p style="color: #78716c; font-size: 14px;">
-        Questions? Reply to this email or contact us at
+        Need to make changes? Contact us at
         <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
       </p>
 
+      <p style="color: #78716c; font-size: 14px;">
+        Thank you for being part of Creative Kids Music Project!
+      </p>
+
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
-        Creative Kids Music<br>
+        Creative Kids Music Project<br>
         St. Luke's/San Lucas Episcopal Church<br>
         Vancouver, WA
       </p>
@@ -146,10 +212,13 @@ interface CampConfirmationData {
   paymentMethod: string
   tuitionAssistance: boolean
   registrationId: string
+  mediaConsentInternal?: boolean
+  mediaConsentMarketing?: boolean
 }
 
 export async function sendCampConfirmation(data: CampConfirmationData): Promise<EmailResult> {
-  const subject = 'Summer Camp Reservation Confirmed'
+  const subject = "You're registered! Summer Camp 2026 confirmation"
+  const confirmationNumber = formatConfirmationNumber(data.registrationId)
 
   const childrenList = data.children
     .map(c => `${c.name} (age ${c.age})`)
@@ -159,44 +228,102 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
     : `Total: $${data.totalAmount}. We'll send payment details in early January.`
 
+  // Media consent summary
+  let mediaConsentText = 'No photo/video permissions granted'
+  if (data.mediaConsentInternal && data.mediaConsentMarketing) {
+    mediaConsentText = 'Internal documentation and marketing use'
+  } else if (data.mediaConsentInternal) {
+    mediaConsentText = 'Internal documentation only'
+  } else if (data.mediaConsentMarketing) {
+    mediaConsentText = 'Marketing use only'
+  }
+
   const html = `
     <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
-      <h1 style="color: #c2410c; font-size: 24px;">Your spot is reserved!</h1>
+      <h1 style="color: #c2410c; font-size: 24px; margin-bottom: 8px;">You're registered!</h1>
+      <p style="color: #78716c; margin-top: 0;">Summer Camp 2026</p>
 
       <p>Hi ${data.parentName},</p>
 
-      <p>Thank you for reserving your spot at Creative Kids Music Summer Camp. We can't wait to see your family in June!</p>
+      <p>Thank you for registering for Creative Kids Music Summer Camp! We can't wait to see your family in June.</p>
 
-      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Camp Details</h2>
+      <div style="background: #fff7ed; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #44403c; font-size: 16px; margin: 0 0 16px 0;">Registration Summary</h2>
 
-      <p><strong>Dates:</strong> June 22–26, 2026 (Mon–Fri)</p>
-      <p><strong>Time:</strong> 8:30 AM – 5:00 PM · Lunch included</p>
-      <p><strong>Sunday Performance:</strong> June 28 · 9–11 AM</p>
-      <p><strong>Location:</strong> St. Luke's/San Lucas Episcopal Church<br>
-      426 E Fourth Plain Blvd, Vancouver, WA</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Confirmation #</td>
+            <td style="padding: 4px 0; font-weight: 600;">${confirmationNumber}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Participant(s)</td>
+            <td style="padding: 4px 0;">${childrenList}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Camp Dates</td>
+            <td style="padding: 4px 0;">June 22–26, 2026 (Mon–Fri)</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Daily Schedule</td>
+            <td style="padding: 4px 0;">8:30 AM – 5:00 PM</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Sunday Performance</td>
+            <td style="padding: 4px 0;">June 28, 9–11 AM</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Location</td>
+            <td style="padding: 4px 0;">St. Luke's/San Lucas Episcopal Church<br>426 E Fourth Plain Blvd, Vancouver, WA</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Emergency Contact</td>
+            <td style="padding: 4px 0;">${data.emergencyName} (${data.emergencyPhone})</td>
+          </tr>
+        </table>
+      </div>
 
-      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Your Registration</h2>
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What's Included</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li>Full week of music instruction and activities</li>
+        <li>Lunch provided daily</li>
+        <li>Camp t-shirt</li>
+        <li>Sunday showcase performance for family and friends</li>
+      </ul>
 
-      <p><strong>Children:</strong> ${childrenList}</p>
-
-      <p><strong>Emergency Contact:</strong> ${data.emergencyName} (${data.emergencyPhone})</p>
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What You Agreed To</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li><a href="${SITE_URL}/terms/liability-waiver" style="color: #c2410c;">Liability Waiver</a></li>
+        <li><a href="${SITE_URL}/terms/program-terms" style="color: #c2410c;">Program Terms & Conditions</a></li>
+        <li><a href="${SITE_URL}/terms/behavior-agreement" style="color: #c2410c;">Behavior Expectations Agreement</a></li>
+        <li>Media Consent: ${mediaConsentText}</li>
+      </ul>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Payment</h2>
       <p>${paymentNote}</p>
 
+      <div style="background: #fff7ed; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #c2410c; font-size: 16px; margin: 0 0 12px 0;">What Happens Next</h2>
+        <ol style="color: #57534e; padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 8px;"><strong>Save this email</strong> for your records</li>
+          <li style="margin-bottom: 8px;"><strong>Mark your calendar</strong> for June 22–26 (and the Sunday performance!)</li>
+          <li style="margin-bottom: 8px;"><strong>Watch for our welcome packet</strong> — We'll send detailed information closer to camp including what to bring, daily schedule, and drop-off procedures</li>
+          <li><strong>Plan to attend the Sunday showcase</strong> — Your camper will perform!</li>
+        </ol>
+      </div>
+
       <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
 
       <p style="color: #78716c; font-size: 14px;">
-        We'll send more details about what to bring and daily schedule closer to camp.
-      </p>
-
-      <p style="color: #78716c; font-size: 14px;">
-        Questions? Reply to this email or contact us at
+        Need to make changes? Contact us at
         <a href="mailto:info@creativekidsmusic.org" style="color: #c2410c;">info@creativekidsmusic.org</a>
       </p>
 
+      <p style="color: #78716c; font-size: 14px;">
+        Thank you for being part of Creative Kids Music Project!
+      </p>
+
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
-        Creative Kids Music<br>
+        Creative Kids Music Project<br>
         St. Luke's/San Lucas Episcopal Church<br>
         Vancouver, WA
       </p>

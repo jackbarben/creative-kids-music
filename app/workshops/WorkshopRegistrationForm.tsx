@@ -1,21 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useFormState } from 'react-dom'
+import { createClient } from '@/lib/supabase/client'
 import { submitWorkshopRegistration, type WorkshopFormState } from './actions'
 import {
-  FormField,
   FormTextarea,
   FormSelect,
-  FormCheckbox,
   FormRadioGroup,
   SubmitButton,
   ChildFields,
+  ChildrenSelectionSection,
+  AccountSection,
+  ParentSection,
+  EmergencyContactSection,
+  AuthorizedPickupsSection,
+  AgreementsSection,
 } from '@/components/forms'
 import type { Workshop } from '@/lib/database.types'
+import type { User } from '@supabase/supabase-js'
 
 interface WorkshopRegistrationFormProps {
   workshops: Workshop[]
+}
+
+interface AccountSettings {
+  parent_first_name?: string
+  parent_last_name?: string
+  parent_relationship?: string
+  parent_phone?: string
+  emergency_name?: string
+  emergency_phone?: string
+  emergency_relationship?: string
+  default_pickups?: { name: string; phone: string; relationship?: string }[]
+  default_media_consent_internal?: boolean
+  default_media_consent_marketing?: boolean
 }
 
 const initialState: WorkshopFormState = {}
@@ -24,11 +43,37 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
   const [state, formAction] = useFormState(submitWorkshopRegistration, initialState)
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>([])
   const [childCount, setChildCount] = useState(1)
-  const [paymentPreference, setPaymentPreference] = useState('')
   const [howHeard, setHowHeard] = useState('')
+  const [email, setEmail] = useState('')
+  const [user, setUser] = useState<User | null>(null)
+  const [accountSettings, setAccountSettings] = useState<AccountSettings | null>(null)
+
+  const supabase = createClient()
 
   const PRICE = 75
   const SIBLING_DISCOUNT = 10
+  const MAX_SIBLING_DISCOUNT = 30
+
+  // Load account settings when user changes
+  const loadAccountSettings = useCallback(async (userId: string) => {
+    const { data } = await supabase
+      .from('account_settings')
+      .select('*')
+      .eq('user_id', userId)
+      .single()
+
+    if (data && typeof data === 'object') {
+      setAccountSettings(data as AccountSettings)
+    }
+  }, [supabase])
+
+  useEffect(() => {
+    if (user) {
+      loadAccountSettings(user.id)
+    } else {
+      setAccountSettings(null)
+    }
+  }, [user, loadAccountSettings])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString + 'T00:00:00')
@@ -43,7 +88,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
   const calculateTotal = () => {
     let perWorkshopTotal = 0
     for (let i = 0; i < childCount; i++) {
-      const discount = i * SIBLING_DISCOUNT
+      const discount = Math.min(i * SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT)
       perWorkshopTotal += Math.max(0, PRICE - discount)
     }
     return perWorkshopTotal * selectedWorkshops.length
@@ -55,6 +100,10 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
     } else {
       setSelectedWorkshops(selectedWorkshops.filter(id => id !== workshopId))
     }
+  }
+
+  const handleUserChange = (newUser: User | null) => {
+    setUser(newUser)
   }
 
   return (
@@ -102,41 +151,66 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
         <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
           Who&apos;s coming?
         </h3>
-        <ChildFields
-          showSchool
-          basePrice={PRICE}
-          siblingDiscount={SIBLING_DISCOUNT}
-          onTotalChange={(_, count) => setChildCount(count)}
-        />
+        {user ? (
+          <ChildrenSelectionSection
+            userId={user.id}
+            showSchool
+            basePrice={PRICE}
+            siblingDiscount={SIBLING_DISCOUNT}
+            maxDiscount={MAX_SIBLING_DISCOUNT}
+            onChildrenChange={(children) => setChildCount(children.length || 1)}
+            fieldErrors={state.fieldErrors}
+          />
+        ) : (
+          <ChildFields
+            showSchool
+            basePrice={PRICE}
+            siblingDiscount={SIBLING_DISCOUNT}
+            onTotalChange={(_, count) => setChildCount(count)}
+          />
+        )}
       </section>
 
+      {/* Account Section */}
+      <AccountSection
+        email={email}
+        onEmailChange={setEmail}
+        onUserChange={handleUserChange}
+        error={state.fieldErrors?.parent_email}
+      />
+
       {/* Parent Information */}
-      <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
-          Parent/Guardian
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            label="Your name"
-            name="parent_name"
-            required
-            error={state.fieldErrors?.parent_name}
-          />
-          <FormField
-            label="Email"
-            name="parent_email"
-            type="email"
-            required
-            error={state.fieldErrors?.parent_email}
-          />
-          <FormField
-            label="Phone"
-            name="parent_phone"
-            type="tel"
-            className="md:col-span-2"
-          />
-        </div>
-      </section>
+      <ParentSection
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings ? {
+          parent_first_name: accountSettings.parent_first_name,
+          parent_last_name: accountSettings.parent_last_name,
+          parent_relationship: accountSettings.parent_relationship,
+          parent_phone: accountSettings.parent_phone,
+        } : undefined}
+      />
+
+      {/* Emergency Contact - key forces remount when account settings load */}
+      <EmergencyContactSection
+        key={accountSettings ? 'loaded' : 'default'}
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings ? {
+          emergency_name: accountSettings.emergency_name,
+          emergency_phone: accountSettings.emergency_phone,
+          emergency_relationship: accountSettings.emergency_relationship,
+        } : undefined}
+      />
+
+      {/* Authorized Pickups */}
+      <AuthorizedPickupsSection
+        maxPickups={2}
+        fieldErrors={state.fieldErrors}
+        defaultValues={accountSettings?.default_pickups?.map(p => ({
+          name: p.name,
+          phone: p.phone,
+          relationship: p.relationship || '',
+        }))}
+      />
 
       {/* Payment */}
       <section>
@@ -174,26 +248,6 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
           error={state.fieldErrors?.payment_preference}
         />
 
-        <div className="mt-4">
-          <input
-            type="hidden"
-            name="payment_preference_hidden"
-            value={paymentPreference}
-          />
-          <div className="space-y-3">
-            {['later', 'assistance'].map((value) => (
-              <input
-                key={value}
-                type="radio"
-                name="payment_preference_tracker"
-                value={value}
-                className="sr-only"
-                onChange={(e) => setPaymentPreference(e.target.value)}
-              />
-            ))}
-          </div>
-        </div>
-
         <FormTextarea
           label="Anything else about tuition assistance?"
           name="assistance_notes"
@@ -201,6 +255,14 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
           placeholder="Optional - share anything that would help us understand your situation"
         />
       </section>
+
+      {/* Agreements */}
+      <AgreementsSection
+        showBehaviorAgreement={false}
+        fieldErrors={state.fieldErrors}
+        defaultMediaConsentInternal={accountSettings?.default_media_consent_internal || false}
+        defaultMediaConsentMarketing={accountSettings?.default_media_consent_marketing || false}
+      />
 
       {/* Optional */}
       <section className="border-t border-stone-200 pt-8">
@@ -213,6 +275,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
               label="How did you hear about us?"
               name="how_heard"
               options={[
+                { value: '', label: 'Select...' },
                 { value: 'friend', label: 'Friend or family' },
                 { value: 'church', label: 'St. Luke\'s / San Lucas' },
                 { value: 'school', label: 'School' },
@@ -223,12 +286,17 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
               onChange={(e) => setHowHeard(e.target.value)}
             />
             {howHeard === 'other' && (
-              <FormField
-                label="Please specify"
-                name="how_heard_other"
-                className="mt-3"
-                placeholder="How did you hear about us?"
-              />
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-stone-700 mb-1">
+                  Please specify
+                </label>
+                <input
+                  type="text"
+                  name="how_heard_other"
+                  placeholder="How did you hear about us?"
+                  className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:border-forest-400 focus:ring-2 focus:ring-forest-100 outline-none transition-colors"
+                />
+              </div>
             )}
           </div>
           <FormTextarea
@@ -242,20 +310,6 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
             rows={2}
           />
         </div>
-      </section>
-
-      {/* Terms */}
-      <section className="border-t border-stone-200 pt-8">
-        <FormCheckbox
-          label={
-            <>
-              I accept the program terms and understand the workshop policies.
-            </>
-          }
-          name="terms_accepted"
-          required
-          error={state.fieldErrors?.terms_accepted}
-        />
       </section>
 
       <div className="pt-4">
