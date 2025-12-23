@@ -126,6 +126,7 @@ export async function updateChild(
     child_age: number
     child_school?: string
     allergies?: string
+    dietary_restrictions?: string
     medical_conditions?: string
     special_needs?: string
   }
@@ -156,6 +157,7 @@ export async function updateChild(
     child_school: data.child_school?.trim() || null,
     ...(programType === 'camp' && {
       allergies: data.allergies?.trim() || null,
+      dietary_restrictions: data.dietary_restrictions?.trim() || null,
       medical_conditions: data.medical_conditions?.trim() || null,
       special_needs: data.special_needs?.trim() || null,
     }),
@@ -195,6 +197,7 @@ export async function addChild(
     child_age: number
     child_school?: string
     allergies?: string
+    dietary_restrictions?: string
     medical_conditions?: string
     special_needs?: string
   }
@@ -252,6 +255,7 @@ export async function addChild(
     discount_cents: siblingDiscount,
     ...(programType === 'camp' && {
       allergies: data.allergies?.trim() || null,
+      dietary_restrictions: data.dietary_restrictions?.trim() || null,
       medical_conditions: data.medical_conditions?.trim() || null,
       special_needs: data.special_needs?.trim() || null,
     }),

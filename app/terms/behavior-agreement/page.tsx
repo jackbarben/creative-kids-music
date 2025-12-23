@@ -96,50 +96,6 @@ export default function BehaviorAgreementPage() {
 
             <section className="mb-8">
               <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
-                Consequences
-              </h2>
-              <p className="text-slate-600 mb-4">
-                When behavior issues arise, we follow a progressive approach:
-              </p>
-              <ol className="list-decimal pl-6 text-slate-600 space-y-3">
-                <li>
-                  <strong>Verbal Warning:</strong> Staff will privately remind the camper of expectations.
-                </li>
-                <li>
-                  <strong>Time Out:</strong> The camper may be asked to take a break from the current activity.
-                </li>
-                <li>
-                  <strong>Parent Contact:</strong> Parents/guardians will be notified about ongoing or serious behavior concerns.
-                </li>
-                <li>
-                  <strong>Behavior Plan:</strong> A written plan may be created with specific expectations and consequences.
-                </li>
-                <li>
-                  <strong>Dismissal:</strong> In cases of severe or repeated misconduct, a camper may be sent home early or dismissed from camp. No refund will be provided for dismissal due to behavior.
-                </li>
-              </ol>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
-                Immediate Dismissal
-              </h2>
-              <p className="text-slate-600 mb-4">
-                The following behaviors may result in immediate dismissal without warning:
-              </p>
-              <ul className="list-disc pl-6 text-slate-600 space-y-2">
-                <li>Physical violence or threats of violence</li>
-                <li>Bullying, harassment, or intimidation</li>
-                <li>Possession of weapons or dangerous items</li>
-                <li>Possession or use of drugs, alcohol, or tobacco</li>
-                <li>Theft or intentional destruction of property</li>
-                <li>Leaving camp property without permission</li>
-                <li>Any behavior that puts themselves or others at risk</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
                 Communication
               </h2>
               <p className="text-slate-600">
@@ -160,8 +116,7 @@ export default function BehaviorAgreementPage() {
                 <li>I have read and understand the Camper Behavior Agreement</li>
                 <li>I have reviewed these expectations with my child</li>
                 <li>My child agrees to follow these behavior expectations</li>
-                <li>I understand that violation of these rules may result in dismissal without refund</li>
-                <li>I agree to support camp staff in enforcing these expectations</li>
+                <li>I agree to support camp staff in maintaining a positive environment</li>
               </ul>
             </section>
 

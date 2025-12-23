@@ -66,6 +66,7 @@ export default function ChildrenSelectionSection({
     age: '',
     school: '',
     allergies: '',
+    dietary_restrictions: '',
     medical_conditions: '',
     tshirt_size: '',
     isNew: true,
@@ -226,6 +227,7 @@ export default function ChildrenSelectionSection({
             <input type="hidden" name={`child_age_${i}`} value={child.age} />
             <input type="hidden" name={`child_school_${i}`} value={child.school || ''} />
             <input type="hidden" name={`child_allergies_${i}`} value={child.allergies || ''} />
+            <input type="hidden" name={`child_dietary_${i}`} value={child.dietary_restrictions || ''} />
             <input type="hidden" name={`child_medical_${i}`} value={child.medical_conditions || ''} />
             {showTshirtSize && <input type="hidden" name={`child_tshirt_size_${i}`} value={child.tshirt_size || ''} />}
           </div>
@@ -494,6 +496,18 @@ export default function ChildrenSelectionSection({
               </div>
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
+                  Dietary Restrictions
+                </label>
+                <input
+                  type="text"
+                  value={newChild.dietary_restrictions || ''}
+                  onChange={(e) => setNewChild(prev => ({ ...prev, dietary_restrictions: e.target.value }))}
+                  placeholder="Vegetarian, gluten-free, kosher, etc."
+                  className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-stone-700 mb-1">
                   Medical Conditions
                 </label>
                 <input
@@ -527,6 +541,7 @@ export default function ChildrenSelectionSection({
           <input type="hidden" name={`child_age_${i}`} value={child.age} />
           <input type="hidden" name={`child_school_${i}`} value={child.school || ''} />
           <input type="hidden" name={`child_allergies_${i}`} value={child.allergies || ''} />
+          <input type="hidden" name={`child_dietary_${i}`} value={child.dietary_restrictions || ''} />
           <input type="hidden" name={`child_medical_${i}`} value={child.medical_conditions || ''} />
           {showTshirtSize && <input type="hidden" name={`child_tshirt_size_${i}`} value={child.tshirt_size || ''} />}
         </div>
@@ -694,6 +709,19 @@ function ChildInputForm({
               value={child.allergies || ''}
               onChange={(e) => onChange('allergies', e.target.value)}
               placeholder="Food, environmental, or other allergies"
+              className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-1">
+              Dietary Restrictions
+            </label>
+            <textarea
+              name={`child_dietary_${index}`}
+              rows={2}
+              value={child.dietary_restrictions || ''}
+              onChange={(e) => onChange('dietary_restrictions', e.target.value)}
+              placeholder="Vegetarian, gluten-free, kosher, etc."
               className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
             />
           </div>

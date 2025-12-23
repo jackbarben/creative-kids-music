@@ -287,6 +287,7 @@ export interface Database {
           child_grade: string | null
           child_school: string | null
           allergies: string | null
+          dietary_restrictions: string | null
           medical_conditions: string | null
           special_needs: string | null
           discount_cents: number
@@ -300,6 +301,7 @@ export interface Database {
           child_grade?: string | null
           child_school?: string | null
           allergies?: string | null
+          dietary_restrictions?: string | null
           medical_conditions?: string | null
           special_needs?: string | null
           discount_cents?: number
@@ -313,6 +315,7 @@ export interface Database {
           child_grade?: string | null
           child_school?: string | null
           allergies?: string | null
+          dietary_restrictions?: string | null
           medical_conditions?: string | null
           special_needs?: string | null
           discount_cents?: number

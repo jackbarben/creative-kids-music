@@ -15,6 +15,7 @@ interface EditChildModalProps {
     child_age: number
     child_school?: string | null
     allergies?: string | null
+    dietary_restrictions?: string | null
     medical_conditions?: string | null
     special_needs?: string | null
   }
@@ -42,6 +43,7 @@ export default function EditChildModal({
       child_age: parseInt(formData.get('child_age') as string) || 0,
       child_school: formData.get('child_school') as string,
       allergies: formData.get('allergies') as string,
+      dietary_restrictions: formData.get('dietary_restrictions') as string,
       medical_conditions: formData.get('medical_conditions') as string,
       special_needs: formData.get('special_needs') as string,
     })
@@ -122,7 +124,20 @@ export default function EditChildModal({
                 name="allergies"
                 rows={2}
                 defaultValue={currentData.allergies || ''}
-                placeholder="List any allergies..."
+                placeholder="Food, environmental, or other allergies..."
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
+              />
+            </div>
+            <div>
+              <label htmlFor="dietary_restrictions" className="block text-sm font-medium text-slate-700 mb-1">
+                Dietary Restrictions
+              </label>
+              <textarea
+                id="dietary_restrictions"
+                name="dietary_restrictions"
+                rows={2}
+                defaultValue={currentData.dietary_restrictions || ''}
+                placeholder="Vegetarian, gluten-free, kosher, etc..."
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>

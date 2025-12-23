@@ -8,6 +8,7 @@ interface ChildData {
   grade?: string
   school?: string
   allergies?: string
+  dietary?: string
   medical?: string
   special?: string
   tshirtSize?: string
@@ -33,11 +34,11 @@ export default function ChildFields({
   onTotalChange,
 }: ChildFieldsProps) {
   const [children, setChildren] = useState<ChildData[]>([
-    { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '', tshirtSize: '' }
+    { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }
   ])
 
   const addChild = () => {
-    setChildren([...children, { name: '', age: '', grade: '', school: '', allergies: '', medical: '', special: '', tshirtSize: '' }])
+    setChildren([...children, { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }])
     if (onTotalChange) {
       const newCount = children.length + 1
       onTotalChange(calculateTotal(newCount), newCount)
@@ -212,6 +213,19 @@ export default function ChildFields({
                     value={child.allergies}
                     onChange={(e) => updateChild(index, 'allergies', e.target.value)}
                     placeholder="Food, environmental, or other allergies"
+                    className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">
+                    Dietary Restrictions
+                  </label>
+                  <textarea
+                    name={`child_dietary_${index}`}
+                    rows={2}
+                    value={child.dietary}
+                    onChange={(e) => updateChild(index, 'dietary', e.target.value)}
+                    placeholder="Vegetarian, gluten-free, kosher, etc."
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
                   />
                 </div>

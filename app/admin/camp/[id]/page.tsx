@@ -193,12 +193,18 @@ export default async function CampRegistrationDetail({
                   </div>
 
                   {/* Medical Info */}
-                  {(child.allergies || child.medical_conditions || child.special_needs) && (
+                  {(child.allergies || child.dietary_restrictions || child.medical_conditions || child.special_needs) && (
                     <div className="mt-3 pt-3 border-t border-stone-200 space-y-2">
                       {child.allergies && (
                         <div>
                           <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded">Allergies</span>
                           <p className="text-sm text-stone-600 mt-1">{child.allergies}</p>
+                        </div>
+                      )}
+                      {child.dietary_restrictions && (
+                        <div>
+                          <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-0.5 rounded">Dietary</span>
+                          <p className="text-sm text-stone-600 mt-1">{child.dietary_restrictions}</p>
                         </div>
                       )}
                       {child.medical_conditions && (

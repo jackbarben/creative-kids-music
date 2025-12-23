@@ -130,6 +130,7 @@ export async function submitCampRegistration(
     grade: string | null
     school: string | null
     allergies: string | null
+    dietary: string | null
     medical: string | null
     special: string | null
     tshirtSize: string | null
@@ -142,6 +143,7 @@ export async function submitCampRegistration(
     const childGrade = formData.get(`child_grade_${i}`) as string | null
     const childSchool = formData.get(`child_school_${i}`) as string | null
     const allergies = formData.get(`child_allergies_${i}`) as string | null
+    const dietary = formData.get(`child_dietary_${i}`) as string | null
     const medical = formData.get(`child_medical_${i}`) as string | null
     const special = formData.get(`child_special_${i}`) as string | null
     const tshirtSize = formData.get(`child_tshirt_size_${i}`) as string | null
@@ -163,6 +165,7 @@ export async function submitCampRegistration(
       grade: childGrade || null,
       school: childSchool?.trim() || null,
       allergies: allergies?.trim() || null,
+      dietary: dietary?.trim() || null,
       medical: medical?.trim() || null,
       special: special?.trim() || null,
       tshirtSize: tshirtSize || null,
@@ -292,6 +295,7 @@ export async function submitCampRegistration(
       child_grade: child.grade,
       child_school: child.school,
       allergies: child.allergies,
+      dietary_restrictions: child.dietary,
       medical_conditions: child.medical,
       special_needs: child.special,
       tshirt_size: child.tshirtSize,
@@ -301,6 +305,20 @@ export async function submitCampRegistration(
 
   if (childError) {
     console.error('Camp children insert error:', childError)
+  }
+
+  // Sync medical info back to account_children for linked children
+  for (const child of children) {
+    if (child.account_child_id) {
+      await supabase
+        .from('account_children')
+        .update({
+          allergies: child.allergies,
+          dietary_restrictions: child.dietary,
+          medical_conditions: child.medical,
+        })
+        .eq('id', child.account_child_id)
+    }
   }
 
   // Insert authorized pickups
