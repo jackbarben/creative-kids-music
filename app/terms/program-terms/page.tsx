@@ -87,49 +87,29 @@ export default function ProgramTermsPage() {
             </section>
 
             {/* Cancellation & Refunds */}
-            <section className="mb-10">
+            <section id="cancellation" className="mb-10 scroll-mt-24">
               <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
-                Cancellation &amp; Refunds
+                Payment &amp; Refunds
               </h2>
 
-              <h3 className="font-semibold text-slate-700 text-lg mb-2">Cancellation by You</h3>
-
-              <h4 className="font-medium text-slate-700 mb-2 mt-4">Workshops &amp; Single Events</h4>
-              <ul className="list-disc pl-6 text-slate-600 space-y-1 mb-4">
-                <li>More than 14 days before: Full refund</li>
-                <li>7–14 days before: 50% refund</li>
-                <li>Less than 7 days before: No refund (credit toward future program may be offered at our discretion)</li>
-              </ul>
-
-              <h4 className="font-medium text-slate-700 mb-2">Summer Camp</h4>
-              <ul className="list-disc pl-6 text-slate-600 space-y-1 mb-4">
-                <li>More than 30 days before: Full refund minus $50 administrative fee</li>
-                <li>14–30 days before: 50% refund</li>
-                <li>Less than 14 days before: No refund (credit toward future program may be offered at our discretion)</li>
-              </ul>
-
-              <h4 className="font-medium text-slate-700 mb-2">Ongoing Programs (Music School)</h4>
+              <h3 className="font-semibold text-slate-700 text-lg mb-2">Payment Policy</h3>
               <p className="text-slate-600 mb-4">
-                Withdrawal requires 14 days written notice. Refunds are prorated based
-                on remaining sessions. No refunds for missed individual sessions.
+                You may register for any program and pay at any time before the program begins.
+                Payment is due before your child&apos;s first day of participation.
+              </p>
+
+              <h3 className="font-semibold text-slate-700 text-lg mb-2">Refund Policy</h3>
+              <p className="text-slate-600 mb-4">
+                <strong>All payments are final.</strong> Once payment is made, no refunds will be issued.
+                If you need to cancel before paying, simply cancel your registration through your account
+                or contact us—there is no penalty.
               </p>
 
               <h3 className="font-semibold text-slate-700 text-lg mb-2">Cancellation by Us</h3>
               <p className="text-slate-600">
-                If we cancel a program due to insufficient enrollment or other circumstances, you will receive a full refund. We
-                are not responsible for other costs you may have incurred (travel, childcare, etc.).
-              </p>
-            </section>
-
-            {/* Transfers & Credits */}
-            <section className="mb-10">
-              <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
-                Transfers &amp; Credits
-              </h2>
-              <p className="text-slate-600">
-                You may transfer your registration to another session or program of equal or lesser value, subject to availability.
-                Transfers must be requested at least 7 days before the original program date. No cash refunds for the difference
-                if transferring to a lower-priced program.
+                If we cancel a program due to insufficient enrollment or other circumstances,
+                you will receive a full refund. We are not responsible for other costs you may
+                have incurred (travel, childcare, etc.).
               </p>
             </section>
 

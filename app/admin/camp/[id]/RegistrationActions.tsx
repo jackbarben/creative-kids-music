@@ -54,7 +54,7 @@ export default function RegistrationActions({
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
           >
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
@@ -69,7 +69,7 @@ export default function RegistrationActions({
           <select
             value={paymentStatus}
             onChange={(e) => setPaymentStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
           >
             <option value="unpaid">Unpaid</option>
             <option value="paid">Paid</option>
@@ -87,7 +87,7 @@ export default function RegistrationActions({
             onChange={(e) => setNotes(e.target.value)}
             rows={4}
             placeholder="Internal notes about this registration..."
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-transparent resize-y"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent resize-y"
           />
         </div>
 
@@ -104,7 +104,7 @@ export default function RegistrationActions({
         <button
           type="submit"
           disabled={isPending}
-          className="w-full px-4 py-2 bg-terracotta-600 text-white rounded-lg font-medium hover:bg-terracotta-700 disabled:opacity-50 transition-colors"
+          className="w-full px-4 py-2 bg-forest-600 text-white rounded-lg font-medium hover:bg-forest-700 disabled:opacity-50 transition-colors"
         >
           {isPending ? 'Saving...' : 'Save Changes'}
         </button>

@@ -546,3 +546,62 @@ export async function sendAdminNotification(data: AdminNotificationData): Promis
     return { success: false, error: String(error) }
   }
 }
+
+// ============================================
+// Contact Form Email
+// ============================================
+
+interface ContactFormData {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
+export async function sendContactFormEmail(data: ContactFormData): Promise<EmailResult> {
+  const emailSubject = `Contact Form: ${data.subject}`
+
+  const html = `
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
+      <h1 style="color: #166534; font-size: 20px;">New Contact Form Submission</h1>
+
+      <div style="background: #f5f5f4; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <p style="margin: 0 0 12px 0;"><strong>From:</strong> ${data.name}</p>
+        <p style="margin: 0 0 12px 0;"><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+        <p style="margin: 0;"><strong>Subject:</strong> ${data.subject}</p>
+      </div>
+
+      <h2 style="color: #44403c; font-size: 16px;">Message:</h2>
+      <div style="background: #fafaf9; border-left: 4px solid #166534; padding: 16px; margin: 16px 0;">
+        <p style="margin: 0; white-space: pre-wrap;">${data.message}</p>
+      </div>
+
+      <p style="margin-top: 24px;">
+        <a href="mailto:${data.email}?subject=Re: ${encodeURIComponent(data.subject)}" style="display: inline-block; background: #166534; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px;">
+          Reply to ${data.name}
+        </a>
+      </p>
+    </div>
+  `
+
+  try {
+    const { data: result, error } = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: ADMIN_EMAIL,
+      replyTo: data.email,
+      subject: emailSubject,
+      html,
+    })
+
+    if (error) {
+      await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'failed', null)
+      return { success: false, error: error.message }
+    }
+
+    await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'sent', result?.id || null)
+    return { success: true, id: result?.id }
+  } catch (error) {
+    await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'failed', null)
+    return { success: false, error: String(error) }
+  }
+}

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import packageJson from '@/package.json'
 
 export default function Footer() {
   return (
@@ -50,6 +51,14 @@ export default function Footer() {
                   About
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-slate-400 hover:text-cream-100 transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -71,9 +80,28 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-slate-700">
-          <p className="text-xs text-slate-500">
-            © {new Date().getFullYear()} Creative Kids Music
-          </p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500 mb-4">
+            <Link href="/terms/program-terms" className="hover:text-slate-400 transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link href="/terms/program-terms#cancellation" className="hover:text-slate-400 transition-colors">
+              Refund Policy
+            </Link>
+            <Link href="/terms/liability-waiver" className="hover:text-slate-400 transition-colors">
+              Liability Waiver
+            </Link>
+            <Link href="/faq" className="hover:text-slate-400 transition-colors">
+              FAQ
+            </Link>
+          </div>
+          <div className="flex justify-between items-center">
+            <p className="text-xs text-slate-500">
+              © {new Date().getFullYear()} Creative Kids Music
+            </p>
+            <p className="text-xs text-slate-600">
+              v{packageJson.version}
+            </p>
+          </div>
         </div>
       </div>
     </footer>

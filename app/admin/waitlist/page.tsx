@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getWaitlistSignups } from '@/lib/data'
+import { PROGRAMS } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +23,7 @@ export default async function WaitlistAdmin() {
         <h3 className="font-syne text-lg font-bold text-stone-800 mb-4">Program Info</h3>
         <div className="bg-white rounded-xl p-4 border border-stone-200">
           <p className="font-semibold text-stone-800">After-School Music Program</p>
-          <p className="text-sm text-stone-600">3 days per week, Fall 2026</p>
+          <p className="text-sm text-stone-600">3 days per week, {PROGRAMS.musicSchool.season}</p>
           <p className="text-sm text-stone-500 mt-2">Ages 9-13, Pricing TBD</p>
           <p className="text-sm text-stone-500 mt-2">
             {signups.filter(s => s.status === 'new').length} new signups on waitlist
@@ -38,7 +39,7 @@ export default async function WaitlistAdmin() {
               Music School Waitlist
             </h2>
             <p className="text-stone-500">
-              Families interested in the Fall 2026 after-school music program.
+              Families interested in the {PROGRAMS.musicSchool.season} after-school music program.
             </p>
           </div>
           {signups.length > 0 && (

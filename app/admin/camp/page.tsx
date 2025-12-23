@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getCampRegistrations } from '@/lib/data'
+import { PROGRAMS } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,10 +32,10 @@ export default async function CampAdmin() {
       <div className="bg-terracotta-50 rounded-2xl border border-terracotta-200 p-6">
         <h3 className="font-syne text-lg font-bold text-terracotta-800 mb-4">Camp Details</h3>
         <div className="bg-white rounded-xl p-4 border border-terracotta-200">
-          <p className="font-semibold text-terracotta-800">June 22-27, 2026 (Mon-Fri)</p>
-          <p className="text-sm text-terracotta-600">8:30 AM - 5:00 PM · Lunch included</p>
-          <p className="text-sm text-terracotta-600">Sunday performance June 29 · 9-11 AM</p>
-          <p className="text-sm text-stone-500 mt-2">Ages 9-13, $400 per child</p>
+          <p className="font-semibold text-terracotta-800">{PROGRAMS.camp.displayDates} (Mon-Fri)</p>
+          <p className="text-sm text-terracotta-600">{PROGRAMS.camp.time} · Lunch included</p>
+          <p className="text-sm text-terracotta-600">Sunday performance {PROGRAMS.camp.performanceDisplay}</p>
+          <p className="text-sm text-stone-500 mt-2">Ages {PROGRAMS.camp.ages}, ${PROGRAMS.camp.price / 100} per child</p>
           <p className="text-sm text-stone-500 mt-2">
             {registrations.filter(r => r.status !== 'cancelled').length} registrations
           </p>

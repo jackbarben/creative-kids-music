@@ -78,6 +78,19 @@ export default function CancelModal({
           </div>
         )}
 
+        <p className="text-xs text-slate-500">
+          See our{' '}
+          <a
+            href="/terms/program-terms#cancellation"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-forest-600 hover:underline"
+          >
+            refund policy
+          </a>
+          {' '}for details.
+        </p>
+
         <div>
           <label htmlFor="reason" className="block text-sm font-medium text-slate-700 mb-1">
             Reason (optional)

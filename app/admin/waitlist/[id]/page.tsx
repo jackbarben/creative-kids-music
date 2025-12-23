@@ -52,7 +52,7 @@ export default async function WaitlistSignupDetail({
         <div>
           <Link
             href="/admin/waitlist"
-            className="text-sm text-stone-600 hover:text-stone-700 mb-2 inline-block"
+            className="text-sm text-forest-600 hover:text-forest-700 mb-2 inline-block"
           >
             &larr; Back to Waitlist
           </Link>

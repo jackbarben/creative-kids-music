@@ -89,6 +89,7 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 ## Current State
 
+- **Version**: See `package.json` (displayed in footer)
 - **Tech**: Next.js 14.2.x with App Router, TypeScript, Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
 - **Auth**: Supabase Auth (email/password + Google OAuth)
@@ -367,3 +368,38 @@ To test:
 - [x] Phase 9: Polish & Testing
 - [x] Phase 10: Launch (December 2024)
 - [x] Phase 11: Parent Accounts v2 (email/password + OAuth, replaces magic links)
+
+---
+
+## Versioning
+
+### Format: Semantic Versioning (SemVer)
+
+`MAJOR.MINOR.PATCH` (e.g., v1.2.3)
+
+| Part | When to bump | Examples |
+|------|--------------|----------|
+| **MAJOR** | Breaking changes, major redesigns, big milestones | Payment integration, complete redesign |
+| **MINOR** | New features, significant additions | Contact form, new admin reports, search/filter |
+| **PATCH** | Bug fixes, small tweaks, copy changes | Fix typo, adjust styling, small bug fix |
+
+### Process
+
+1. **Work on features** - don't touch version during development
+2. **Ready to deploy?** - bump version in `package.json`
+3. **Commit** - include version in commit message: `v1.1.0 - Add contact form`
+4. **Push to production** - Vercel auto-deploys from master
+5. **Optionally tag** - `git tag v1.1.0 && git push --tags`
+
+### Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| v1.0.0 | Dec 2024 | Initial launch - workshops, camp, parent accounts |
+| v1.1.0 | Dec 2024 | Contact form, portal fixes, docs cleanup |
+
+### Where Version Appears
+
+- `package.json` - source of truth
+- Footer - displayed to users
+- Git tags - for release tracking (optional)

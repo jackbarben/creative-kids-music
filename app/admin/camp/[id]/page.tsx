@@ -57,7 +57,7 @@ export default async function CampRegistrationDetail({
         <div>
           <Link
             href="/admin/camp"
-            className="text-sm text-terracotta-600 hover:text-terracotta-700 mb-2 inline-block"
+            className="text-sm text-forest-600 hover:text-forest-700 mb-2 inline-block"
           >
             &larr; Back to Camp
           </Link>

@@ -8,6 +8,7 @@ import RemoveChildModal from './RemoveChildModal'
 import CancelModal from './CancelModal'
 import AddPickupModal from './AddPickupModal'
 import { removePickup } from '@/app/account/actions'
+import { PROGRAMS } from '@/lib/constants'
 
 interface RegistrationCardProps {
   registration: WorkshopRegistrationWithChildren | CampRegistrationWithChildren
@@ -35,9 +36,7 @@ export default function RegistrationCard({ registration, programType, workshops 
         .sort((a, b) => a.getTime() - b.getTime())[0]
       return firstDate && firstDate < new Date()
     }
-    // Camp dates are fixed: June 22-27, 2026
-    const campStart = new Date('2026-06-22')
-    return new Date() >= campStart
+    return new Date() >= PROGRAMS.camp.startDate
   })()
 
   const formatDate = (dateStr: string) => {

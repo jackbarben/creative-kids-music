@@ -3,6 +3,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/lib/data'
+import {
+  PROGRAMS,
+  SIBLING_DISCOUNT,
+  MAX_SIBLING_DISCOUNT,
+} from '@/lib/constants'
 
 export type ActionResult = {
   success?: boolean
@@ -10,12 +15,12 @@ export type ActionResult = {
 }
 
 // ============================================================
-// CONSTANTS
+// CONSTANTS (from lib/constants.ts)
 // ============================================================
-const WORKSHOP_PRICE_CENTS = 7500 // $75
-const CAMP_PRICE_CENTS = 40000 // $400
-const SIBLING_DISCOUNT_CENTS = 1000 // $10
-const MAX_SIBLING_DISCOUNT_CENTS = 3000 // $30 max
+const WORKSHOP_PRICE_CENTS = PROGRAMS.workshops.pricePerWorkshop
+const CAMP_PRICE_CENTS = PROGRAMS.camp.price
+const SIBLING_DISCOUNT_CENTS = SIBLING_DISCOUNT
+const MAX_SIBLING_DISCOUNT_CENTS = MAX_SIBLING_DISCOUNT
 
 // ============================================================
 // HELPER: Check if program has started
@@ -28,9 +33,7 @@ async function isProgramStarted(
   const now = new Date()
 
   if (programType === 'camp') {
-    // Camp starts June 22, 2026
-    const campStart = new Date('2026-06-22T00:00:00-08:00') // Pacific time
-    return now >= campStart
+    return now >= PROGRAMS.camp.startDate
   }
 
   // For workshops, check the earliest workshop date in the registration

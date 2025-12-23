@@ -50,7 +50,7 @@ export default function SignupActions({
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
           >
             <option value="new">New</option>
             <option value="contacted">Contacted</option>
@@ -67,7 +67,7 @@ export default function SignupActions({
             onChange={(e) => setNotes(e.target.value)}
             rows={4}
             placeholder="Internal notes about this signup..."
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-500 focus:border-transparent resize-y"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent resize-y"
           />
         </div>
 
@@ -84,7 +84,7 @@ export default function SignupActions({
         <button
           type="submit"
           disabled={isPending}
-          className="w-full px-4 py-2 bg-stone-700 text-white rounded-lg font-medium hover:bg-stone-800 disabled:opacity-50 transition-colors"
+          className="w-full px-4 py-2 bg-forest-600 text-white rounded-lg font-medium hover:bg-forest-700 disabled:opacity-50 transition-colors"
         >
           {isPending ? 'Saving...' : 'Save Changes'}
         </button>
