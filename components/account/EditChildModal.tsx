@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import Modal from './Modal'
 import { updateChild } from '@/app/account/actions'
 
@@ -52,7 +53,9 @@ export default function EditChildModal({
 
     if (result.error) {
       setError(result.error)
+      toast.error('Failed to update child')
     } else {
+      toast.success('Child updated successfully')
       onClose()
     }
   }

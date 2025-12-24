@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import Modal from './Modal'
 import { cancelRegistration } from '@/app/account/actions'
 
@@ -38,7 +39,9 @@ export default function CancelModal({
 
     if (result.error) {
       setError(result.error)
+      toast.error('Failed to cancel registration')
     } else {
+      toast.success('Registration cancelled')
       onClose()
     }
   }

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { sendCampConfirmation, sendAdminNotification } from '@/lib/email'
+import { PROGRAMS, SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT } from '@/lib/constants'
 
 export type CampFormState = {
   success?: boolean
@@ -196,15 +197,13 @@ export async function submitCampRegistration(
     return { fieldErrors }
   }
 
-  // Calculate pricing
-  const PRICE_CENTS = 40000 // $400
-  const SIBLING_DISCOUNT = 1000 // $10
-  const MAX_DISCOUNT = 3000 // $30 max
+  // Calculate pricing using centralized constants
+  const PRICE_CENTS = PROGRAMS.camp.price
   let totalCents = 0
   const childDiscounts: number[] = []
 
   for (let i = 0; i < children.length; i++) {
-    const discount = Math.min(i * SIBLING_DISCOUNT, MAX_DISCOUNT) // Cap at $30
+    const discount = Math.min(i * SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT)
     childDiscounts.push(discount)
     totalCents += Math.max(0, PRICE_CENTS - discount)
   }

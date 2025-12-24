@@ -63,9 +63,16 @@ export interface Database {
           updated_at: string | null
           status: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
           waitlist_position: number | null
+          user_id: string | null
           parent_name: string
           parent_email: string
           parent_phone: string | null
+          parent_first_name: string | null
+          parent_last_name: string | null
+          parent_relationship: string | null
+          emergency_name: string | null
+          emergency_phone: string | null
+          emergency_relationship: string | null
           workshop_ids: string[]
           payment_status: 'unpaid' | 'paid' | 'partial' | 'waived'
           payment_method: string | null
@@ -77,13 +84,16 @@ export interface Database {
           payment_notes: string | null
           terms_accepted: boolean
           terms_accepted_at: string | null
+          liability_waiver_accepted: boolean
+          liability_waiver_accepted_at: string | null
+          media_consent_internal: boolean
+          media_consent_marketing: boolean
+          media_consent_accepted_at: string | null
           email_unsubscribed: boolean
           how_heard: string | null
           excited_about: string | null
           message: string | null
           admin_notes: string | null
-          // Parent account fields
-          user_id: string | null
           cancelled_at: string | null
           cancellation_reason: string | null
           version: number
@@ -94,9 +104,16 @@ export interface Database {
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
           waitlist_position?: number | null
+          user_id?: string | null
           parent_name: string
           parent_email: string
           parent_phone?: string | null
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          emergency_relationship?: string | null
           workshop_ids: string[]
           payment_status?: 'unpaid' | 'paid' | 'partial' | 'waived'
           payment_method?: string | null
@@ -108,13 +125,16 @@ export interface Database {
           payment_notes?: string | null
           terms_accepted: boolean
           terms_accepted_at?: string | null
+          liability_waiver_accepted?: boolean
+          liability_waiver_accepted_at?: string | null
+          media_consent_internal?: boolean
+          media_consent_marketing?: boolean
+          media_consent_accepted_at?: string | null
           email_unsubscribed?: boolean
           how_heard?: string | null
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
-          // Parent account fields
-          user_id?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
           version?: number
@@ -125,9 +145,16 @@ export interface Database {
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
           waitlist_position?: number | null
+          user_id?: string | null
           parent_name?: string
           parent_email?: string
           parent_phone?: string | null
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          emergency_relationship?: string | null
           workshop_ids?: string[]
           payment_status?: 'unpaid' | 'paid' | 'partial' | 'waived'
           payment_method?: string | null
@@ -139,13 +166,16 @@ export interface Database {
           payment_notes?: string | null
           terms_accepted?: boolean
           terms_accepted_at?: string | null
+          liability_waiver_accepted?: boolean
+          liability_waiver_accepted_at?: string | null
+          media_consent_internal?: boolean
+          media_consent_marketing?: boolean
+          media_consent_accepted_at?: string | null
           email_unsubscribed?: boolean
           how_heard?: string | null
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
-          // Parent account fields
-          user_id?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
           version?: number
@@ -155,27 +185,45 @@ export interface Database {
         Row: {
           id: string
           registration_id: string
+          account_child_id: string | null
           child_name: string
+          first_name: string | null
+          last_name: string | null
           child_age: number
           child_school: string | null
+          allergies: string | null
+          dietary_restrictions: string | null
+          medical_conditions: string | null
           discount_cents: number
           created_at: string
         }
         Insert: {
           id?: string
           registration_id: string
+          account_child_id?: string | null
           child_name: string
+          first_name?: string | null
+          last_name?: string | null
           child_age: number
           child_school?: string | null
+          allergies?: string | null
+          dietary_restrictions?: string | null
+          medical_conditions?: string | null
           discount_cents?: number
           created_at?: string
         }
         Update: {
           id?: string
           registration_id?: string
+          account_child_id?: string | null
           child_name?: string
+          first_name?: string | null
+          last_name?: string | null
           child_age?: number
           child_school?: string | null
+          allergies?: string | null
+          dietary_restrictions?: string | null
+          medical_conditions?: string | null
           discount_cents?: number
           created_at?: string
         }
@@ -186,9 +234,18 @@ export interface Database {
           created_at: string
           updated_at: string | null
           status: 'pending' | 'confirmed' | 'cancelled'
+          user_id: string | null
           parent_name: string
           parent_email: string
           parent_phone: string
+          parent_first_name: string | null
+          parent_last_name: string | null
+          parent_relationship: string | null
+          parent2_first_name: string | null
+          parent2_last_name: string | null
+          parent2_relationship: string | null
+          parent2_phone: string | null
+          parent2_email: string | null
           emergency_name: string
           emergency_phone: string
           emergency_relationship: string | null
@@ -202,13 +259,18 @@ export interface Database {
           payment_notes: string | null
           terms_accepted: boolean
           terms_accepted_at: string | null
+          liability_waiver_accepted: boolean
+          liability_waiver_accepted_at: string | null
+          behavior_agreement_accepted: boolean
+          behavior_agreement_accepted_at: string | null
+          media_consent_internal: boolean
+          media_consent_marketing: boolean
+          media_consent_accepted_at: string | null
           email_unsubscribed: boolean
           how_heard: string | null
           excited_about: string | null
           message: string | null
           admin_notes: string | null
-          // Parent account fields
-          user_id: string | null
           cancelled_at: string | null
           cancellation_reason: string | null
           version: number
@@ -218,9 +280,18 @@ export interface Database {
           created_at?: string
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'cancelled'
+          user_id?: string | null
           parent_name: string
           parent_email: string
           parent_phone: string
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          parent2_first_name?: string | null
+          parent2_last_name?: string | null
+          parent2_relationship?: string | null
+          parent2_phone?: string | null
+          parent2_email?: string | null
           emergency_name: string
           emergency_phone: string
           emergency_relationship?: string | null
@@ -234,13 +305,18 @@ export interface Database {
           payment_notes?: string | null
           terms_accepted: boolean
           terms_accepted_at?: string | null
+          liability_waiver_accepted?: boolean
+          liability_waiver_accepted_at?: string | null
+          behavior_agreement_accepted?: boolean
+          behavior_agreement_accepted_at?: string | null
+          media_consent_internal?: boolean
+          media_consent_marketing?: boolean
+          media_consent_accepted_at?: string | null
           email_unsubscribed?: boolean
           how_heard?: string | null
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
-          // Parent account fields
-          user_id?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
           version?: number
@@ -250,9 +326,18 @@ export interface Database {
           created_at?: string
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'cancelled'
+          user_id?: string | null
           parent_name?: string
           parent_email?: string
           parent_phone?: string
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          parent2_first_name?: string | null
+          parent2_last_name?: string | null
+          parent2_relationship?: string | null
+          parent2_phone?: string | null
+          parent2_email?: string | null
           emergency_name?: string
           emergency_phone?: string
           emergency_relationship?: string | null
@@ -266,13 +351,18 @@ export interface Database {
           payment_notes?: string | null
           terms_accepted?: boolean
           terms_accepted_at?: string | null
+          liability_waiver_accepted?: boolean
+          liability_waiver_accepted_at?: string | null
+          behavior_agreement_accepted?: boolean
+          behavior_agreement_accepted_at?: string | null
+          media_consent_internal?: boolean
+          media_consent_marketing?: boolean
+          media_consent_accepted_at?: string | null
           email_unsubscribed?: boolean
           how_heard?: string | null
           excited_about?: string | null
           message?: string | null
           admin_notes?: string | null
-          // Parent account fields
-          user_id?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
           version?: number
@@ -282,10 +372,14 @@ export interface Database {
         Row: {
           id: string
           registration_id: string
+          account_child_id: string | null
           child_name: string
+          first_name: string | null
+          last_name: string | null
           child_age: number
           child_grade: string | null
           child_school: string | null
+          tshirt_size: string | null
           allergies: string | null
           dietary_restrictions: string | null
           medical_conditions: string | null
@@ -296,10 +390,14 @@ export interface Database {
         Insert: {
           id?: string
           registration_id: string
+          account_child_id?: string | null
           child_name: string
+          first_name?: string | null
+          last_name?: string | null
           child_age: number
           child_grade?: string | null
           child_school?: string | null
+          tshirt_size?: string | null
           allergies?: string | null
           dietary_restrictions?: string | null
           medical_conditions?: string | null
@@ -310,10 +408,14 @@ export interface Database {
         Update: {
           id?: string
           registration_id?: string
+          account_child_id?: string | null
           child_name?: string
+          first_name?: string | null
+          last_name?: string | null
           child_age?: number
           child_grade?: string | null
           child_school?: string | null
+          tshirt_size?: string | null
           allergies?: string | null
           dietary_restrictions?: string | null
           medical_conditions?: string | null
@@ -327,18 +429,24 @@ export interface Database {
           id: string
           camp_registration_id: string
           name: string
+          phone: string | null
+          relationship: string | null
           created_at: string
         }
         Insert: {
           id?: string
           camp_registration_id: string
           name: string
+          phone?: string | null
+          relationship?: string | null
           created_at?: string
         }
         Update: {
           id?: string
           camp_registration_id?: string
           name?: string
+          phone?: string | null
+          relationship?: string | null
           created_at?: string
         }
       }
@@ -450,29 +558,144 @@ export interface Database {
           details?: Json | null
         }
       }
-      magic_links: {
+      account_children: {
         Row: {
           id: string
-          email: string
-          token: string
-          expires_at: string
-          used_at: string | null
+          user_id: string
+          first_name: string
+          last_name: string
+          date_of_birth: string | null
+          school: string | null
+          allergies: string | null
+          dietary_restrictions: string | null
+          medical_conditions: string | null
+          notes: string | null
+          created_at: string
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          first_name: string
+          last_name: string
+          date_of_birth?: string | null
+          school?: string | null
+          allergies?: string | null
+          dietary_restrictions?: string | null
+          medical_conditions?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          first_name?: string
+          last_name?: string
+          date_of_birth?: string | null
+          school?: string | null
+          allergies?: string | null
+          dietary_restrictions?: string | null
+          medical_conditions?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string | null
+        }
+      }
+      account_settings: {
+        Row: {
+          id: string
+          user_id: string
+          parent_first_name: string | null
+          parent_last_name: string | null
+          parent_relationship: string | null
+          parent_phone: string | null
+          parent2_first_name: string | null
+          parent2_last_name: string | null
+          parent2_relationship: string | null
+          parent2_phone: string | null
+          parent2_email: string | null
+          emergency_name: string | null
+          emergency_phone: string | null
+          emergency_relationship: string | null
+          default_pickups: Json | null
+          default_media_consent_internal: boolean | null
+          default_media_consent_marketing: boolean | null
+          email_reminders: boolean
+          email_updates: boolean
+          created_at: string
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          parent_phone?: string | null
+          parent2_first_name?: string | null
+          parent2_last_name?: string | null
+          parent2_relationship?: string | null
+          parent2_phone?: string | null
+          parent2_email?: string | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          emergency_relationship?: string | null
+          default_pickups?: Json | null
+          default_media_consent_internal?: boolean | null
+          default_media_consent_marketing?: boolean | null
+          email_reminders?: boolean
+          email_updates?: boolean
+          created_at?: string
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          parent_first_name?: string | null
+          parent_last_name?: string | null
+          parent_relationship?: string | null
+          parent_phone?: string | null
+          parent2_first_name?: string | null
+          parent2_last_name?: string | null
+          parent2_relationship?: string | null
+          parent2_phone?: string | null
+          parent2_email?: string | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          emergency_relationship?: string | null
+          default_pickups?: Json | null
+          default_media_consent_internal?: boolean | null
+          default_media_consent_marketing?: boolean | null
+          email_reminders?: boolean
+          email_updates?: boolean
+          created_at?: string
+          updated_at?: string | null
+        }
+      }
+      workshop_authorized_pickups: {
+        Row: {
+          id: string
+          registration_id: string
+          name: string
+          phone: string | null
+          relationship: string | null
           created_at: string
         }
         Insert: {
           id?: string
-          email: string
-          token: string
-          expires_at: string
-          used_at?: string | null
+          registration_id: string
+          name: string
+          phone?: string | null
+          relationship?: string | null
           created_at?: string
         }
         Update: {
           id?: string
-          email?: string
-          token?: string
-          expires_at?: string
-          used_at?: string | null
+          registration_id?: string
+          name?: string
+          phone?: string | null
+          relationship?: string | null
           created_at?: string
         }
       }
@@ -541,13 +764,25 @@ export type WaitlistSignupUpdate = Database['public']['Tables']['waitlist_signup
 
 export type EmailLog = Database['public']['Tables']['email_log']['Row']
 export type ActivityLog = Database['public']['Tables']['activity_log']['Row']
-export type MagicLink = Database['public']['Tables']['magic_links']['Row']
+
 export type AuthorizedPickup = Database['public']['Tables']['authorized_pickups']['Row']
 export type AuthorizedPickupInsert = Database['public']['Tables']['authorized_pickups']['Insert']
+
+export type WorkshopAuthorizedPickup = Database['public']['Tables']['workshop_authorized_pickups']['Row']
+export type WorkshopAuthorizedPickupInsert = Database['public']['Tables']['workshop_authorized_pickups']['Insert']
+
+export type AccountChild = Database['public']['Tables']['account_children']['Row']
+export type AccountChildInsert = Database['public']['Tables']['account_children']['Insert']
+export type AccountChildUpdate = Database['public']['Tables']['account_children']['Update']
+
+export type AccountSettings = Database['public']['Tables']['account_settings']['Row']
+export type AccountSettingsInsert = Database['public']['Tables']['account_settings']['Insert']
+export type AccountSettingsUpdate = Database['public']['Tables']['account_settings']['Update']
 
 // Registration with children (joined)
 export type WorkshopRegistrationWithChildren = WorkshopRegistration & {
   children: WorkshopChild[]
+  authorized_pickups?: WorkshopAuthorizedPickup[]
 }
 
 export type CampRegistrationWithChildren = CampRegistration & {

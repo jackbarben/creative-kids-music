@@ -40,7 +40,7 @@ export default function SignupActions({
 
   return (
     <div className="bg-white rounded-xl border border-stone-200 p-6">
-      <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Actions</h2>
+      <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Actions</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -50,7 +50,7 @@ export default function SignupActions({
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-slate-800"
           >
             <option value="new">New</option>
             <option value="contacted">Contacted</option>
@@ -67,7 +67,7 @@ export default function SignupActions({
             onChange={(e) => setNotes(e.target.value)}
             rows={4}
             placeholder="Internal notes about this signup..."
-            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent resize-y"
+            className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent resize-y text-slate-800 placeholder:text-slate-400"
           />
         </div>
 

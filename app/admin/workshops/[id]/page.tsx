@@ -65,7 +65,7 @@ export default async function WorkshopRegistrationDetail({
           >
             &larr; Back to Workshops
           </Link>
-          <h1 className="font-syne text-2xl font-bold text-stone-800">
+          <h1 className="font-display text-2xl font-bold text-stone-800">
             {registration.parent_name}
           </h1>
           <p className="text-stone-500">
@@ -109,7 +109,7 @@ export default async function WorkshopRegistrationDetail({
         <div className="lg:col-span-2 space-y-6">
           {/* Contact Info */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Contact</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-stone-500">Email</dt>
@@ -128,7 +128,7 @@ export default async function WorkshopRegistrationDetail({
 
           {/* Children */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">
               Children ({registration.children.length})
             </h2>
             <div className="space-y-4">
@@ -155,7 +155,7 @@ export default async function WorkshopRegistrationDetail({
 
           {/* Workshops */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">
               Workshops Selected ({registration.workshop_ids.length})
             </h2>
             <div className="space-y-2">
@@ -179,7 +179,7 @@ export default async function WorkshopRegistrationDetail({
           {/* Optional Info */}
           {(registration.how_heard || registration.excited_about || registration.message) && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
               <dl className="space-y-4">
                 {registration.how_heard && (
                   <div>
@@ -208,7 +208,7 @@ export default async function WorkshopRegistrationDetail({
         <div className="space-y-6">
           {/* Payment */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Payment</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Payment</h2>
             <dl className="space-y-3">
               <div className="flex justify-between">
                 <dt className="text-stone-500">Total</dt>
@@ -239,6 +239,11 @@ export default async function WorkshopRegistrationDetail({
             currentStatus={registration.status}
             currentPaymentStatus={registration.payment_status}
             currentNotes={registration.admin_notes}
+            workshops={registration.workshop_ids
+              .map(id => workshopMap.get(id))
+              .filter((w): w is NonNullable<typeof w> => w !== undefined)
+              .map(w => ({ id: w.id, title: w.title, date: w.date }))
+            }
           />
         </div>
       </div>

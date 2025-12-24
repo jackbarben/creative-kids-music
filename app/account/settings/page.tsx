@@ -25,6 +25,7 @@ export default function SettingsPage() {
 
   // Auth form states
   const [newEmail, setNewEmail] = useState('')
+  const [emailPassword, setEmailPassword] = useState('') // Current password for email change
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -112,10 +113,22 @@ export default function SettingsPage() {
 
   const handleChangeEmail = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newEmail) return
+    if (!newEmail || !emailPassword) return
 
     setSavingEmail(true)
     setError(null)
+
+    // Verify current password before allowing email change
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: user?.email || '',
+      password: emailPassword,
+    })
+
+    if (signInError) {
+      setError('Current password is incorrect')
+      setSavingEmail(false)
+      return
+    }
 
     const { error } = await supabase.auth.updateUser({
       email: newEmail
@@ -125,6 +138,7 @@ export default function SettingsPage() {
       setError(error.message)
     } else {
       setNewEmail('')
+      setEmailPassword('')
       setSuccessMessage('Check your new email for a verification link')
       setShowSuccessModal(true)
     }
@@ -280,23 +294,39 @@ export default function SettingsPage() {
                 </p>
               ) : (
                 <form onSubmit={handleChangeEmail}>
-                  <div className="mb-3">
-                    <label htmlFor="newEmail" className="block text-sm font-medium text-slate-700 mb-1">
-                      Change Email
-                    </label>
-                    <input
-                      id="newEmail"
-                      type="email"
-                      value={newEmail}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      className={inputClass}
-                      placeholder="newemail@example.com"
-                    />
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <label htmlFor="newEmail" className="block text-sm font-medium text-slate-700 mb-1">
+                        New Email
+                      </label>
+                      <input
+                        id="newEmail"
+                        type="email"
+                        value={newEmail}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                        className={inputClass}
+                        placeholder="newemail@example.com"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="emailPassword" className="block text-sm font-medium text-slate-700 mb-1">
+                        Current Password
+                      </label>
+                      <input
+                        id="emailPassword"
+                        type="password"
+                        value={emailPassword}
+                        onChange={(e) => setEmailPassword(e.target.value)}
+                        className={inputClass}
+                        placeholder="Enter your current password"
+                      />
+                      <p className="text-xs text-slate-500 mt-1">Required to change your email</p>
+                    </div>
                   </div>
                   <LoadingButton
                     type="submit"
                     loading={savingEmail}
-                    disabled={!newEmail}
+                    disabled={!newEmail || !emailPassword}
                     className="text-sm px-4 py-2"
                   >
                     Update Email

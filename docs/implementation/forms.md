@@ -25,11 +25,16 @@ Reusable form components in `/components/forms/`:
 | `FormField` | Text, email, phone, number inputs |
 | `FormTextarea` | Multi-line text |
 | `FormSelect` | Dropdown select |
-| `FormCheckbox` | Single checkbox |
 | `FormRadioGroup` | Radio button group |
+| `PhoneField` | Phone number with formatting |
 | `SubmitButton` | Submit with pending state |
 | `ChildFields` | Multi-child entry with discounts |
+| `ChildrenSelectionSection` | Select from account children |
 | `AccountSection` | Email entry with inline login/signup |
+| `ParentSection` | Parent contact info fields |
+| `EmergencyContactSection` | Emergency contact fields |
+| `AgreementsSection` | Terms, liability waiver, and consent checkboxes |
+| `AuthorizedPickupsSection` | Manage authorized pickup people |
 
 ### Usage
 
@@ -113,6 +118,63 @@ When user clicks "Continue with Google":
 2. User redirects to Google
 3. After auth, returns to form
 4. Form detects logged-in state and continues
+
+---
+
+## Agreements Section
+
+The `AgreementsSection` component handles all required legal agreements:
+
+```tsx
+<AgreementsSection programType="camp" />
+```
+
+### Program-Specific Agreements
+
+| Agreement | Workshop | Camp | Description |
+|-----------|:--------:|:----:|-------------|
+| Program Terms | ✓ | ✓ | General terms & conditions |
+| Liability Waiver | ✓ | ✓ | Release of claims |
+| Behavior Agreement | | ✓ | Camp-specific expectations |
+| Media Consent | ✓ | ✓ | Photo/video permissions |
+
+### Media Consent Options
+
+Two independent checkboxes:
+- **Internal Use** - Documentation, training, class photos shared with parents
+- **Marketing Use** - Website, social media, promotional materials
+
+Both are optional. Stored as:
+- `media_consent_internal` (boolean)
+- `media_consent_marketing` (boolean)
+
+### Terms Pages
+
+Full legal documents are at:
+- `/terms/program-terms` - Registration, payment, cancellation, weather, pickup policies
+- `/terms/liability-waiver` - Liability release and assumption of risk
+- `/terms/behavior-agreement` - Camp conduct expectations
+
+---
+
+## Authorized Pickups Section
+
+The `AuthorizedPickupsSection` component manages who can pick up children (camp only).
+
+```tsx
+<AuthorizedPickupsSection
+  pickups={pickups}
+  setPickups={setPickups}
+  accountPickups={accountDefaults?.pickups}
+/>
+```
+
+### Fields per Pickup
+- `name` - Person's name (required)
+- `phone` - Phone number
+- `relationship` - Relationship to child (e.g., "Grandmother")
+
+Pickups from account settings are auto-populated on form load.
 
 ---
 
@@ -233,28 +295,45 @@ Parent: parent_name, parent_email (required), parent_phone (optional)
 Workshops: workshop_ids[] (array of selected workshop IDs)
 Payment: payment_method, tuition_assistance, total_amount_cents
 Terms: terms_accepted, terms_accepted_at
+Agreements: liability_waiver_accepted, liability_waiver_accepted_at
+Consent: media_consent_internal, media_consent_marketing, media_consent_accepted_at
 Optional: how_heard, excited_about, message
+Account: user_id (links to parent account)
 ```
 
 ### Workshop Children
 ```
 registration_id, child_name, child_age (required)
-child_school, discount_cents (optional)
+child_school (optional)
+allergies, dietary_restrictions, medical_conditions (optional)
+account_child_id (links to reusable child profile)
+discount_cents
 ```
 
 ### Camp Registrations
 ```
 Parent: parent_name, parent_email, parent_phone (all required)
+Second Parent: parent2_first_name, parent2_last_name, parent2_phone, parent2_email (optional)
 Emergency: emergency_name, emergency_phone (required), emergency_relationship (optional)
 Payment: payment_method, tuition_assistance, total_amount_cents
 Terms: terms_accepted, terms_accepted_at
+Agreements: liability_waiver_accepted, behavior_agreement_accepted (with timestamps)
+Consent: media_consent_internal, media_consent_marketing, media_consent_accepted_at
 Optional: how_heard, excited_about, message
+Account: user_id (links to parent account)
 ```
 
 ### Camp Children
 ```
 registration_id, child_name, child_age (required)
-child_grade, child_school (optional)
-allergies, medical_conditions, special_needs (optional)
+child_grade, child_school, tshirt_size (optional)
+allergies, dietary_restrictions, medical_conditions, special_needs (optional)
+account_child_id (links to reusable child profile)
 discount_cents
+```
+
+### Authorized Pickups
+```
+camp_registration_id, name (required)
+phone, relationship (optional)
 ```

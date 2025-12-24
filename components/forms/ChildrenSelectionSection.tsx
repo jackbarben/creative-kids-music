@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import EditAccountChildModal from './EditAccountChildModal'
 
 interface AccountChild {
   id: string
@@ -60,6 +61,7 @@ export default function ChildrenSelectionSection({
   const [selectedChildren, setSelectedChildren] = useState<SelectedChild[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddNew, setShowAddNew] = useState(false)
+  const [editingChild, setEditingChild] = useState<AccountChild | null>(null)
   const [newChild, setNewChild] = useState<SelectedChild>({
     first_name: '',
     last_name: '',
@@ -146,6 +148,32 @@ export default function ChildrenSelectionSection({
         isNew: false,
       }])
     }
+  }
+
+  // Handle child update from modal
+  const handleChildUpdate = (updatedChild: AccountChild) => {
+    // Update account children list
+    setAccountChildren(prev => prev.map(c =>
+      c.id === updatedChild.id ? updatedChild : c
+    ))
+    // Update selected children if this child is selected
+    setSelectedChildren(prev => prev.map(sc => {
+      if (sc.account_child_id === updatedChild.id) {
+        const age = updatedChild.date_of_birth ? calculateAge(updatedChild.date_of_birth).toString() : sc.age
+        return {
+          ...sc,
+          first_name: updatedChild.first_name,
+          last_name: updatedChild.last_name,
+          age,
+          school: updatedChild.school || '',
+          allergies: updatedChild.allergies || '',
+          dietary_restrictions: updatedChild.dietary_restrictions || '',
+          medical_conditions: updatedChild.medical_conditions || '',
+          notes: updatedChild.notes || '',
+        }
+      }
+      return sc
+    }))
   }
 
   // Update a selected child's field
@@ -364,15 +392,44 @@ export default function ChildrenSelectionSection({
                   )}
                 </div>
 
-                {/* Show stored info from account */}
-                {(child.allergies || child.medical_conditions) && (
+                {/* Show stored info from account with edit option */}
+                {child.account_child_id && (
                   <div className="mt-3 pt-3 border-t border-stone-200">
-                    <p className="text-xs text-slate-500 mb-1">From your saved info:</p>
-                    {child.allergies && (
-                      <p className="text-sm text-slate-600">Allergies: {child.allergies}</p>
-                    )}
-                    {child.medical_conditions && (
-                      <p className="text-sm text-slate-600">Medical: {child.medical_conditions}</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs text-slate-500">From your saved info:</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const accountChild = accountChildren.find(ac => ac.id === child.account_child_id)
+                          if (accountChild) setEditingChild(accountChild)
+                        }}
+                        className="flex items-center gap-1 text-xs text-forest-600 hover:text-forest-700"
+                      >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                        Edit
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                      {child.school && (
+                        <p className="text-slate-600"><span className="text-slate-400">School:</span> {child.school}</p>
+                      )}
+                      {child.allergies && (
+                        <p className="text-slate-600"><span className="text-slate-400">Allergies:</span> {child.allergies}</p>
+                      )}
+                      {child.dietary_restrictions && (
+                        <p className="text-slate-600"><span className="text-slate-400">Dietary:</span> {child.dietary_restrictions}</p>
+                      )}
+                      {child.medical_conditions && (
+                        <p className="text-slate-600"><span className="text-slate-400">Medical:</span> {child.medical_conditions}</p>
+                      )}
+                      {child.notes && (
+                        <p className="text-slate-600 col-span-2"><span className="text-slate-400">Notes:</span> {child.notes}</p>
+                      )}
+                    </div>
+                    {!child.school && !child.allergies && !child.dietary_restrictions && !child.medical_conditions && !child.notes && (
+                      <p className="text-sm text-slate-400 italic">No additional info saved</p>
                     )}
                   </div>
                 )}
@@ -550,6 +607,16 @@ export default function ChildrenSelectionSection({
       {/* Validation message if no children selected */}
       {selectedChildren.length === 0 && accountChildren.length > 0 && (
         <p className="text-sm text-amber-600">Please select at least one child or add a new one.</p>
+      )}
+
+      {/* Edit Child Modal */}
+      {editingChild && (
+        <EditAccountChildModal
+          isOpen={!!editingChild}
+          onClose={() => setEditingChild(null)}
+          child={editingChild}
+          onUpdate={handleChildUpdate}
+        />
       )}
     </div>
   )

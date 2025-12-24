@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Source_Serif_4, Inter } from 'next/font/google'
+import { Toaster } from 'sonner'
 import './globals.css'
 
 // Display font - elegant serif, sophisticated but warm
@@ -30,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <Toaster position="top-right" richColors />
+      </body>
     </html>
   )
 }

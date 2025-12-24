@@ -8,14 +8,14 @@ export default async function WorkshopRegisterPage() {
   const workshops = await getWorkshops(true)
 
   return (
-    <div className="min-h-screen bg-cream-50 font-nunito">
+    <div className="min-h-screen bg-cream-50 font-sans">
       <Header />
 
       <main>
         {/* Hero */}
         <section className="relative overflow-hidden bg-gradient-to-b from-forest-50 to-cream-50 py-16">
           <div className="max-w-3xl mx-auto px-6 text-center">
-            <h1 className="font-syne text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-stone-800 mb-4">
               Workshop Registration
             </h1>
             <p className="text-stone-600">

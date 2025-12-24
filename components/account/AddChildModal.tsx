@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import Modal from './Modal'
 import { addChild } from '@/app/account/actions'
 
@@ -46,7 +47,9 @@ export default function AddChildModal({
 
     if (result.error) {
       setError(result.error)
+      toast.error('Failed to add child')
     } else {
+      toast.success('Child added successfully')
       onClose()
     }
   }

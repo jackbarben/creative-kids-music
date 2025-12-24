@@ -54,7 +54,7 @@ export const SIBLING_DISCOUNT = 1000 // cents ($10)
 export const MAX_SIBLING_DISCOUNT = 3000 // cents ($30)
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (v1.1.0)
 
 ---
 
@@ -77,7 +77,7 @@ const { error } = await supabase
   .eq('id', id)
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (already implemented in both workshop and camp actions)
 
 ---
 
@@ -116,7 +116,7 @@ export default function Loading() {
 }
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (v1.1.0)
 
 ---
 
@@ -135,7 +135,7 @@ export default function Loading() {
 - Secondary action: `bg-slate-200 hover:bg-slate-300 text-slate-800`
 - Focus rings: `focus:ring-forest-500` (consistent)
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (v1.1.0)
 
 ---
 
@@ -160,7 +160,7 @@ Add after the warning text:
 </p>
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (v1.1.0)
 
 ---
 
@@ -190,7 +190,7 @@ export function logInfo(context: string, message: string) {
 }
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Created lib/logger.ts with logError, logInfo, logWarn functions
 
 ---
 
@@ -200,7 +200,7 @@ export function logInfo(context: string, message: string) {
 - `app/admin/camp/[id]/page.tsx` - change `terracotta-600` to `forest-600`
 - `app/admin/waitlist/[id]/page.tsx` - change `stone-600` to `forest-600`
 
-**Status:** [ ] Not started
+**Status:** [x] Completed (v1.1.0)
 
 ---
 
@@ -276,7 +276,7 @@ export default function ConfirmDialog({
 
 Then wrap status changes to "cancelled" with confirmation dialog in RegistrationActions.
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - ConfirmDialog component created and integrated into admin registration actions
 
 ---
 
@@ -300,7 +300,7 @@ import { toast } from 'sonner'
 toast.success('Child added successfully')
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Sonner installed, Toaster added to root layout, toasts added to parent portal modals
 
 ---
 
@@ -320,7 +320,7 @@ ADD COLUMN phone text,
 ADD COLUMN relationship text;
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Migration applied, AddPickupModal updated with phone/relationship fields, display updated in RegistrationCard and admin page
 
 ---
 
@@ -348,7 +348,7 @@ if (signInError) {
 const { error } = await supabase.auth.updateUser({ email: newEmail })
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added current password field and verification before email change
 
 ---
 
@@ -379,7 +379,7 @@ CREATE TABLE admin_users (
 
 Then check: `SELECT 1 FROM admin_users WHERE user_id = ?`
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added getAdminUser helper in lib/admin.ts with email allowlist, integrated into all export routes
 
 ---
 
@@ -412,7 +412,7 @@ if (!registrations || registrations.length === 0) {
 }
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - All export routes now have proper error handling with specific error messages
 
 ---
 
@@ -451,7 +451,7 @@ export async function getWorkshopRegistrationsPaginated(
 }
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added Pagination component and paginated data functions for all admin tables
 
 ---
 
@@ -483,7 +483,7 @@ export async function getWorkshopRegistrationsPaginated(
 .eq('status', statusFilter)
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added SearchFilter component with search and status/payment dropdowns for all admin tables
 
 ---
 
@@ -523,7 +523,7 @@ export async function updateRegistration(...) {
 }
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added VALID_STATUS_TRANSITIONS validation in both workshop and camp actions
 
 ---
 
@@ -539,7 +539,7 @@ export async function updateRegistration(...) {
 - Registrations by status (pending/confirmed/cancelled counts)
 - Registrations needing action (pending > 7 days old)
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added getDetailedDashboardStats with revenue, outstanding balance, status breakdown, and attention alerts
 
 ---
 
@@ -564,7 +564,7 @@ export async function updateRegistration(...) {
 </div>
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Added aria-labelledby to dialogs, aria-label to close buttons, focus management, aria-hidden on decorative elements
 
 ---
 
@@ -603,7 +603,7 @@ CREATE POLICY "Users can manage own children"
   USING (user_id = auth.uid());
 ```
 
-**Status:** [ ] Not started
+**Status:** [x] Completed - Already implemented in migrations 003 and 004
 
 ---
 

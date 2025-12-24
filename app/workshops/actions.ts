@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { sendWorkshopConfirmation, sendAdminNotification } from '@/lib/email'
+import { PROGRAMS, SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT } from '@/lib/constants'
 
 export type WorkshopFormState = {
   success?: boolean
@@ -177,15 +178,13 @@ export async function submitWorkshopRegistration(
 
   console.log('Validation passed, proceeding with registration')
 
-  // Calculate pricing
-  const PRICE_CENTS = 7500 // $75
-  const SIBLING_DISCOUNT = 1000 // $10
-  const MAX_DISCOUNT = 3000 // $30 max
+  // Calculate pricing using centralized constants
+  const PRICE_CENTS = PROGRAMS.workshops.pricePerWorkshop
   let totalCents = 0
   const childDiscounts: number[] = []
 
   for (let i = 0; i < children.length; i++) {
-    const discount = Math.min(i * SIBLING_DISCOUNT, MAX_DISCOUNT) // Cap at $30
+    const discount = Math.min(i * SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT)
     childDiscounts.push(discount)
     totalCents += Math.max(0, PRICE_CENTS - discount)
   }
@@ -258,7 +257,7 @@ export async function submitWorkshopRegistration(
   if (regError || !registration) {
     console.error('Workshop registration error:', regError)
     console.error('Registration data that failed:', { finalUserId, fullParentName, parentEmail, workshopIds })
-    return { error: `Registration failed: ${regError?.message || 'Unknown error'}` }
+    return { error: 'Something went wrong. Please try again or email us directly.' }
   }
 
   console.log('Registration created:', registration.id)

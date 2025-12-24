@@ -198,7 +198,7 @@ export default function AccountSection({
   // Render based on account state
   return (
     <section>
-      <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+      <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
         Your Account
       </h3>
 

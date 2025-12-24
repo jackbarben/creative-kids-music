@@ -138,6 +138,8 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | `/summer-camp/register` | Camp registration form |
 | `/music-school` | Fall 2026 teaser + waitlist form |
 | `/about` | Philosophy and approach |
+| `/contact` | Contact form |
+| `/faq` | Frequently asked questions |
 | `/account` | Parent login/dashboard |
 | `/account/settings` | Email and password management |
 | `/account/reset-password` | Password reset handler |
@@ -153,6 +155,7 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | `/admin/camp/[id]` | Registration detail + actions |
 | `/admin/waitlist` | Waitlist signups |
 | `/admin/waitlist/[id]` | Signup detail |
+| `/admin/parents` | Families - view registrations, children, medical info |
 | `/admin/activity` | Activity log |
 
 ---
@@ -193,8 +196,11 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 | Migration | Purpose | Status |
 |-----------|---------|--------|
 | `001_initial_schema.sql` | All core tables | ✅ Applied |
-| `002_magic_links.sql` | Parent portal tokens | ✅ Applied |
-| `003_parent_accounts.sql` | user_id linking, authorized_pickups, RLS policies | ⏳ Pending |
+| `002_magic_links.sql` | Parent portal tokens (legacy) | ✅ Applied |
+| `003_parent_accounts.sql` | user_id linking, authorized_pickups, RLS policies | ✅ Applied |
+| `004_registration_expansion.sql` | Account tables, expanded fields, consent/waiver columns | ✅ Applied |
+| `005_media_consent_checkboxes.sql` | Split media consent into internal + marketing booleans | ✅ Applied |
+| `006_pickup_phone.sql` | Phone and relationship on authorized_pickups | ✅ Applied |
 
 **Credentials**: See `info/supabase-info.txt` for database password.
 
@@ -288,8 +294,8 @@ npm run dev
 ### Typography
 | Font | Class | Usage |
 |------|-------|-------|
-| Fraunces | `font-syne` | Display headings |
-| Nunito | `font-nunito` | Body text (default) |
+| Source Serif 4 | `font-display` | Display headings |
+| Inter | `font-sans` | Body text (default) |
 
 ---
 
@@ -397,6 +403,7 @@ To test:
 |---------|------|---------|
 | v1.0.0 | Dec 2024 | Initial launch - workshops, camp, parent accounts |
 | v1.1.0 | Dec 2024 | Contact form, portal fixes, docs cleanup |
+| v1.2.0 | Dec 2024 | Parent lookup, admin improvements, accessibility |
 
 ### Where Version Appears
 

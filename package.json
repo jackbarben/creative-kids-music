@@ -1,6 +1,6 @@
 {
   "name": "creative-kids-music",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 4000",
@@ -14,7 +14,8 @@
     "next": "^14.2.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "resend": "^6.6.0"
+    "resend": "^6.6.0",
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

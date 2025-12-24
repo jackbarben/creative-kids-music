@@ -1,23 +1,29 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAdminUser } from '@/lib/admin'
 
 export async function GET() {
   const supabase = await createClient()
 
-  // Check auth
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // Check admin auth
+  const admin = await getAdminUser(supabase)
+  if (!admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
   }
 
   // Fetch signups
-  const { data: signups } = await supabase
+  const { data: signups, error } = await supabase
     .from('waitlist_signups')
     .select('*')
     .order('created_at', { ascending: false })
 
-  if (!signups) {
-    return NextResponse.json({ error: 'No data' }, { status: 404 })
+  if (error) {
+    console.error('Export error:', error)
+    return NextResponse.json({ error: 'Failed to fetch waitlist signups' }, { status: 500 })
+  }
+
+  if (!signups || signups.length === 0) {
+    return NextResponse.json({ error: 'No waitlist signups found' }, { status: 404 })
   }
 
   // CSV header

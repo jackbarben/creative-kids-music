@@ -19,26 +19,9 @@ import {
   AgreementsSection,
 } from '@/components/forms'
 import type { User } from '@supabase/supabase-js'
+import type { AccountSettings } from '@/app/account/actions'
 
 const initialState: CampFormState = {}
-
-interface AccountSettings {
-  parent_first_name?: string
-  parent_last_name?: string
-  parent_relationship?: string
-  parent_phone?: string
-  parent2_first_name?: string
-  parent2_last_name?: string
-  parent2_relationship?: string
-  parent2_phone?: string
-  parent2_email?: string
-  emergency_name?: string
-  emergency_phone?: string
-  emergency_relationship?: string
-  default_pickups?: { name: string; phone: string; relationship?: string }[]
-  default_media_consent_internal?: boolean
-  default_media_consent_marketing?: boolean
-}
 
 export default function CampRegistrationForm() {
   const [state, formAction] = useFormState(submitCampRegistration, initialState)
@@ -109,7 +92,7 @@ export default function CampRegistrationForm() {
 
       {/* Child Information */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Who&apos;s coming to camp?
         </h3>
         {user ? (
@@ -170,7 +153,7 @@ export default function CampRegistrationForm() {
         ) : (
           <div className="p-6 bg-stone-50 rounded-lg">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-syne text-xl font-bold text-stone-800">
+              <h3 className="font-display text-xl font-bold text-stone-800">
                 Second Parent/Guardian
               </h3>
               <button
@@ -243,7 +226,7 @@ export default function CampRegistrationForm() {
 
       {/* Payment */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Payment
         </h3>
 
@@ -293,7 +276,7 @@ export default function CampRegistrationForm() {
 
       {/* Optional */}
       <section className="border-t border-stone-200 pt-8">
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Optional
         </h3>
         <div className="space-y-6">

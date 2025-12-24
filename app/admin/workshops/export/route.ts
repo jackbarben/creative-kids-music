@@ -1,31 +1,47 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAdminUser } from '@/lib/admin'
 
 export async function GET() {
   const supabase = await createClient()
 
-  // Check auth
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // Check admin auth
+  const admin = await getAdminUser(supabase)
+  if (!admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
   }
 
   // Fetch registrations with children
-  const { data: registrations } = await supabase
+  const { data: registrations, error: regError } = await supabase
     .from('workshop_registrations')
     .select('*')
     .order('created_at', { ascending: false })
 
-  const { data: children } = await supabase
+  if (regError) {
+    console.error('Export error (registrations):', regError)
+    return NextResponse.json({ error: 'Failed to fetch registrations' }, { status: 500 })
+  }
+
+  if (!registrations || registrations.length === 0) {
+    return NextResponse.json({ error: 'No registrations found' }, { status: 404 })
+  }
+
+  const { data: children, error: childError } = await supabase
     .from('workshop_children')
     .select('*')
 
-  const { data: workshops } = await supabase
+  if (childError) {
+    console.error('Export error (children):', childError)
+    return NextResponse.json({ error: 'Failed to fetch children data' }, { status: 500 })
+  }
+
+  const { data: workshops, error: workshopError } = await supabase
     .from('workshops')
     .select('id, title, date')
 
-  if (!registrations) {
-    return NextResponse.json({ error: 'No data' }, { status: 404 })
+  if (workshopError) {
+    console.error('Export error (workshops):', workshopError)
+    return NextResponse.json({ error: 'Failed to fetch workshops' }, { status: 500 })
   }
 
   // Build workshop lookup

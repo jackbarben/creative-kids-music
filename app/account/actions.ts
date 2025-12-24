@@ -461,7 +461,9 @@ export async function cancelRegistration(
 // ============================================================
 export async function addPickup(
   registrationId: string,
-  name: string
+  name: string,
+  phone?: string,
+  relationship?: string
 ): Promise<ActionResult> {
   const supabase = await createClient()
 
@@ -487,6 +489,8 @@ export async function addPickup(
     .insert({
       camp_registration_id: registrationId,
       name: name.trim(),
+      phone: phone?.trim() || null,
+      relationship: relationship?.trim() || null,
     })
 
   if (error) {

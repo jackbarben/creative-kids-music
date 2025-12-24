@@ -4,6 +4,202 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.3.0 - 2025-12-23
+
+### Summary
+Code cleanup, type fixes, edit child modal for registration forms, and codebase consistency improvements.
+
+### New Features
+- **Edit Child on Registration Forms**: When logged-in users select a saved child on registration pages, they can now click "Edit" to update the child's info (name, DOB, school, allergies, dietary, medical, notes). Changes sync to account and form.
+
+### Components Created
+- `components/forms/EditAccountChildModal.tsx` - Modal for editing account children from registration forms
+
+### Code Cleanup
+- Removed unused `FormCheckbox.tsx` component
+- Removed legacy `sendMagicLinkEmail()` function from email.ts
+- Removed `MagicLink` type from database.types.ts
+- Fixed font class names across 40+ files (`font-syne` → `font-display`, `font-nunito` → `font-sans`)
+- Consolidated duplicate `AccountSettings` type definitions
+- Standardized error handling patterns (consistent Result type returns)
+- Centralized hardcoded constants in action files to use `lib/constants.ts`
+
+### Type Fixes
+- Added missing fields to `workshop_registrations` type (parent names, emergency contact, waivers, media consent)
+- Added missing fields to `workshop_children` type (account_child_id, first/last name, allergies, dietary, medical)
+- Added missing fields to `camp_registrations` type (parent2 info, behavior agreement, media consent)
+- Added missing fields to `camp_children` type (account_child_id, first/last name, tshirt_size)
+- Added new table types: `account_children`, `account_settings`, `workshop_authorized_pickups`
+
+### Documentation
+- Updated forms.md (removed FormCheckbox, added new components)
+- All types now match database schema in database.md
+
+---
+
+## 2025-12-23 - Families Feature (Complete)
+
+### Summary
+Added unified family search and view feature to admin portal. Renamed from "Parent Lookup" to "Families" for clarity. Allows searching for a family by email or name and viewing all their registrations, children (with medical info), and program history in a single consolidated view.
+
+### Features
+- **Sidebar Navigation**: "Families" with family icon
+- **Search**: Search by parent email or name (minimum 2 characters)
+- **Alphabetical Directory**: Browse all families A-Z below search
+- **Medical Filter**: Checkbox to show only families with medical info (allergies, conditions, special needs)
+- **Children Section**: Dedicated section showing all children with:
+  - Name, age, school
+  - Programs enrolled (Workshop, Camp badges)
+  - Medical info prominently displayed (allergies, dietary, medical conditions, special needs)
+- **Unified View**: Shows workshops, camp, and waitlist signups for a family
+- **Summary Stats**: Total registrations, children, amount paid, outstanding balance
+- **Quick Links**: Direct links to individual registration detail pages
+
+### Files Created
+```
+app/admin/parents/
+├── page.tsx           # Main search page with results and directory
+├── ParentSearch.tsx   # Client-side search with medical filter
+└── loading.tsx        # Loading skeleton
+```
+
+### Files Modified
+- `lib/data.ts` - Added `getAllParents()` and `searchParents()` functions
+- `app/admin/page.tsx` - Added Families to Quick Actions
+- `app/admin/layout.tsx` - Added Families nav item with icon
+
+### Future Enhancement Documented
+- Multi-adult households (linked family accounts)
+- See `/docs/implementation/admin-parent-view.md` for full spec
+
+---
+
+## 2025-12-23 - Admin Portal Improvements (Complete)
+
+### Summary
+Enhanced admin portal with pagination, search/filter, improved dashboard stats, status transition validation, and accessibility improvements.
+
+### Accessibility Improvements
+- Added `aria-labelledby` to Modal and SuccessModal components
+- Added unique IDs to modal titles using React's `useId` hook
+- Added `aria-label="Close dialog"` to close buttons
+- Added `aria-hidden="true"` to decorative SVG icons
+- Added visible focus styles to interactive elements
+- Focus management: SuccessModal focuses OK button on open
+- Native `<dialog>` element provides built-in focus trapping
+
+### Admin Dashboard Improvements
+- **Attention Banner**: Shows pending registrations older than 7 days and tuition assistance requests
+- **Revenue Stats**: Total payments received and outstanding balance
+- **Status Breakdown**: Shows confirmed vs pending counts per program
+- **Clickable Stat Cards**: Registration cards link to their admin pages
+- **Streamlined Layout**: Removed setup progress section when fully configured
+
+### Pagination System
+- Created `components/admin/Pagination.tsx` with page numbers and prev/next navigation
+- Added paginated data functions for workshops, camp, and waitlist
+- 25 items per page with URL-based pagination
+
+### Search & Filter
+- Created `components/admin/SearchFilter.tsx` component
+- Search by parent name or email
+- Filter by status (pending/confirmed/cancelled/waitlist)
+- Filter by payment status (unpaid/paid/partial/waived)
+- URL-based filters for shareable/bookmarkable searches
+
+### Status Transition Validation
+- Prevents invalid status changes (e.g., cancelled → confirmed)
+- Workshop transitions: pending → confirmed/waitlist/cancelled, confirmed → cancelled, waitlist → confirmed/cancelled
+- Camp transitions: pending → confirmed/cancelled, confirmed → cancelled
+- Returns clear error messages for invalid transitions
+
+### Authorized Pickups Enhancement
+- Added phone and relationship fields
+- Migration `006_pickup_phone.sql` applied
+- Updated AddPickupModal with new fields
+- Display in parent portal and admin detail pages
+
+### Files Created
+```
+components/admin/Pagination.tsx
+components/admin/SearchFilter.tsx
+```
+
+### Files Modified
+- `lib/data.ts` - Added getDetailedDashboardStats, paginated functions with filters
+- `app/admin/page.tsx` - New detailed dashboard with attention alerts and financial stats
+- `app/admin/workshops/page.tsx` - Pagination and search/filter
+- `app/admin/camp/page.tsx` - Pagination and search/filter
+- `app/admin/waitlist/page.tsx` - Pagination and search/filter
+- `app/admin/workshops/[id]/actions.ts` - Status transition validation
+- `app/admin/camp/[id]/actions.ts` - Status transition validation
+- `components/account/AddPickupModal.tsx` - Phone and relationship fields
+- `components/account/RegistrationCard.tsx` - Display pickup phone/relationship
+- `app/admin/camp/[id]/page.tsx` - Display pickup phone/relationship
+
+---
+
+## 2025-12-22 - Schema Expansion & Media Consent (Complete)
+
+### Summary
+Extended database schema with account-level tables and expanded registration fields. Split media consent into two separate checkboxes for internal and marketing use.
+
+### Migration 004: Registration Expansion
+
+**New Tables Created:**
+- `account_children` - Reusable child profiles linked to user accounts
+- `account_settings` - Parent info, emergency contacts, preferences stored at account level
+- `workshop_authorized_pickups` - Authorized pickup people for workshops
+
+**Workshop Registrations - New Columns:**
+- `parent_first_name`, `parent_last_name`, `parent_relationship`
+- `emergency_name`, `emergency_phone`, `emergency_relationship`
+- `liability_waiver_accepted`, `liability_waiver_accepted_at`
+- `media_consent_level`, `media_consent_accepted_at`
+
+**Workshop Children - New Columns:**
+- `account_child_id` - Links to account_children for reuse
+- `first_name`, `last_name` - Separate name fields
+- `allergies`, `dietary_restrictions`, `medical_conditions`
+
+**Camp Registrations - New Columns:**
+- `parent_first_name`, `parent_last_name`, `parent_relationship`
+- `parent2_first_name`, `parent2_last_name`, `parent2_relationship`, `parent2_phone`, `parent2_email`
+- `liability_waiver_accepted`, `liability_waiver_accepted_at`
+- `behavior_agreement_accepted`, `behavior_agreement_accepted_at`
+- `media_consent_level`, `media_consent_accepted_at`
+
+**Camp Children - New Columns:**
+- `account_child_id` - Links to account_children for reuse
+- `first_name`, `last_name` - Separate name fields
+- `tshirt_size` - For camp t-shirts
+
+**RLS Policies Added:**
+- Full CRUD policies for `account_children`, `account_settings`, `workshop_authorized_pickups`
+- Admin access policies for all new tables
+- Service role bypass policies
+
+### Migration 005: Media Consent Checkboxes
+
+Replaced single `media_consent_level` field with two independent boolean checkboxes:
+- `media_consent_internal` - Permission for internal documentation
+- `media_consent_marketing` - Permission for marketing/public use
+
+Applied to:
+- `workshop_registrations`
+- `camp_registrations`
+- `account_settings` (as defaults)
+
+Includes data migration to convert existing `media_consent_level` values to new boolean fields.
+
+### Files Created
+```
+supabase/migrations/004_registration_expansion.sql
+supabase/migrations/005_media_consent_checkboxes.sql
+```
+
+---
+
 ## 2025-12-22 - Legal Terms & UX Improvements (Complete)
 
 ### Summary

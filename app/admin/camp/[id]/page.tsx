@@ -61,7 +61,7 @@ export default async function CampRegistrationDetail({
           >
             &larr; Back to Camp
           </Link>
-          <h1 className="font-syne text-2xl font-bold text-stone-800">
+          <h1 className="font-display text-2xl font-bold text-stone-800">
             {registration.parent_name}
           </h1>
           <p className="text-stone-500">
@@ -105,7 +105,7 @@ export default async function CampRegistrationDetail({
         <div className="lg:col-span-2 space-y-6">
           {/* Contact Info */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Contact</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-stone-500">Email</dt>
@@ -124,7 +124,7 @@ export default async function CampRegistrationDetail({
 
           {/* Emergency Contact */}
           <div className="bg-red-50 rounded-xl border border-red-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
+            <h2 className="font-display text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-red-600">Name</dt>
@@ -145,7 +145,7 @@ export default async function CampRegistrationDetail({
 
           {/* Authorized Pickups */}
           <div className="bg-blue-50 rounded-xl border border-blue-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-blue-800 mb-4">
+            <h2 className="font-display text-lg font-bold text-blue-800 mb-4">
               Authorized Pickups
               {registration.authorized_pickups && registration.authorized_pickups.length > 0 && (
                 <span className="ml-2 text-sm font-normal text-blue-600">
@@ -156,8 +156,14 @@ export default async function CampRegistrationDetail({
             {registration.authorized_pickups && registration.authorized_pickups.length > 0 ? (
               <ul className="space-y-2">
                 {registration.authorized_pickups.map((pickup) => (
-                  <li key={pickup.id} className="p-3 bg-white rounded-lg text-blue-900">
-                    {pickup.name}
+                  <li key={pickup.id} className="p-3 bg-white rounded-lg">
+                    <span className="text-blue-900 font-medium">{pickup.name}</span>
+                    {pickup.relationship && (
+                      <span className="text-blue-600 ml-1">({pickup.relationship})</span>
+                    )}
+                    {pickup.phone && (
+                      <p className="text-blue-700 text-sm mt-1">{pickup.phone}</p>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -168,7 +174,7 @@ export default async function CampRegistrationDetail({
 
           {/* Children */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">
               Children ({registration.children.length})
             </h2>
             <div className="space-y-4">
@@ -229,7 +235,7 @@ export default async function CampRegistrationDetail({
           {/* Optional Info */}
           {(registration.how_heard || registration.excited_about || registration.message) && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Additional Info</h2>
               <dl className="space-y-4">
                 {registration.how_heard && (
                   <div>
@@ -258,7 +264,7 @@ export default async function CampRegistrationDetail({
         <div className="space-y-6">
           {/* Payment */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Payment</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Payment</h2>
             <dl className="space-y-3">
               <div className="flex justify-between">
                 <dt className="text-stone-500">Total</dt>

@@ -160,7 +160,15 @@ export default function RegistrationCard({ registration, programType, workshops 
                   key={pickup.id}
                   className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
                 >
-                  <span className="text-slate-800">{pickup.name}</span>
+                  <div>
+                    <span className="text-slate-800">{pickup.name}</span>
+                    {pickup.relationship && (
+                      <span className="text-slate-500 text-sm ml-1">({pickup.relationship})</span>
+                    )}
+                    {pickup.phone && (
+                      <p className="text-slate-500 text-sm">{pickup.phone}</p>
+                    )}
+                  </div>
                   {!programStarted && !isCancelled && (
                     <button
                       onClick={() => handleRemovePickup(pickup.id)}
@@ -247,9 +255,9 @@ export default function RegistrationCard({ registration, programType, workshops 
             child_name: editChildOpen.child_name,
             child_age: editChildOpen.child_age,
             child_school: editChildOpen.child_school,
-            ...('allergies' in editChildOpen && {
-              allergies: editChildOpen.allergies,
-              medical_conditions: editChildOpen.medical_conditions,
+            allergies: editChildOpen.allergies,
+            medical_conditions: editChildOpen.medical_conditions,
+            ...('special_needs' in editChildOpen && {
               special_needs: editChildOpen.special_needs,
             }),
           }}

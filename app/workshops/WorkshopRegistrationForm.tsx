@@ -19,22 +19,10 @@ import {
 } from '@/components/forms'
 import type { Workshop } from '@/lib/database.types'
 import type { User } from '@supabase/supabase-js'
+import type { AccountSettings } from '@/app/account/actions'
 
 interface WorkshopRegistrationFormProps {
   workshops: Workshop[]
-}
-
-interface AccountSettings {
-  parent_first_name?: string
-  parent_last_name?: string
-  parent_relationship?: string
-  parent_phone?: string
-  emergency_name?: string
-  emergency_phone?: string
-  emergency_relationship?: string
-  default_pickups?: { name: string; phone: string; relationship?: string }[]
-  default_media_consent_internal?: boolean
-  default_media_consent_marketing?: boolean
 }
 
 const initialState: WorkshopFormState = {}
@@ -122,7 +110,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
 
       {/* Workshop Selection */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Which workshops?
         </h3>
         {state.fieldErrors?.workshop_ids && (
@@ -148,7 +136,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
 
       {/* Child Information */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Who&apos;s coming?
         </h3>
         {user ? (
@@ -214,7 +202,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
 
       {/* Payment */}
       <section>
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Payment
         </h3>
 
@@ -266,7 +254,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
 
       {/* Optional */}
       <section className="border-t border-stone-200 pt-8">
-        <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+        <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
           Optional
         </h3>
         <div className="space-y-6">

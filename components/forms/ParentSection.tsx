@@ -15,7 +15,7 @@ interface ParentSectionProps {
 export default function ParentSection({ fieldErrors, defaultValues }: ParentSectionProps) {
   return (
     <section>
-      <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+      <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
         Parent/Guardian
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -24,7 +24,7 @@ export default function AgreementsSection({
 
   return (
     <section>
-      <h3 className="font-syne text-xl font-bold text-stone-800 mb-4">
+      <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
         Agreements
       </h3>
 

@@ -56,7 +56,7 @@ export default async function WaitlistSignupDetail({
           >
             &larr; Back to Waitlist
           </Link>
-          <h1 className="font-syne text-2xl font-bold text-stone-800">
+          <h1 className="font-display text-2xl font-bold text-stone-800">
             {signup.parent_name}
           </h1>
           <p className="text-stone-500">
@@ -73,7 +73,7 @@ export default async function WaitlistSignupDetail({
         <div className="lg:col-span-2 space-y-6">
           {/* Contact Info */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Contact</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
                 <dt className="text-sm text-stone-500">Email</dt>
@@ -93,7 +93,7 @@ export default async function WaitlistSignupDetail({
           {/* Child Info */}
           {(signup.child_name || signup.child_grade || signup.child_school) && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Child Info</h2>
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Child Info</h2>
               <dl className="grid gap-4 sm:grid-cols-2">
                 {signup.child_name && (
                   <div>
@@ -120,7 +120,7 @@ export default async function WaitlistSignupDetail({
           {/* Message */}
           {signup.message && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-syne text-lg font-bold text-stone-800 mb-4">Message</h2>
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Message</h2>
               <p className="text-stone-700 whitespace-pre-wrap">{signup.message}</p>
             </div>
           )}

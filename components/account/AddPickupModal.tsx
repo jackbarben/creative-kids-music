@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import Modal from './Modal'
 import { addPickup } from '@/app/account/actions'
+import { formatPhoneNumber } from '@/lib/utils/phone'
 
 interface AddPickupModalProps {
   isOpen: boolean
@@ -18,6 +20,8 @@ export default function AddPickupModal({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [relationship, setRelationship] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,20 +34,26 @@ export default function AddPickupModal({
     setLoading(true)
     setError(null)
 
-    const result = await addPickup(registrationId, name)
+    const result = await addPickup(registrationId, name, phone, relationship)
 
     setLoading(false)
 
     if (result.error) {
       setError(result.error)
+      toast.error('Failed to add pickup person')
     } else {
+      toast.success('Pickup person added')
       setName('')
+      setPhone('')
+      setRelationship('')
       onClose()
     }
   }
 
   const handleClose = () => {
     setName('')
+    setPhone('')
+    setRelationship('')
     setError(null)
     onClose()
   }
@@ -72,7 +82,35 @@ export default function AddPickupModal({
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            placeholder="e.g., Jane Doe (Grandmother)"
+            placeholder="Jane Doe"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="pickup_phone" className="block text-sm font-medium text-slate-700 mb-1">
+            Phone
+          </label>
+          <input
+            type="tel"
+            id="pickup_phone"
+            value={phone}
+            onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
+            placeholder="(555) 555-5555"
+            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="pickup_relationship" className="block text-sm font-medium text-slate-700 mb-1">
+            Relationship
+          </label>
+          <input
+            type="text"
+            id="pickup_relationship"
+            value={relationship}
+            onChange={(e) => setRelationship(e.target.value)}
+            placeholder="e.g., Grandmother, Neighbor, Family Friend"
             className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
           />
         </div>

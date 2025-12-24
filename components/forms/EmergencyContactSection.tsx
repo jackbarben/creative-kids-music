@@ -14,7 +14,7 @@ interface EmergencyContactSectionProps {
 export default function EmergencyContactSection({ fieldErrors, defaultValues }: EmergencyContactSectionProps) {
   return (
     <section>
-      <h3 className="font-syne text-xl font-bold text-stone-800 mb-2">
+      <h3 className="font-display text-xl font-bold text-stone-800 mb-2">
         Emergency Contact
       </h3>
       <p className="text-sm text-stone-500 mb-4">

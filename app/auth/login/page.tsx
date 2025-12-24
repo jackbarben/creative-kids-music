@@ -50,11 +50,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream-50 font-nunito flex items-center justify-center p-6">
+    <div className="min-h-screen bg-cream-50 font-sans flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         {/* Logo/Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="font-syne text-3xl font-bold text-forest-600">
+          <Link href="/" className="font-display text-3xl font-bold text-forest-600">
             Creative Kids Music
           </Link>
           <p className="text-stone-500 mt-2">Admin Portal</p>
@@ -62,7 +62,7 @@ export default function LoginPage() {
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
-          <h1 className="font-syne text-2xl font-bold text-stone-800 mb-6 text-center">
+          <h1 className="font-display text-2xl font-bold text-stone-800 mb-6 text-center">
             Sign In
           </h1>
 

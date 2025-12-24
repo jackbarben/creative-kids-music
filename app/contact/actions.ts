@@ -3,7 +3,7 @@
 import { sendContactFormEmail } from '@/lib/email'
 
 interface ContactFormState {
-  success: boolean
+  success?: boolean
   error?: string
 }
 

@@ -21,7 +21,53 @@ The admin portal at `/admin` provides management for all registrations and signu
 | `/admin/camp/[id]` | Camp registration detail |
 | `/admin/waitlist` | Music school waitlist |
 | `/admin/waitlist/[id]` | Waitlist signup detail |
+| `/admin/parents` | Parent lookup - search across all programs |
 | `/admin/activity` | Activity log |
+
+---
+
+## Families (`/admin/parents`)
+
+Unified view for all family registrations across all programs.
+
+### How to Use
+
+1. Navigate to `/admin/parents` or click "Families" in sidebar
+2. Search by email or name, OR browse the alphabetical directory below
+3. Use "Show only families with medical info" filter to find families needing attention
+4. Click a family to see full details
+
+### Features
+
+- **Search**: By email or name (minimum 2 characters)
+- **Alphabetical Directory**: All families listed A-Z
+- **Medical Filter**: Show only families with allergies/conditions/special needs
+
+### Family Detail View
+
+- **Header**: Parent name, email, phone, summary stats
+- **Children Section**: All children with:
+  - Name, age, school
+  - Program badges (Workshop, Camp)
+  - Medical info prominently displayed (allergies, dietary, conditions, special needs)
+- **Workshop Registrations**: Status, payment, children, dates, links to detail
+- **Camp Registrations**: Status, payment, children, dates, links to detail
+- **Waitlist Signups**: Status, children interested, links to detail
+
+### Data Functions
+
+```typescript
+// lib/data.ts
+getAllParents(): Promise<ParentSearchResult[]>    // All families alphabetically
+searchParents(query: string): Promise<ParentSearchResult[]>  // Search by email/name
+```
+
+### Future: Multi-Adult Households
+
+Documented in `/docs/implementation/admin-parent-view.md`:
+- Support for linked family accounts
+- Multiple adults (co-parents, grandparents) per family
+- Shared access to registrations
 
 ---
 
@@ -246,6 +292,8 @@ Each list page has an "Export CSV" button (visible when data exists).
 ### authorized_pickups
 - `camp_registration_id` - Links to camp registration
 - `name` - Name of authorized pickup person
+- `phone` - Phone number for contact
+- `relationship` - Relationship to child (e.g., Grandmother, Neighbor)
 - Parent manages via account portal, verified in person at pickup
 
 ### waitlist_signups
