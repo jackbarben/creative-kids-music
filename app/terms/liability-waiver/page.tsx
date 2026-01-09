@@ -59,7 +59,7 @@ export default function LiabilityWaiverPage() {
               <ol className="list-decimal pl-6 text-slate-600 space-y-4">
                 <li>
                   <strong>Release and discharge</strong> Creative Kids Music Project, its host organizations
-                  (including St. Luke&apos;s Episcopal Church, Vancouver, Washington), and their respective directors,
+                  (including St. Luke&apos;s/San Lucas Episcopal Church, Vancouver, Washington), and their respective directors,
                   officers, employees, volunteers, instructors, and agents (collectively, &ldquo;Released Parties&rdquo;)
                   from any and all claims, demands, actions, or causes of action arising out of or related to
                   any loss, damage, or injury that may be sustained by my child while participating in Program activities.
