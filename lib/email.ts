@@ -122,7 +122,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Time</td>
-            <td style="padding: 4px 0;">4:00 – 7:30 PM</td>
+            <td style="padding: 4px 0;">4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner (parents invited)<br>7:00 PM Performance</td>
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Location</td>

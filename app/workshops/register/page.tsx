@@ -45,7 +45,7 @@ export default async function WorkshopRegisterPage() {
         {/* Details */}
         <section className="py-12 bg-cream-100">
           <div className="max-w-2xl mx-auto px-6 text-center text-stone-600 space-y-2">
-            <p>4:00 – 7:30 PM</p>
+            <p>4:00–6:30 Workshop · 6:30 Dinner · 7:00 Performance</p>
             <p>$75 per child per workshop</p>
             <p className="text-sm text-stone-500">$10 sibling discount per additional child</p>
           </div>

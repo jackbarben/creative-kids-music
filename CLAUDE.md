@@ -303,7 +303,7 @@ npm run dev
 
 ### Workshops (Spring 2026)
 - **Dates**: February 20, March 20, May 1
-- **Time**: 4:00 PM – 7:30 PM
+- **Time**: 4:00–6:30 PM Workshop, 6:30–7:00 PM Dinner, 7:00 PM Performance
 - **Cost**: $75
 - **Ages**: 9–13
 
