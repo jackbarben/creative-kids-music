@@ -81,7 +81,7 @@ export default async function WorkshopsPage() {
                             {formatDate(workshop.date)}
                           </p>
                           <p className="text-sm text-slate-500 mt-2">
-                            3:30–7:00 PM Workshop & Dinner<br />
+                            4:00–6:30 PM Workshop & Dinner<br />
                             7:00 PM Performance
                           </p>
                         </div>
