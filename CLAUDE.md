@@ -162,6 +162,8 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 ## Database Tables
 
+### Current Tables (In Use)
+
 | Table | Purpose |
 |-------|---------|
 | `workshops` | Workshop definitions (dates, capacity, price) |
@@ -173,6 +175,19 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 | `waitlist_signups` | Music school interest list |
 | `email_log` | Sent email tracking |
 | `activity_log` | Admin action audit trail |
+
+### Unified Programs Tables (Future)
+
+| Table | Purpose |
+|-------|---------|
+| `programs` | Generic program definitions (any type) |
+| `program_sessions` | Individual dates for workshop-style programs |
+| `registrations` | Unified registration records |
+| `registration_sessions` | Links registrations to specific sessions |
+| `registration_children` | Children for each registration |
+| `registration_pickups` | Authorized pickups for each registration |
+
+See `docs/implementation/unified-programs.md` for details on adding new programs.
 
 **Supabase Project**: `creative-kids-music`
 **URL**: `https://qidzeagzbrqxntrqbpzx.supabase.co`
@@ -201,6 +216,7 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 | `004_registration_expansion.sql` | Account tables, expanded fields, consent/waiver columns | ✅ Applied |
 | `005_media_consent_checkboxes.sql` | Split media consent into internal + marketing booleans | ✅ Applied |
 | `006_pickup_phone.sql` | Phone and relationship on authorized_pickups | ✅ Applied |
+| `007_unified_programs.sql` | Unified programs system (programs, registrations, sessions) | ✅ Applied |
 
 **Credentials**: See `info/supabase-info.txt` for database password.
 
@@ -327,6 +343,7 @@ npm run dev
 | `/docs/implementation/forms.md` | Form system details |
 | `/docs/implementation/admin.md` | Admin portal details |
 | `/docs/implementation/email.md` | Email system details |
+| `/docs/implementation/unified-programs.md` | **Unified programs system for future programs** |
 | `/docs/implementation/parent-accounts-full-plan.md` | Parent accounts v2 full plan |
 | `/docs/implementation/parent-portal-wireframes.md` | ASCII wireframes for account pages |
 | `/docs/testing/parent-accounts-edge-cases.md` | 131 test scenarios |
