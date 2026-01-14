@@ -42,12 +42,12 @@ export default function EditAccountChildModal({
       const result = await updateAccountChild(child.id, {
         first_name: formData.first_name,
         last_name: formData.last_name,
-        date_of_birth: formData.date_of_birth || null,
-        school: formData.school || null,
-        allergies: formData.allergies || null,
-        dietary_restrictions: formData.dietary_restrictions || null,
-        medical_conditions: formData.medical_conditions || null,
-        notes: formData.notes || null,
+        date_of_birth: formData.date_of_birth || undefined,
+        school: formData.school || undefined,
+        allergies: formData.allergies || undefined,
+        dietary_restrictions: formData.dietary_restrictions || undefined,
+        medical_conditions: formData.medical_conditions || undefined,
+        notes: formData.notes || undefined,
       })
 
       if (result.error) {
