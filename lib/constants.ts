@@ -21,11 +21,11 @@ export const PROGRAMS = {
   camp: {
     name: 'Summer Camp 2026',
     season: 'Summer 2026',
-    startDate: new Date('2026-06-22T00:00:00-08:00'),
-    endDate: new Date('2026-06-27T23:59:59-08:00'),
-    displayDates: 'June 22–27, 2026',
-    performanceDate: new Date('2026-06-29'),
-    performanceDisplay: 'June 29, 9–11 AM',
+    startDate: new Date('2026-08-03T00:00:00-08:00'),
+    endDate: new Date('2026-08-07T23:59:59-08:00'),
+    displayDates: 'August 3–7, 2026',
+    performanceDate: new Date('2026-08-09'),
+    performanceDisplay: 'August 9, 9–11 AM',
     time: '8:30 AM – 5:00 PM',
     price: 40000, // cents ($400)
     ages: '9-13',

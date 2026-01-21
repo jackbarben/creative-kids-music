@@ -75,7 +75,7 @@ export default function Home() {
               {/* Summer Camp */}
               <div className="p-8 bg-cream-50 rounded-lg flex flex-col">
                 <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase">
-                  June 22–28, 2026
+                  August 3–9, 2026
                 </p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-slate-800">
                   Summer Camp

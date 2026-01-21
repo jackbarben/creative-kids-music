@@ -15,7 +15,7 @@ export default function SummerCampPage() {
               {/* Main Content */}
               <div className="md:col-span-7">
                 <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase mb-6">
-                  June 22–28, 2026
+                  August 3–9, 2026
                 </p>
                 <h1 className="font-display text-5xl md:text-6xl font-semibold text-slate-800 leading-[0.95] tracking-tight">
                   Summer Camp
@@ -70,7 +70,7 @@ export default function SummerCampPage() {
                     <div className="pb-6 border-b border-slate-200">
                       <p className="font-display font-semibold text-slate-800">Dates</p>
                       <p className="text-sm text-slate-500 mt-2">
-                        June 22–26, 2026 (Mon–Fri)
+                        August 3–7, 2026 (Mon–Fri)
                       </p>
                     </div>
                     <div className="pb-6 border-b border-slate-200">
@@ -83,7 +83,7 @@ export default function SummerCampPage() {
                     <div>
                       <p className="font-display font-semibold text-slate-800">Performance</p>
                       <p className="text-sm text-slate-500 mt-2">
-                        Sunday, June 28 · 9–11 AM
+                        Sunday, August 9 · 9–11 AM
                       </p>
                     </div>
                   </div>

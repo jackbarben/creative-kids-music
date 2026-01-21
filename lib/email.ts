@@ -261,7 +261,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Camp Dates</td>
-            <td style="padding: 4px 0;">June 22–26, 2026 (Mon–Fri)</td>
+            <td style="padding: 4px 0;">August 3–7, 2026 (Mon–Fri)</td>
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Daily Schedule</td>
@@ -269,7 +269,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Sunday Performance</td>
-            <td style="padding: 4px 0;">June 28, 9–11 AM</td>
+            <td style="padding: 4px 0;">August 9, 9–11 AM</td>
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Location</td>

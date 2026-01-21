@@ -15,7 +15,7 @@ export default function CampRegisterPage() {
               Summer Camp Registration
             </h1>
             <p className="text-stone-600">
-              June 22–28, 2026
+              August 3–9, 2026
             </p>
           </div>
         </section>
@@ -31,7 +31,7 @@ export default function CampRegisterPage() {
         <section className="py-12 bg-terracotta-50">
           <div className="max-w-2xl mx-auto px-6 text-center text-stone-600 space-y-2">
             <p>Monday–Friday, 8:30 AM – 5:00 PM · Lunch included</p>
-            <p>Sunday performance, June 29 · 9–11 AM</p>
+            <p>Sunday performance, August 9 · 9–11 AM</p>
             <p className="pt-2">$400 per child</p>
             <p className="text-sm text-stone-500">$10 sibling discount per additional child</p>
             <p className="pt-4 text-sm text-stone-500">

@@ -323,10 +323,10 @@ npm run dev
 - **Cost**: $75
 - **Ages**: 9–13
 
-### Summer Camp (June 2026)
-- **Dates**: June 22–27, 2026 (Mon–Fri)
+### Summer Camp (August 2026)
+- **Dates**: August 3–7, 2026 (Mon–Fri)
 - **Time**: 8:30 AM – 5:00 PM · Lunch included
-- **Sunday Performance**: June 29, 9–11 AM
+- **Sunday Performance**: August 9, 9–11 AM
 - **Cost**: $400
 - **Ages**: 9–13
 

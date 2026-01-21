@@ -365,7 +365,7 @@ function ParentDetail({ parent, workshopMap }: { parent: ParentSearchResult; wor
                           Children: {children.map(c => `${c.child_name} (${c.child_age})`).join(', ')}
                         </p>
                       )}
-                      <p className="mt-2 text-sm text-stone-500">June 22-27, 2026</p>
+                      <p className="mt-2 text-sm text-stone-500">August 3–7, 2026</p>
                     </div>
                     <Link
                       href={`/admin/camp/${reg.id}`}

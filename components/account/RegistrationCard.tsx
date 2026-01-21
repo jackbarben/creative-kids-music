@@ -94,7 +94,7 @@ export default function RegistrationCard({ registration, programType, workshops 
               </p>
             ) : programType === 'camp' ? (
               <p className="text-slate-500 text-sm mt-1">
-                June 22-27, 2026
+                August 3–7, 2026
               </p>
             ) : null}
           </div>
