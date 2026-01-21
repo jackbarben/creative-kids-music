@@ -245,7 +245,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <p>Hi ${data.parentName},</p>
 
-      <p>Thank you for registering for Creative Kids Music Summer Camp! We can't wait to see your family in June.</p>
+      <p>Thank you for registering for Creative Kids Music Summer Camp! We can't wait to see your family in August.</p>
 
       <div style="background: #fff7ed; border-radius: 8px; padding: 20px; margin: 24px 0;">
         <h2 style="color: #44403c; font-size: 16px; margin: 0 0 16px 0;">Registration Summary</h2>
@@ -305,7 +305,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
         <h2 style="color: #c2410c; font-size: 16px; margin: 0 0 12px 0;">What Happens Next</h2>
         <ol style="color: #57534e; padding-left: 20px; margin: 0;">
           <li style="margin-bottom: 8px;"><strong>Save this email</strong> for your records</li>
-          <li style="margin-bottom: 8px;"><strong>Mark your calendar</strong> for June 22–26 (and the Sunday performance!)</li>
+          <li style="margin-bottom: 8px;"><strong>Mark your calendar</strong> for August 3–7 (and the Sunday performance!)</li>
           <li style="margin-bottom: 8px;"><strong>Watch for our welcome packet</strong> — We'll send detailed information closer to camp including what to bring, daily schedule, and drop-off procedures</li>
           <li><strong>Plan to attend the Sunday showcase</strong> — Your camper will perform!</li>
         </ol>

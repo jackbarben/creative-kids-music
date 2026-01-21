@@ -14,7 +14,7 @@ export default function CampThankYouPage() {
               Your spot is reserved.
             </h1>
             <p className="text-xl text-stone-600 mb-4">
-              We can&apos;t wait to see you June 22nd.
+              We can&apos;t wait to see you August 3rd.
             </p>
             <p className="text-stone-500 mb-8">
               You&apos;ll receive a confirmation email shortly with all the details—what to bring, drop-off info, and what to expect.
