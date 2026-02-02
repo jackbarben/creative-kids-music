@@ -16,7 +16,7 @@ interface AccountChild {
   notes?: string
 }
 
-interface SelectedChild {
+export interface SelectedChild {
   account_child_id?: string
   first_name: string
   last_name: string
@@ -43,6 +43,7 @@ interface ChildrenSelectionSectionProps {
   maxDiscount?: number
   onChildrenChange?: (children: SelectedChild[], total: number) => void
   fieldErrors?: Record<string, string>
+  initialChildren?: SelectedChild[]
 }
 
 export default function ChildrenSelectionSection({
@@ -56,9 +57,10 @@ export default function ChildrenSelectionSection({
   maxDiscount = 30,
   onChildrenChange,
   fieldErrors,
+  initialChildren,
 }: ChildrenSelectionSectionProps) {
   const [accountChildren, setAccountChildren] = useState<AccountChild[]>([])
-  const [selectedChildren, setSelectedChildren] = useState<SelectedChild[]>([])
+  const [selectedChildren, setSelectedChildren] = useState<SelectedChild[]>(initialChildren || [])
   const [loading, setLoading] = useState(true)
   const [showAddNew, setShowAddNew] = useState(false)
   const [editingChild, setEditingChild] = useState<AccountChild | null>(null)

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import type { SelectedChild } from './ChildrenSelectionSection'
 
 interface ChildData {
   name: string
@@ -22,6 +23,27 @@ interface ChildFieldsProps {
   basePrice: number
   siblingDiscount: number
   onTotalChange?: (total: number, count: number) => void
+  onChildrenChange?: (children: SelectedChild[]) => void
+}
+
+function convertToSelectedChildren(childDataArray: ChildData[]): SelectedChild[] {
+  return childDataArray
+    .filter(child => child.name || child.age)
+    .map(child => {
+      const nameParts = child.name.trim().split(/\s+/)
+      return {
+        first_name: nameParts[0] || '',
+        last_name: nameParts.slice(1).join(' ') || '',
+        age: child.age,
+        school: child.school || '',
+        allergies: child.allergies || '',
+        dietary_restrictions: child.dietary || '',
+        medical_conditions: child.medical || '',
+        notes: child.special || '',
+        tshirt_size: child.tshirtSize || '',
+        isNew: true,
+      }
+    })
 }
 
 export default function ChildFields({
@@ -32,17 +54,19 @@ export default function ChildFields({
   basePrice,
   siblingDiscount,
   onTotalChange,
+  onChildrenChange,
 }: ChildFieldsProps) {
   const [children, setChildren] = useState<ChildData[]>([
     { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }
   ])
 
   const addChild = () => {
-    setChildren([...children, { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }])
+    const newChildren = [...children, { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }]
+    setChildren(newChildren)
     if (onTotalChange) {
-      const newCount = children.length + 1
-      onTotalChange(calculateTotal(newCount), newCount)
+      onTotalChange(calculateTotal(newChildren.length), newChildren.length)
     }
+    onChildrenChange?.(convertToSelectedChildren(newChildren))
   }
 
   const removeChild = (index: number) => {
@@ -52,6 +76,7 @@ export default function ChildFields({
       if (onTotalChange) {
         onTotalChange(calculateTotal(newChildren.length), newChildren.length)
       }
+      onChildrenChange?.(convertToSelectedChildren(newChildren))
     }
   }
 
@@ -59,6 +84,7 @@ export default function ChildFields({
     const newChildren = [...children]
     newChildren[index] = { ...newChildren[index], [field]: value }
     setChildren(newChildren)
+    onChildrenChange?.(convertToSelectedChildren(newChildren))
   }
 
   const calculateTotal = (count: number) => {

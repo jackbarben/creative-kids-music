@@ -18,6 +18,7 @@ import {
   AuthorizedPickupsSection,
   AgreementsSection,
 } from '@/components/forms'
+import type { SelectedChild } from '@/components/forms'
 import type { User } from '@supabase/supabase-js'
 import type { AccountSettings } from '@/app/account/actions'
 
@@ -31,6 +32,7 @@ export default function CampRegistrationForm() {
   const [user, setUser] = useState<User | null>(null)
   const [accountSettings, setAccountSettings] = useState<AccountSettings | null>(null)
   const [showSecondParent, setShowSecondParent] = useState(false)
+  const [pendingChildren, setPendingChildren] = useState<SelectedChild[]>([])
 
   const supabase = createClient()
 
@@ -107,6 +109,7 @@ export default function CampRegistrationForm() {
             maxDiscount={MAX_SIBLING_DISCOUNT}
             onChildrenChange={(children) => setChildCount(children.length || 1)}
             fieldErrors={state.fieldErrors}
+            initialChildren={pendingChildren}
           />
         ) : (
           <ChildFields
@@ -117,6 +120,7 @@ export default function CampRegistrationForm() {
             basePrice={PRICE}
             siblingDiscount={SIBLING_DISCOUNT}
             onTotalChange={(_, count) => setChildCount(count)}
+            onChildrenChange={setPendingChildren}
           />
         )}
       </section>
