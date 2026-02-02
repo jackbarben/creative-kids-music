@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
 // Valid status transitions - cancelled is a terminal state
@@ -18,7 +18,7 @@ export async function updateCampRegistration(
     admin_notes?: string
   }
 ) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // If status is being changed, validate the transition
   if (data.status) {

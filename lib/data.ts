@@ -1,5 +1,5 @@
 // Data access functions for Creative Kids Music
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import type {
   Workshop,
   WorkshopRegistration,
@@ -59,7 +59,7 @@ export async function getWorkshopById(id: string) {
 // ============================================
 
 export async function getWorkshopRegistrations() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data, error } = await supabase
     .from('workshop_registrations')
@@ -87,7 +87,7 @@ export async function getWorkshopRegistrationsPaginated(
   pageSize: number = DEFAULT_PAGE_SIZE,
   filters: PaginationFilters = {}
 ) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const from = (page - 1) * pageSize
   const to = from + pageSize - 1
@@ -126,7 +126,7 @@ export async function getWorkshopRegistrationsPaginated(
 }
 
 export async function getWorkshopRegistrationWithChildren(id: string) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data: registration, error: regError } = await supabase
     .from('workshop_registrations')
@@ -156,7 +156,7 @@ export async function getWorkshopRegistrationWithChildren(id: string) {
 }
 
 export async function getWorkshopChildrenCount(workshopIds: string[]) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Get all registrations that include any of the workshop IDs
   const { data, error } = await supabase
@@ -197,7 +197,7 @@ export async function getWorkshopChildrenCount(workshopIds: string[]) {
 // ============================================
 
 export async function getCampRegistrations() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data, error } = await supabase
     .from('camp_registrations')
@@ -217,7 +217,7 @@ export async function getCampRegistrationsPaginated(
   pageSize: number = DEFAULT_PAGE_SIZE,
   filters: PaginationFilters = {}
 ) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const from = (page - 1) * pageSize
   const to = from + pageSize - 1
@@ -256,7 +256,7 @@ export async function getCampRegistrationsPaginated(
 }
 
 export async function getCampRegistrationWithChildren(id: string) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data: registration, error: regError } = await supabase
     .from('camp_registrations')
@@ -296,7 +296,7 @@ export async function getCampRegistrationWithChildren(id: string) {
 // ============================================
 
 export async function getWaitlistSignups() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data, error } = await supabase
     .from('waitlist_signups')
@@ -316,7 +316,7 @@ export async function getWaitlistSignupsPaginated(
   pageSize: number = DEFAULT_PAGE_SIZE,
   filters: PaginationFilters = {}
 ) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const from = (page - 1) * pageSize
   const to = from + pageSize - 1
@@ -356,7 +356,7 @@ export async function getWaitlistSignupsPaginated(
 // ============================================
 
 export async function getActivityLog(limit = 50) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data, error } = await supabase
     .from('activity_log')
@@ -403,7 +403,7 @@ export async function logActivity(
 // ============================================
 
 export async function getDashboardStats() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Get workshop count
   const { count: workshopCount } = await supabase
@@ -438,7 +438,7 @@ export async function getDashboardStats() {
 }
 
 export async function getDetailedDashboardStats() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Basic counts
   const { count: workshopCount } = await supabase
@@ -574,7 +574,7 @@ export interface ParentSearchResult {
 }
 
 export async function getAllParents(): Promise<ParentSearchResult[]> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   // Get all registrations from all three tables
   const [workshopResult, campResult, waitlistResult] = await Promise.all([
@@ -672,7 +672,7 @@ export async function getAllParents(): Promise<ParentSearchResult[]> {
 }
 
 export async function searchParents(query: string): Promise<ParentSearchResult[]> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const searchTerm = query.toLowerCase().trim()
 
   if (!searchTerm || searchTerm.length < 2) {

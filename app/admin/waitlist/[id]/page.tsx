@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import SignupActions from './SignupActions'
 
 export const dynamic = 'force-dynamic'
 
 async function getWaitlistSignup(id: string) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data } = await supabase
     .from('waitlist_signups')
     .select('*')

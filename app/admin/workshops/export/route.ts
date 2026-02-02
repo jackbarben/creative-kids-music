@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { getAdminUser } from '@/lib/admin'
 
 export async function GET() {
-  const supabase = await createClient()
+  const authClient = await createClient()
 
   // Check admin auth
-  const admin = await getAdminUser(supabase)
+  const admin = await getAdminUser(authClient)
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
   }
+
+  const supabase = createAdminClient()
 
   // Fetch registrations with children
   const { data: registrations, error: regError } = await supabase

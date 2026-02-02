@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
 export async function updateWaitlistSignup(
@@ -10,7 +10,7 @@ export async function updateWaitlistSignup(
     admin_notes?: string
   }
 ) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { error } = await supabase
     .from('waitlist_signups')
