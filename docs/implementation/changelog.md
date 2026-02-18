@@ -4,6 +4,49 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.4.0 - 2026-02-18
+
+### Summary
+Decoupled account creation from registration flow. Registration no longer asks for passwords or creates accounts inline. Instead, users are prompted to create accounts after registration via thank-you pages and confirmation emails. Auto-links existing registrations by email.
+
+### Breaking Changes
+- Registration forms no longer create user accounts
+- AccountSection component simplified to email-only for non-logged-in users
+
+### New Features
+- **Post-Registration Account Prompt**: Thank-you pages now prompt users to create an account
+- **Account Creation Page**: New `/account/create` page with auto-linking of past registrations
+- **Auto-Link by Email**: When creating an account, all past registrations matching the email are automatically linked
+- **Email Account Links**: Confirmation emails include links to create an account
+
+### Bug Fixes
+- Fixed silent failures when existing users entered passwords during registration
+- Fixed orphaned accounts created when registration failed after account creation
+- Fixed RLS policies blocking registration reads (previous commit)
+
+### Files Created
+- `app/account/create/page.tsx` - Account creation with auto-linking
+- `supabase/migrations/008_get_user_by_email.sql` - Database function for email lookup
+
+### Files Modified
+- `lib/supabase/server.ts` - Added `getUserByEmail()` helper
+- `app/workshops/actions.ts` - Removed account creation, added auto-link by email
+- `app/summer-camp/actions.ts` - Same changes
+- `components/forms/AccountSection.tsx` - Simplified to email-only
+- `app/workshops/thank-you/page.tsx` - Added account creation prompt
+- `app/summer-camp/thank-you/page.tsx` - Added account creation prompt
+- `app/music-school/thank-you/page.tsx` - Added account creation prompt
+- `app/account/actions.ts` - Added `createAccountAndLinkRegistrations()`
+- `lib/email.ts` - Added account creation links to confirmation emails
+
+### Required Action
+Run the database migration:
+```bash
+psql "$DATABASE_URL" -f supabase/migrations/008_get_user_by_email.sql
+```
+
+---
+
 ## v1.3.0 - 2025-12-23
 
 ### Summary
