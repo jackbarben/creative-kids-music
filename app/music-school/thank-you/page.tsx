@@ -27,12 +27,30 @@ export default function MusicSchoolThankYouPage() {
               </Link>
               .
             </p>
-            <Link
-              href="/"
-              className="inline-block px-6 py-3 bg-forest-600 text-white rounded-lg font-medium hover:bg-forest-700 transition-colors"
-            >
-              Back to Home
-            </Link>
+
+            {/* Account Creation Prompt */}
+            <div className="bg-white border border-stone-200 rounded-xl p-6 mb-8 text-left">
+              <h2 className="font-display text-lg font-semibold text-stone-800 mb-2">
+                Want to stay connected?
+              </h2>
+              <p className="text-stone-600 text-sm mb-4">
+                Create a free parent account to manage your waitlist signup and be first to know when registration opens.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/account/create"
+                  className="inline-block px-5 py-2.5 bg-forest-600 text-white rounded-lg font-medium hover:bg-forest-700 transition-colors text-center"
+                >
+                  Create Account
+                </Link>
+                <Link
+                  href="/"
+                  className="inline-block px-5 py-2.5 border border-stone-300 text-stone-600 rounded-lg font-medium hover:bg-stone-50 transition-colors text-center"
+                >
+                  Maybe Later
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       </main>

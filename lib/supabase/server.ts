@@ -43,3 +43,15 @@ export function createAdminClient() {
     }
   )
 }
+
+// Look up a user's ID by their email address.
+// Returns null if no user exists with that email.
+export async function getUserByEmail(email: string): Promise<string | null> {
+  const supabase = createAdminClient()
+
+  const { data, error } = await supabase
+    .rpc('get_user_id_by_email', { email_input: email.toLowerCase() })
+
+  if (error || !data) return null
+  return data as string
+}

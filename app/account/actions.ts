@@ -824,3 +824,108 @@ export async function removeAccountChild(childId: string): Promise<ActionResult>
   revalidatePath('/account')
   return { success: true }
 }
+
+// ============================================================
+// CREATE ACCOUNT WITH AUTO-LINK
+// ============================================================
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabase/server'
+
+export type CreateAccountResult = {
+  success?: boolean
+  error?: string
+  linkedWorkshops?: number
+  linkedCamp?: number
+  linkedWaitlist?: number
+}
+
+export async function createAccountAndLinkRegistrations(
+  email: string,
+  password: string
+): Promise<CreateAccountResult> {
+  // Validate inputs
+  if (!email || !email.includes('@')) {
+    return { error: 'Please enter a valid email address' }
+  }
+  if (!password || password.length < 8) {
+    return { error: 'Password must be at least 8 characters' }
+  }
+
+  const normalizedEmail = email.trim().toLowerCase()
+
+  // Create the auth user using admin client
+  const authClient = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+
+  const { data: newUser, error: signUpError } = await authClient.auth.admin.createUser({
+    email: normalizedEmail,
+    password: password,
+    email_confirm: true,
+  })
+
+  if (signUpError) {
+    console.error('Account creation error:', signUpError)
+    if (signUpError.message?.includes('already been registered')) {
+      return { error: 'An account with this email already exists. Please sign in instead.' }
+    }
+    return { error: 'Failed to create account. Please try again.' }
+  }
+
+  if (!newUser?.user) {
+    return { error: 'Failed to create account. Please try again.' }
+  }
+
+  const userId = newUser.user.id
+
+  // Link all registrations by email using admin client
+  const supabase = createAdminClient()
+
+  // Link workshop registrations
+  const { data: workshopData } = await supabase
+    .from('workshop_registrations')
+    .update({ user_id: userId })
+    .eq('parent_email', normalizedEmail)
+    .is('user_id', null)
+    .select('id')
+
+  // Link camp registrations
+  const { data: campData } = await supabase
+    .from('camp_registrations')
+    .update({ user_id: userId })
+    .eq('parent_email', normalizedEmail)
+    .is('user_id', null)
+    .select('id')
+
+  // Link waitlist signups
+  const { data: waitlistData } = await supabase
+    .from('waitlist_signups')
+    .update({ user_id: userId })
+    .eq('parent_email', normalizedEmail)
+    .is('user_id', null)
+    .select('id')
+
+  const linkedWorkshops = workshopData?.length || 0
+  const linkedCamp = campData?.length || 0
+  const linkedWaitlist = waitlistData?.length || 0
+
+  await logActivity(
+    'parent_created_account',
+    'users',
+    userId,
+    {
+      email: normalizedEmail,
+      linkedWorkshops,
+      linkedCamp,
+      linkedWaitlist,
+    }
+  )
+
+  return {
+    success: true,
+    linkedWorkshops,
+    linkedCamp,
+    linkedWaitlist,
+  }
+}

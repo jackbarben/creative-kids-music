@@ -158,6 +158,17 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
         </ol>
       </div>
 
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #334155; font-size: 16px; margin: 0 0 12px 0;">Manage Your Registration Online</h2>
+        <p style="color: #64748b; margin: 0 0 16px 0; font-size: 14px;">
+          Create a free parent account to view your registrations, update contact info, and track payment status.
+        </p>
+        <a href="${SITE_URL}/account/create?email=${encodeURIComponent(data.parentEmail)}"
+           style="display: inline-block; background: #166534; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+          Create Account
+        </a>
+      </div>
+
       <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
 
       <p style="color: #78716c; font-size: 14px;">
@@ -311,6 +322,17 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
         </ol>
       </div>
 
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #334155; font-size: 16px; margin: 0 0 12px 0;">Manage Your Registration Online</h2>
+        <p style="color: #64748b; margin: 0 0 16px 0; font-size: 14px;">
+          Create a free parent account to view your registrations, update contact info, and track payment status.
+        </p>
+        <a href="${SITE_URL}/account/create?email=${encodeURIComponent(data.parentEmail)}"
+           style="display: inline-block; background: #c2410c; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+          Create Account
+        </a>
+      </div>
+
       <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
 
       <p style="color: #78716c; font-size: 14px;">
@@ -375,6 +397,17 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
       <p>We're finalizing program details and will be in touch when registration opens. You'll be among the first to know!</p>
 
       <p>In the meantime, consider joining us for a <strong>workshop</strong> or <strong>summer camp</strong> to get a taste of what we do.</p>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #334155; font-size: 16px; margin: 0 0 12px 0;">Stay Connected</h2>
+        <p style="color: #64748b; margin: 0 0 16px 0; font-size: 14px;">
+          Create a free parent account to manage your waitlist signup and be first to know when registration opens.
+        </p>
+        <a href="${SITE_URL}/account/create?email=${encodeURIComponent(data.parentEmail)}"
+           style="display: inline-block; background: #44403c; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+          Create Account
+        </a>
+      </div>
 
       <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
 

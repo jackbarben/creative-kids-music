@@ -1,7 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/server'
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { createAdminClient, getUserByEmail } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { sendCampConfirmation, sendAdminNotification } from '@/lib/email'
 import { PROGRAMS, SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT } from '@/lib/constants'
@@ -58,10 +57,8 @@ export async function submitCampRegistration(
   const message = formData.get('message') as string | null
   const childCount = parseInt(formData.get('child_count') as string) || 1
 
-  // Account fields
+  // Account fields (user_id is set if user is logged in)
   const userId = formData.get('user_id') as string | null
-  const password = formData.get('password') as string | null
-  const confirmPassword = formData.get('confirm_password') as string | null
 
   // Pickups
   const pickupCount = parseInt(formData.get('pickup_count') as string) || 0
@@ -112,16 +109,6 @@ export async function submitCampRegistration(
   }
   if (!termsAccepted) {
     fieldErrors.terms_accepted = 'Please accept the program terms'
-  }
-
-  // Validate password for new accounts (if password provided but no user_id)
-  if (password && !userId) {
-    if (password.length < 8) {
-      fieldErrors.password = 'Password must be at least 8 characters'
-    }
-    if (password !== confirmPassword) {
-      fieldErrors.confirm_password = 'Passwords do not match'
-    }
   }
 
   // Validate children
@@ -211,29 +198,10 @@ export async function submitCampRegistration(
   // Use admin client to bypass RLS for registration operations
   const supabase = createAdminClient()
 
-  // Handle account creation if password provided (new user)
-  let finalUserId = userId || null
-  if (password && !userId) {
-    // Create new user account using admin client
-    const authClient = createSupabaseClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
-
-    const { data: newUser, error: signUpError } = await authClient.auth.admin.createUser({
-      email: parentEmail.trim().toLowerCase(),
-      password: password,
-      email_confirm: true, // Auto-confirm email for registration flow
-    })
-
-    if (signUpError) {
-      console.error('Account creation error:', signUpError)
-      // Don't fail registration, just proceed without account
-      // User can create account later
-    } else if (newUser?.user) {
-      finalUserId = newUser.user.id
-    }
-  }
+  // Auto-link to existing account by email
+  const normalizedEmail = parentEmail.trim().toLowerCase()
+  const existingUserId = await getUserByEmail(normalizedEmail)
+  const finalUserId = userId || existingUserId || null
 
   // Combine parent name for backward compatibility
   const fullParentName = `${parentFirstName.trim()} ${parentLastName.trim()}`
