@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabase/server'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { sendWorkshopConfirmation, sendAdminNotification } from '@/lib/email'
 import { PROGRAMS, SIBLING_DISCOUNT, MAX_SIBLING_DISCOUNT } from '@/lib/constants'
@@ -191,18 +191,19 @@ export async function submitWorkshopRegistration(
   // Multiply by number of workshops
   totalCents *= workshopIds.length
 
-  const supabase = await createClient()
+  // Use admin client to bypass RLS for registration operations
+  const supabase = createAdminClient()
 
   // Handle account creation if password provided (new user)
   let finalUserId = userId || null
   if (password && !userId) {
     // Create new user account using admin client
-    const adminClient = createAdminClient(
+    const authClient = createSupabaseClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
-    const { data: newUser, error: signUpError } = await adminClient.auth.admin.createUser({
+    const { data: newUser, error: signUpError } = await authClient.auth.admin.createUser({
       email: parentEmail.trim().toLowerCase(),
       password: password,
       email_confirm: true, // Auto-confirm email for registration flow

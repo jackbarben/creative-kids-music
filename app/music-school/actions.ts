@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { sendWaitlistConfirmation, sendAdminNotification } from '@/lib/email'
 
@@ -45,8 +45,8 @@ export async function submitWaitlistSignup(
     return { fieldErrors }
   }
 
-  // Insert into database
-  const supabase = await createClient()
+  // Use admin client to bypass RLS for signup operations
+  const supabase = createAdminClient()
 
   const { data: signup, error } = await supabase
     .from('waitlist_signups')
