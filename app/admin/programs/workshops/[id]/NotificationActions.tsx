@@ -20,13 +20,21 @@ export default function NotificationActions({
   const [notifyingWaitlist, setNotifyingWaitlist] = useState(false)
   const [result, setResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
-  const isPast = new Date(workshopDate) < new Date()
-  const isToday = new Date(workshopDate).toDateString() === new Date().toDateString()
-  const isTomorrow = (() => {
+  // Compare dates properly (ignoring time/timezone issues)
+  const getTodayStr = () => {
+    const today = new Date()
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+  }
+
+  const getTomorrowStr = () => {
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
-    return new Date(workshopDate).toDateString() === tomorrow.toDateString()
-  })()
+    return `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`
+  }
+
+  const isPast = workshopDate < getTodayStr()
+  const isToday = workshopDate === getTodayStr()
+  const isTomorrow = workshopDate === getTomorrowStr()
 
   const handleSendReminders = async () => {
     if (!confirm(`Send reminder emails to ${registeredCount} registered families?`)) {

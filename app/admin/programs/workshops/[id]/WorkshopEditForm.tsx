@@ -17,7 +17,14 @@ export default function WorkshopEditForm({ workshop }: WorkshopEditFormProps) {
   const [success, setSuccess] = useState<string | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
-  const isPast = new Date(workshop.date) < new Date()
+  // Compare dates properly (ignoring time/timezone issues)
+  const isDatePast = (dateString: string) => {
+    const today = new Date()
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    return dateString < todayStr
+  }
+
+  const isPast = isDatePast(workshop.date)
 
   const [formData, setFormData] = useState({
     title: workshop.title,

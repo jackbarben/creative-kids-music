@@ -71,7 +71,14 @@ export default async function WorkshopEditPage({ params }: PageProps) {
     })
   }
 
-  const isPast = new Date(workshop.date) < new Date()
+  // Compare dates properly (ignoring time/timezone issues)
+  const isDatePast = (dateString: string) => {
+    const today = new Date()
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    return dateString < todayStr
+  }
+
+  const isPast = isDatePast(workshop.date)
   const capacityPercentage = Math.round((stats.total / (workshop.capacity || 12)) * 100)
 
   return (

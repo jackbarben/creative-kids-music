@@ -66,9 +66,16 @@ export default async function WorkshopsManagement() {
     return `${hour12}:${minutes} ${ampm}`
   }
 
+  // Compare dates properly (ignoring time/timezone issues)
+  const isDatePast = (dateString: string) => {
+    const today = new Date()
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    return dateString < todayStr
+  }
+
   const getStatusBadge = (workshop: Workshop & { registeredCount: number }) => {
     const status = workshop.status || (workshop.is_active ? 'open' : 'closed')
-    const isPast = new Date(workshop.date) < new Date()
+    const isPast = isDatePast(workshop.date)
 
     if (isPast && status !== 'completed' && status !== 'archived') {
       return { label: 'Past', className: 'bg-stone-100 text-stone-600' }
@@ -100,10 +107,10 @@ export default async function WorkshopsManagement() {
 
   // Group workshops by status
   const upcomingWorkshops = workshops.filter(
-    w => new Date(w.date) >= new Date() && w.status !== 'archived'
+    w => !isDatePast(w.date) && w.status !== 'archived'
   )
   const pastWorkshops = workshops.filter(
-    w => new Date(w.date) < new Date() && w.status !== 'archived'
+    w => isDatePast(w.date) && w.status !== 'archived'
   )
   const archivedWorkshops = workshops.filter(w => w.status === 'archived')
 
