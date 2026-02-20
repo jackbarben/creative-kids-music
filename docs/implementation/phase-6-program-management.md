@@ -2,7 +2,91 @@
 
 ## Overview
 
-Full CRUD system for managing workshops, camps, users, and program data. Includes attendance tracking, instructor notes, media management, and reporting.
+Full CRUD system for managing workshops, camps, families, and program data. Includes attendance tracking, program notes, and reporting.
+
+---
+
+## Key Decisions
+
+| Topic | Decision |
+|-------|----------|
+| **Core unit** | Family (not individual parents). Kids belong to families, even single-child families. |
+| **Instructor access** | Not yet - admin enters everything for now |
+| **Parent visibility** | No - parents don't see attendance or notes in their portal |
+| **Notifications** | Yes - waitlist promotion, reminders (1 week, 1 day) |
+| **Post-program workflow** | Yes - mark complete, prompt attendance, prompt notes |
+| **Child photos** | Yes for admin check-in, secure/admin-only access |
+| **Photos/video storage** | External (Google/NAS), not in app database |
+| **Curriculum tracking** | Per-program only (not per-child): performance summary, session summary, highlights, lessons learned |
+| **Survey** | TODO - implement post-program survey later |
+| **Pricing config** | Not yet - hardcoded for now |
+
+---
+
+---
+
+## Core Concept: Families
+
+**Families are the fundamental unit**, not individual users or children.
+
+### Data Model
+```
+families
+  - id
+  - created_at
+
+family_members
+  - family_id
+  - user_id (null until they create password)
+  - email
+  - invited_at
+  - joined_at
+
+Family "owns":
+  - Children
+  - Registrations
+  - Payment history
+  - Emergency contacts
+  - Media consent defaults
+  - Authorized pickups
+```
+
+### Key Principles
+- No primary/secondary distinction - all family members are equal
+- Multiple logins allowed, all see the same family data
+- Family is created automatically on first signup
+- Additional members added by email, set their own password
+
+### User Flows
+
+**Sign up:**
+1. User creates account (email + password)
+2. System creates family + adds them as member
+3. All their data attaches to the family
+
+**Add co-parent:**
+1. In settings, enter co-parent's email
+2. System sends invite: "Set up your login for Creative Kids"
+3. Co-parent clicks link, creates their own password
+4. Both logins now see same family dashboard
+
+**Co-parent already has account elsewhere:**
+- Show message: "This email is already associated with another family. Please contact us to merge accounts."
+- Admin handles merge manually (merge feature built later)
+
+### Why Families?
+- Sibling discounts make sense at family level
+- "Returning family" is meaningful metric
+- Contact info, emergency contacts, pickups are family-wide
+- Both parents can log in and manage registrations
+- Simplifies multi-child, multi-parent households
+
+### Migration Note
+Current structure has `user_id` on registrations pointing to a single user. Migration will:
+1. Create `families` table
+2. Create `family_members` table
+3. For each existing user: create family, link user as member
+4. Update registrations to point to `family_id` instead of `user_id`
 
 ---
 
@@ -85,32 +169,23 @@ Full CRUD system for managing workshops, camps, users, and program data. Include
 
 ---
 
-## Curriculum Data Collection
+## Program Notes (Curriculum Data)
 
-### Per Program
-| Data | Purpose |
-|------|---------|
-| Instruments used | Inventory planning, variety tracking |
-| Songs/pieces | Curriculum library building |
-| Guest instructors | Who taught what |
-| Activities | What worked, what didn't |
-| Theme/focus | Program differentiation |
+Simple text boxes per program - nothing per child for now.
 
-### Per Child (Instructor Notes)
-| Data | Purpose |
-|------|---------|
-| Instruments tried/played | Track progression |
-| Engagement level | Identify needs |
-| Standout moments | Parent sharing, testimonials |
-| Challenges/struggles | Accommodation needs |
-| Recommended next steps | Continuity between programs |
+### Fields per Workshop/Camp
+| Field | Purpose | Example |
+|-------|---------|---------|
+| **Performance Summary** | What did kids perform? | "3 original songs, 2 covers, group improv piece" |
+| **Session Summary** | What happened? | "Focused on rhythm basics, introduced keyboard, percussion jam" |
+| **Highlights** | Standout moments | "Great energy, one shy kid really opened up, parents loved dinner" |
+| **Lessons Learned** | What to do differently | "Start rhythm earlier, need more percussion instruments" |
 
-### Per Instructor (Future)
-| Data | Purpose |
-|------|---------|
-| Specialties | Assignment planning |
-| Availability | Scheduling |
-| Notes/observations | Knowledge capture |
+### Future Additions (as needed)
+- Instruments used (checklist)
+- Guest instructor name/topic
+- Photos link (Google Drive URL)
+- Attendance stats (auto-calculated)
 
 ---
 
@@ -215,31 +290,40 @@ ALTER TABLE camp_registrations
 
 ---
 
-### 6C: User Management
-**Goal:** Full CRUD on parent accounts
+### 6C: Family Management (was User Management)
+**Goal:** Full CRUD on families and their members
 
 #### New Pages
-- `/admin/users` - List all users with search
-- `/admin/users/[id]` - User detail with all data
-- `/admin/users/[id]/edit` - Edit user info
+- `/admin/families` - List all families with search
+- `/admin/families/[id]` - Family detail with all members, children, registrations
+- `/admin/families/[id]/edit` - Edit family info
 
 #### Features
-- Search by name, email, phone
-- View all registrations, children, payment history
+- Search by any member's name, email, or phone
+- View all family members (with login status)
+- View all children, registrations, payment history
 - Edit contact info, emergency defaults
 - Add admin notes
-- Merge duplicate accounts
-- Delete account (with options: keep data anonymized, or full delete)
+- Add/remove family members
+- Merge families (when duplicates exist)
+- Delete family (with options: anonymize or full delete)
 
-#### Merge Logic
+#### Merge Families Logic
 ```typescript
-// When merging user B into user A:
-// 1. Update all registrations with user_id = B to user_id = A
-// 2. Merge children (dedupe by name/age)
-// 3. Merge account_settings (prefer A, fill gaps from B)
-// 4. Log the merge in activity
-// 5. Delete user B
+// When merging family B into family A:
+// 1. Move all family_members from B to A
+// 2. Move all children from B to A (dedupe by name/DOB)
+// 3. Move all registrations from B to A
+// 4. Merge settings (prefer A, fill gaps from B)
+// 5. Log the merge in activity
+// 6. Delete family B
 ```
+
+#### Admin UI for "Contact Admin" Merges
+When users hit "already associated with another family":
+- Admin gets notification or sees in dashboard
+- Admin views both families side-by-side
+- One-click merge with confirmation
 
 ---
 
@@ -288,8 +372,8 @@ const html = template.body_html.replace(
 
 ---
 
-### 6E: Attendance & Notes
-**Goal:** Track who showed up, capture instructor observations
+### 6E: Attendance & Check-in
+**Goal:** Track who showed up with easy photo-based check-in
 
 #### Database
 ```sql
@@ -300,33 +384,34 @@ CREATE TABLE IF NOT EXISTS attendance (
   program_id UUID NOT NULL,
   program_date DATE NOT NULL, -- For camps with multiple days
   child_id UUID NOT NULL,
+  registration_id UUID NOT NULL,
   status VARCHAR(20) DEFAULT 'unknown', -- present, absent, late, excused
   check_in_time TIMESTAMPTZ,
   check_out_time TIMESTAMPTZ,
-  checked_in_by VARCHAR(255),
+  picked_up_by VARCHAR(255), -- Name of person who picked up
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Instructor notes per child
-CREATE TABLE IF NOT EXISTS child_notes (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  child_id UUID NOT NULL,
-  program_type VARCHAR(20),
-  program_id UUID,
-  note_type VARCHAR(50), -- 'observation', 'progress', 'incident', 'recommendation'
-  content TEXT NOT NULL,
-  instruments_played TEXT[], -- Array of instruments
-  created_by UUID REFERENCES auth.users(id),
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+-- Child photos for check-in (admin-only, secure)
+-- Added to existing children tables:
+ALTER TABLE workshop_children ADD COLUMN IF NOT EXISTS photo_url TEXT;
+ALTER TABLE camp_children ADD COLUMN IF NOT EXISTS photo_url TEXT;
+ALTER TABLE account_children ADD COLUMN IF NOT EXISTS photo_url TEXT;
 ```
 
-#### UI
-- Attendance: Checklist with photo roster (if we have photos)
-- Notes: Quick-add form during/after program
-- View: Timeline of notes per child across programs
+#### Check-in UI
+- Photo grid of registered children
+- Tap to mark present (green border)
+- Tap again for late (yellow) or absent (red)
+- Shows child name, age, any medical alerts
+- Parent name for pickup verification
+
+#### Security
+- Photos only visible to authenticated admins
+- Not exposed via public API
+- Consider: store in Supabase Storage with RLS, not public URLs
 
 ---
 
@@ -407,17 +492,24 @@ components/admin/
 
 ---
 
-## Open Questions
+## Open Questions (Resolved)
 
-1. **Attendance photos**: Should we store child photos for easier check-in? Privacy implications?
+| Question | Decision |
+|----------|----------|
+| Attendance photos | Yes - admin-only, secure storage |
+| Parent portal visibility | No - parents don't see attendance/notes |
+| Instructor access | Later - admin enters for now |
+| Notifications | Yes - waitlist promotion + reminders |
+| Pricing flexibility | Later - hardcoded for now |
 
-2. **Parent portal visibility**: Should parents see their child's attendance history? Notes?
+## Remaining Open Questions (Resolved)
 
-3. **Instructor access**: Do instructors need their own login to add notes? Or admin-only?
-
-4. **Notification system**: Auto-email when promoted from waitlist? Reminder emails before program?
-
-5. **Pricing flexibility**: Per-workshop pricing vs. season passes? Early bird discounts?
+| Question | Decision |
+|----------|----------|
+| Reminder timing | Both 1 week AND 1 day before |
+| Waitlist auto-promote | Yes - auto-email with deadline, then next in line if no response |
+| Survey delivery | Next day after program ends |
+| Family merge | Manual admin action for now; UI shows "contact admin to merge" |
 
 ---
 
