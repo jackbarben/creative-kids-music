@@ -32,7 +32,7 @@ export default function Dashboard({ user }: DashboardProps) {
             .from('family_members')
             .select('family_id')
             .eq('user_id', user.id)
-            .single()
+            .single() as { data: { family_id: string } | null }
           userFamilyId = memberData?.family_id || null
           setFamilyId(userFamilyId)
         } catch {

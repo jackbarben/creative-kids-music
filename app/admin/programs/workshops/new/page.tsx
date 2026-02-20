@@ -10,7 +10,21 @@ export default function NewWorkshopPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string
+    date: string
+    start_time: string
+    end_time: string
+    location: string
+    address: string
+    description: string
+    capacity: number
+    price_cents: number
+    status: 'draft' | 'open' | 'closed'
+    waitlist_enabled: boolean
+    registration_opens_at: string
+    registration_closes_at: string
+  }>({
     title: '',
     date: '',
     start_time: '16:00',
@@ -20,7 +34,7 @@ export default function NewWorkshopPage() {
     description: '',
     capacity: 12,
     price_cents: 7500,
-    status: 'draft' as const,
+    status: 'draft',
     waitlist_enabled: true,
     registration_opens_at: '',
     registration_closes_at: '',

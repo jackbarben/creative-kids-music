@@ -699,13 +699,13 @@ export async function getAllParents(): Promise<ParentSearchResult[]> {
         .in('family_id', familyIds)
 
       if (familyMembers) {
-        for (const parent of parentMap.values()) {
+        Array.from(parentMap.values()).forEach(parent => {
           if (parent.family_id) {
             parent.familyMembers = familyMembers
               .filter(m => m.family_id === parent.family_id)
               .map(m => ({ email: m.email, joined_at: m.joined_at }))
           }
-        }
+        })
       }
     } catch {
       // Family tables may not exist yet
@@ -840,13 +840,13 @@ export async function searchParents(query: string): Promise<ParentSearchResult[]
         .in('family_id', familyIds)
 
       if (familyMembers) {
-        for (const parent of parentMap.values()) {
+        Array.from(parentMap.values()).forEach(parent => {
           if (parent.family_id) {
             parent.familyMembers = familyMembers
               .filter(m => m.family_id === parent.family_id)
               .map(m => ({ email: m.email, joined_at: m.joined_at }))
           }
-        }
+        })
       }
     } catch {
       // Family tables may not exist yet

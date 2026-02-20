@@ -284,6 +284,7 @@ export interface Database {
           updated_at: string | null
           status: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id: string | null
+          family_id: string | null
           parent_name: string
           parent_email: string
           parent_phone: string
@@ -333,6 +334,7 @@ export interface Database {
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id?: string | null
+          family_id?: string | null
           parent_name: string
           parent_email: string
           parent_phone: string
@@ -382,6 +384,7 @@ export interface Database {
           updated_at?: string | null
           status?: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id?: string | null
+          family_id?: string | null
           parent_name?: string
           parent_email?: string
           parent_phone?: string
