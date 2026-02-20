@@ -4,6 +4,140 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.5.6 - 2026-02-19
+
+### Summary
+Clarified dinner and performance messaging to encourage parent attendance.
+
+### Changes
+- Workshop schedule: "Dinner — Parents, please join us!"
+- Performance: "Performance for Parents" (to watch what kids created)
+- Updated in confirmation emails and workshops info page
+
+---
+
+## v1.5.5 - 2026-02-19
+
+### Summary
+Simplified payment messaging for day-of collection with in-person Vanco help.
+
+### Changes
+- Info pages: "Payment collected day-of"
+- Thank you pages: "We'll help you set up the church's Vanco portal, or you can pay by check or cash"
+- Forms: "Payment collected day-of (Vanco, check, or cash)"
+- Emails: Same friendly messaging
+
+---
+
+## v1.5.4 - 2026-02-19
+
+### Summary
+Updated payment instructions across the site from "early January" to day-of payment.
+
+### Files Modified
+- `app/workshops/page.tsx`
+- `app/summer-camp/page.tsx`
+- `app/workshops/thank-you/page.tsx`
+- `app/summer-camp/thank-you/page.tsx`
+- `app/workshops/WorkshopRegistrationForm.tsx`
+- `app/summer-camp/CampRegistrationForm.tsx`
+- `lib/email.ts`
+
+---
+
+## v1.5.3 - 2026-02-19
+
+### Summary
+Added Elizabeth Femling to admin notification emails.
+
+### Changes
+- Changed `ADMIN_EMAIL` to `ADMIN_EMAILS` array in `lib/email.ts`
+- Both jack@creativekidsmusic.org and elizabeth.femling@gmail.com now receive registration notifications
+
+---
+
+## v1.5.2 - 2026-02-19
+
+### Summary
+Fixed account page bugs.
+
+### Bug Fixes
+- **Wrong workshop date**: Added timezone handling (`dateStr + 'T00:00:00'`) in RegistrationCard to prevent off-by-one errors
+- **Showing deleted registrations**: Added `.neq('status', 'cancelled').neq('status', 'archived')` filters to Dashboard queries
+
+---
+
+## v1.5.1 - 2026-02-19
+
+### Summary
+Fixed registration flow bugs.
+
+### Bug Fixes
+- **Phone not saved after account creation**: Updated `createAccountAndLinkRegistrations` to populate `account_settings` from registration data
+- **"Create account" prompt shown when already logged in**: Updated thank you pages to detect login status and show appropriate message
+
+---
+
+## v1.5.0 - 2026-02-19
+
+### Summary
+Admin Portal Enhancement - Phases 1-5 Complete.
+
+### Phase 1: View ALL Registration Fields
+- Emergency contact section in admin detail pages
+- Media consent badges (internal/marketing)
+- Agreement timestamps
+- Authorized pickups display
+- Children medical info (allergies, dietary, conditions)
+- Metadata (created_at, updated_at, linked account)
+
+### Phase 2: Edit ALL Registration Fields
+- Edit parent info (name, email, phone, relationship)
+- Edit emergency contact
+- Edit media consent
+- Add/update/remove children with pricing recalculation
+- Add/update/remove authorized pickups
+
+### Phase 3: Archive System
+- Archive registration (soft delete)
+- Restore archived registration
+- Permanently delete registration
+- Archive section in edit panel
+
+### Phase 4: Manual Registration Creation
+- `/admin/workshops/new` - Admin can create workshop registrations
+- `/admin/camp/new` - Admin can create camp registrations
+- Auto-links to existing accounts by email
+- Sends confirmation emails
+- "New Registration" buttons on list pages
+
+### Phase 5: Activity Logging
+- All admin actions logged with `logActivity()`
+- Activity log displays in `/admin/activity`
+- Color-coded action types
+
+### New Files
+```
+app/admin/workshops/new/page.tsx
+app/admin/workshops/new/actions.ts
+app/admin/camp/new/page.tsx
+app/admin/camp/new/actions.ts
+app/admin/workshops/[id]/RegistrationEditPanel.tsx
+app/admin/camp/[id]/RegistrationEditPanel.tsx
+components/admin/edit/*.tsx (6 edit section components)
+```
+
+### Files Modified
+- `app/admin/workshops/[id]/page.tsx` - Show all fields, edit panel
+- `app/admin/workshops/[id]/actions.ts` - All CRUD actions with logging
+- `app/admin/camp/[id]/page.tsx` - Show all fields, edit panel
+- `app/admin/camp/[id]/actions.ts` - All CRUD actions with logging
+- `app/admin/workshops/page.tsx` - "New Registration" button
+- `app/admin/camp/page.tsx` - "New Registration" button
+- `components/Header.tsx` - Admin link for logged-in users
+
+---
+
 ## v1.4.0 - 2026-02-18
 
 ### Summary
