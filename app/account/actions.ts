@@ -882,18 +882,38 @@ export async function createAccountAndLinkRegistrations(
   // Link all registrations by email using admin client
   const supabase = createAdminClient()
 
-  // Link workshop registrations
+  // Create a family for this user
+  let familyId: string | null = null
+  try {
+    const { data: familyData, error: familyError } = await supabase
+      .rpc('create_family_for_user', { p_user_id: userId, p_email: normalizedEmail })
+
+    if (!familyError && familyData) {
+      familyId = familyData as string
+    }
+  } catch {
+    // Family tables may not exist yet (migration not run)
+    console.log('Family creation skipped - migration may not be applied yet')
+  }
+
+  // Link workshop registrations (include family_id if available)
   const { data: workshopData } = await supabase
     .from('workshop_registrations')
-    .update({ user_id: userId })
+    .update({
+      user_id: userId,
+      ...(familyId && { family_id: familyId }),
+    })
     .eq('parent_email', normalizedEmail)
     .is('user_id', null)
     .select('id')
 
-  // Link camp registrations
+  // Link camp registrations (include family_id if available)
   const { data: campData } = await supabase
     .from('camp_registrations')
-    .update({ user_id: userId })
+    .update({
+      user_id: userId,
+      ...(familyId && { family_id: familyId }),
+    })
     .eq('parent_email', normalizedEmail)
     .is('user_id', null)
     .select('id')
@@ -947,6 +967,7 @@ export async function createAccountAndLinkRegistrations(
         .from('account_settings')
         .insert({
           user_id: userId,
+          ...(familyId && { family_id: familyId }),
           parent_first_name: regData.parent_first_name || null,
           parent_last_name: regData.parent_last_name || null,
           parent_relationship: regData.parent_relationship || null,
@@ -958,12 +979,22 @@ export async function createAccountAndLinkRegistrations(
     }
   }
 
+  // Also update account_children with family_id if they exist
+  if (familyId) {
+    await supabase
+      .from('account_children')
+      .update({ family_id: familyId })
+      .eq('user_id', userId)
+      .is('family_id', null)
+  }
+
   await logActivity(
     'parent_created_account',
     'users',
     userId,
     {
       email: normalizedEmail,
+      family_id: familyId,
       linkedWorkshops,
       linkedCamp,
       linkedWaitlist,
