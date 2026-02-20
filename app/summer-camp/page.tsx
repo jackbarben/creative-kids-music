@@ -106,7 +106,7 @@ export default function SummerCampPage() {
                     Reserve Your Spot
                   </Link>
                   <p className="mt-3 text-xs text-slate-400 text-center">
-                    Payment details will be sent in early January
+                    Pay day-of via Vanco, check, or cash
                   </p>
                 </div>
               </div>

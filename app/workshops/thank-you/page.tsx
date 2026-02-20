@@ -35,7 +35,7 @@ export default function WorkshopThankYouPage() {
               You&apos;ll receive a confirmation email shortly with details about what to expect.
             </p>
             <p className="text-stone-400 text-sm mb-12">
-              Payment details will be sent in early January.
+              Payment can be made day-of via the church&apos;s Vanco portal or by check/cash at the event.
             </p>
 
             {/* Account Section - different based on login status */}

@@ -88,7 +88,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : `Total: $${data.totalAmount}. We'll be in touch with payment details soon.`
+    : `Total: $${data.totalAmount}. Payment can be made day-of via the <a href="https://stlukesvancouver.org/give" style="color: #166534;">Vanco portal on the church website</a>, or by check or cash at the event.`
 
   // Media consent summary
   let mediaConsentText = 'No photo/video permissions granted'
@@ -244,7 +244,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : `Total: $${data.totalAmount}. We'll be in touch with payment details soon.`
+    : `Total: $${data.totalAmount}. Payment can be made day-of via the <a href="https://stlukesvancouver.org/give" style="color: #166534;">Vanco portal on the church website</a>, or by check or cash at the event.`
 
   // Media consent summary
   let mediaConsentText = 'No photo/video permissions granted'

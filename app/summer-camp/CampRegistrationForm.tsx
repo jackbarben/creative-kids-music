@@ -251,7 +251,7 @@ export default function CampRegistrationForm() {
             {
               value: 'later',
               label: 'Standard payment',
-              description: 'We\'ll send payment details in early January',
+              description: 'Pay day-of via Vanco, check, or cash',
             },
             {
               value: 'assistance',
