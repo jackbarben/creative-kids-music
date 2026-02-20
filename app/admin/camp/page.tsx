@@ -72,14 +72,22 @@ export default async function CampAdmin({ searchParams }: PageProps) {
               View and manage registrations for Summer Camp 2026.
             </p>
           </div>
-          {count > 0 && (
-            <a
-              href="/admin/camp/export"
-              className="px-4 py-2 text-sm bg-terracotta-100 text-terracotta-700 rounded-lg hover:bg-terracotta-200 transition-colors"
+          <div className="flex gap-3">
+            <Link
+              href="/admin/camp/new"
+              className="px-4 py-2 text-sm bg-terracotta-600 text-white rounded-lg hover:bg-terracotta-700 transition-colors"
             >
-              Export CSV
-            </a>
-          )}
+              + New Registration
+            </Link>
+            {count > 0 && (
+              <a
+                href="/admin/camp/export"
+                className="px-4 py-2 text-sm bg-terracotta-100 text-terracotta-700 rounded-lg hover:bg-terracotta-200 transition-colors"
+              >
+                Export CSV
+              </a>
+            )}
+          </div>
         </div>
 
         <SearchFilter

@@ -12,7 +12,7 @@ export const PROGRAMS = {
       new Date('2026-03-20'),
       new Date('2026-05-01'),
     ],
-    time: '3:30 PM – 7:30 PM',
+    time: '4:00 PM – 7:30 PM',
     pricePerWorkshop: 7500, // cents ($75)
     ages: '9-13',
     location: "St. Luke's / San Lucas Episcopal Church",

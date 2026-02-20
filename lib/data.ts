@@ -4,6 +4,7 @@ import type {
   Workshop,
   WorkshopRegistration,
   WorkshopChild,
+  WorkshopAuthorizedPickup,
   CampRegistration,
   CampChild,
   WaitlistSignup,
@@ -64,6 +65,7 @@ export async function getWorkshopRegistrations() {
   const { data, error } = await supabase
     .from('workshop_registrations')
     .select('*')
+    .neq('status', 'archived')
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -95,6 +97,7 @@ export async function getWorkshopRegistrationsPaginated(
   let query = supabase
     .from('workshop_registrations')
     .select('*', { count: 'exact' })
+    .neq('status', 'archived') // Exclude archived by default
 
   // Apply filters
   if (filters.search) {
@@ -149,10 +152,17 @@ export async function getWorkshopRegistrationWithChildren(id: string) {
     return null
   }
 
+  // Fetch authorized pickups
+  const { data: pickups } = await supabase
+    .from('workshop_authorized_pickups')
+    .select('*')
+    .eq('registration_id', id)
+
   return {
     ...registration,
-    children: children || []
-  } as WorkshopRegistration & { children: WorkshopChild[] }
+    children: children || [],
+    authorized_pickups: pickups || []
+  } as WorkshopRegistration & { children: WorkshopChild[]; authorized_pickups: WorkshopAuthorizedPickup[] }
 }
 
 export async function getWorkshopChildrenCount(workshopIds: string[]) {
@@ -202,6 +212,7 @@ export async function getCampRegistrations() {
   const { data, error } = await supabase
     .from('camp_registrations')
     .select('*')
+    .neq('status', 'archived')
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -225,6 +236,7 @@ export async function getCampRegistrationsPaginated(
   let query = supabase
     .from('camp_registrations')
     .select('*', { count: 'exact' })
+    .neq('status', 'archived') // Exclude archived by default
 
   // Apply filters
   if (filters.search) {

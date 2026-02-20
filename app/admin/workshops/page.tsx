@@ -113,14 +113,22 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
               View and manage registrations for Spring 2026 workshops.
             </p>
           </div>
-          {count > 0 && (
-            <a
-              href="/admin/workshops/export"
-              className="px-4 py-2 text-sm bg-forest-100 text-forest-700 rounded-lg hover:bg-forest-200 transition-colors"
+          <div className="flex gap-3">
+            <Link
+              href="/admin/workshops/new"
+              className="px-4 py-2 text-sm bg-forest-600 text-white rounded-lg hover:bg-forest-700 transition-colors"
+            >
+              + New Registration
+            </Link>
+            {count > 0 && (
+              <a
+                href="/admin/workshops/export"
+                className="px-4 py-2 text-sm bg-forest-100 text-forest-700 rounded-lg hover:bg-forest-200 transition-colors"
             >
               Export CSV
             </a>
           )}
+          </div>
         </div>
 
         <SearchFilter

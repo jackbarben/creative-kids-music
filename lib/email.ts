@@ -65,6 +65,10 @@ interface WorkshopConfirmationData {
   registrationId: string
   mediaConsentInternal?: boolean
   mediaConsentMarketing?: boolean
+  // Location/schedule from database
+  location?: string
+  address?: string
+  schedule?: string // e.g., "4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner<br>7:00 PM Performance"
 }
 
 export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): Promise<EmailResult> {
@@ -81,7 +85,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : `Total: $${data.totalAmount}. We'll send payment details in early January.`
+    : `Total: $${data.totalAmount}. We'll be in touch with payment details soon.`
 
   // Media consent summary
   let mediaConsentText = 'No photo/video permissions granted'
@@ -122,11 +126,11 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Time</td>
-            <td style="padding: 4px 0;">4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner (Parents Welcome to Join!)<br>7:00 PM Performance</td>
+            <td style="padding: 4px 0;">${data.schedule || '4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner (Parents Welcome to Join!)<br>7:00 PM Performance'}</td>
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Location</td>
-            <td style="padding: 4px 0;">St. Luke's/San Lucas Episcopal Church<br>426 E Fourth Plain Blvd, Vancouver, WA</td>
+            <td style="padding: 4px 0;">${data.location || "St. Luke's/San Lucas Episcopal Church"}<br>${data.address || '426 E Fourth Plain Blvd, Vancouver, WA'}</td>
           </tr>
         </table>
       </div>
@@ -237,7 +241,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
   const paymentNote = data.tuitionAssistance
     ? 'You requested tuition assistance. We\'ll be in touch to discuss.'
-    : `Total: $${data.totalAmount}. We'll send payment details in early January.`
+    : `Total: $${data.totalAmount}. We'll be in touch with payment details soon.`
 
   // Media consent summary
   let mediaConsentText = 'No photo/video permissions granted'

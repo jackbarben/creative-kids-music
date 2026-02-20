@@ -267,10 +267,10 @@ export async function submitWorkshopRegistration(
     }
   }
 
-  // Get workshop dates for email
+  // Get workshop details for email
   const { data: workshops } = await supabase
     .from('workshops')
-    .select('id, date, title')
+    .select('id, date, title, location, address, start_time, end_time')
     .in('id', workshopIds)
 
   const workshopDates = (workshops || []).map(w => {
@@ -282,6 +282,11 @@ export async function submitWorkshopRegistration(
       year: 'numeric'
     })
   })
+
+  // Get location from first workshop (all workshops share same location)
+  const firstWorkshop = workshops?.[0]
+  const workshopLocation = firstWorkshop?.location || undefined
+  const workshopAddress = firstWorkshop?.address || undefined
 
   // Send confirmation emails (don't block on failure)
   Promise.all([
@@ -296,6 +301,8 @@ export async function submitWorkshopRegistration(
       registrationId: registration.id,
       mediaConsentInternal,
       mediaConsentMarketing,
+      location: workshopLocation,
+      address: workshopAddress,
     }),
     sendAdminNotification({
       type: 'workshop',

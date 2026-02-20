@@ -61,7 +61,7 @@ export interface Database {
           id: string
           created_at: string
           updated_at: string | null
-          status: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
+          status: 'pending' | 'confirmed' | 'waitlist' | 'cancelled' | 'archived'
           waitlist_position: number | null
           user_id: string | null
           parent_name: string
@@ -96,13 +96,16 @@ export interface Database {
           admin_notes: string | null
           cancelled_at: string | null
           cancellation_reason: string | null
+          archived_at: string | null
+          archived_by: string | null
+          archive_reason: string | null
           version: number
         }
         Insert: {
           id?: string
           created_at?: string
           updated_at?: string | null
-          status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
+          status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled' | 'archived'
           waitlist_position?: number | null
           user_id?: string | null
           parent_name: string
@@ -137,13 +140,16 @@ export interface Database {
           admin_notes?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          archive_reason?: string | null
           version?: number
         }
         Update: {
           id?: string
           created_at?: string
           updated_at?: string | null
-          status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled'
+          status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled' | 'archived'
           waitlist_position?: number | null
           user_id?: string | null
           parent_name?: string
@@ -178,6 +184,9 @@ export interface Database {
           admin_notes?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          archive_reason?: string | null
           version?: number
         }
       }
@@ -233,7 +242,7 @@ export interface Database {
           id: string
           created_at: string
           updated_at: string | null
-          status: 'pending' | 'confirmed' | 'cancelled'
+          status: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id: string | null
           parent_name: string
           parent_email: string
@@ -273,13 +282,16 @@ export interface Database {
           admin_notes: string | null
           cancelled_at: string | null
           cancellation_reason: string | null
+          archived_at: string | null
+          archived_by: string | null
+          archive_reason: string | null
           version: number
         }
         Insert: {
           id?: string
           created_at?: string
           updated_at?: string | null
-          status?: 'pending' | 'confirmed' | 'cancelled'
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id?: string | null
           parent_name: string
           parent_email: string
@@ -319,13 +331,16 @@ export interface Database {
           admin_notes?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          archive_reason?: string | null
           version?: number
         }
         Update: {
           id?: string
           created_at?: string
           updated_at?: string | null
-          status?: 'pending' | 'confirmed' | 'cancelled'
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'archived'
           user_id?: string | null
           parent_name?: string
           parent_email?: string
@@ -365,6 +380,9 @@ export interface Database {
           admin_notes?: string | null
           cancelled_at?: string | null
           cancellation_reason?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          archive_reason?: string | null
           version?: number
         }
       }

@@ -9,7 +9,7 @@ interface ConfirmDialogProps {
   title: string
   message: string
   confirmText?: string
-  confirmStyle?: 'danger' | 'warning'
+  confirmStyle?: 'danger' | 'warning' | 'primary'
   loading?: boolean
 }
 
@@ -46,6 +46,8 @@ export default function ConfirmDialog({
 
   const confirmClass = confirmStyle === 'danger'
     ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+    : confirmStyle === 'primary'
+    ? 'bg-forest-600 hover:bg-forest-700 focus:ring-forest-500'
     : 'bg-amber-600 hover:bg-amber-700 focus:ring-amber-500'
 
   return (

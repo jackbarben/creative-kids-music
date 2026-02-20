@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getCampRegistrationWithChildren } from '@/lib/data'
 import RegistrationActions from './RegistrationActions'
+import RegistrationEditPanel from './RegistrationEditPanel'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,6 +24,17 @@ export default async function CampRegistrationDetail({
       year: 'numeric',
       month: 'long',
       day: 'numeric'
+    })
+  }
+
+  const formatDateTime = (dateString: string | null) => {
+    if (!dateString) return '-'
+    return new Date(dateString).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
     })
   }
 
@@ -50,6 +62,9 @@ export default async function CampRegistrationDetail({
     return styles[status] || styles.unpaid
   }
 
+  // Check if second parent exists
+  const hasSecondParent = registration.parent2_first_name || registration.parent2_last_name || registration.parent2_email
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -57,7 +72,7 @@ export default async function CampRegistrationDetail({
         <div>
           <Link
             href="/admin/camp"
-            className="text-sm text-forest-600 hover:text-forest-700 mb-2 inline-block"
+            className="text-sm text-terracotta-600 hover:text-terracotta-700 mb-2 inline-block"
           >
             &larr; Back to Camp
           </Link>
@@ -66,6 +81,11 @@ export default async function CampRegistrationDetail({
           </h1>
           <p className="text-stone-500">
             Registered {formatDate(registration.created_at)}
+            {registration.user_id && (
+              <span className="ml-2 text-xs bg-terracotta-100 text-terracotta-700 px-2 py-0.5 rounded-full">
+                Account Linked
+              </span>
+            )}
           </p>
         </div>
         <div className="flex gap-2">
@@ -103,10 +123,18 @@ export default async function CampRegistrationDetail({
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main Info */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Contact Info */}
+          {/* Primary Parent Contact */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
-            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Contact</h2>
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Primary Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <dt className="text-sm text-stone-500">Name</dt>
+                <dd className="text-stone-800">{registration.parent_name}</dd>
+              </div>
+              <div>
+                <dt className="text-sm text-stone-500">Relationship</dt>
+                <dd className="text-stone-800">{registration.parent_relationship || '-'}</dd>
+              </div>
               <div>
                 <dt className="text-sm text-stone-500">Email</dt>
                 <dd className="text-stone-800">
@@ -122,10 +150,45 @@ export default async function CampRegistrationDetail({
             </dl>
           </div>
 
+          {/* Second Parent (if exists) */}
+          {hasSecondParent && (
+            <div className="bg-white rounded-xl border border-stone-200 p-6">
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Second Parent/Guardian</h2>
+              <dl className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <dt className="text-sm text-stone-500">Name</dt>
+                  <dd className="text-stone-800">
+                    {[registration.parent2_first_name, registration.parent2_last_name].filter(Boolean).join(' ') || '-'}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-stone-500">Relationship</dt>
+                  <dd className="text-stone-800">{registration.parent2_relationship || '-'}</dd>
+                </div>
+                {registration.parent2_email && (
+                  <div>
+                    <dt className="text-sm text-stone-500">Email</dt>
+                    <dd className="text-stone-800">
+                      <a href={`mailto:${registration.parent2_email}`} className="text-terracotta-600 hover:underline">
+                        {registration.parent2_email}
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {registration.parent2_phone && (
+                  <div>
+                    <dt className="text-sm text-stone-500">Phone</dt>
+                    <dd className="text-stone-800">{registration.parent2_phone}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
+
           {/* Emergency Contact */}
           <div className="bg-red-50 rounded-xl border border-red-200 p-6">
             <h2 className="font-display text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
-            <dl className="grid gap-4 sm:grid-cols-2">
+            <dl className="grid gap-4 sm:grid-cols-3">
               <div>
                 <dt className="text-sm text-red-600">Name</dt>
                 <dd className="text-red-900 font-medium">{registration.emergency_name}</dd>
@@ -134,12 +197,10 @@ export default async function CampRegistrationDetail({
                 <dt className="text-sm text-red-600">Phone</dt>
                 <dd className="text-red-900 font-medium">{registration.emergency_phone}</dd>
               </div>
-              {registration.emergency_relationship && (
-                <div className="sm:col-span-2">
-                  <dt className="text-sm text-red-600">Relationship</dt>
-                  <dd className="text-red-800">{registration.emergency_relationship}</dd>
-                </div>
-              )}
+              <div>
+                <dt className="text-sm text-red-600">Relationship</dt>
+                <dd className="text-red-900">{registration.emergency_relationship || '-'}</dd>
+              </div>
             </dl>
           </div>
 
@@ -154,19 +215,21 @@ export default async function CampRegistrationDetail({
               )}
             </h2>
             {registration.authorized_pickups && registration.authorized_pickups.length > 0 ? (
-              <ul className="space-y-2">
+              <div className="space-y-3">
                 {registration.authorized_pickups.map((pickup) => (
-                  <li key={pickup.id} className="p-3 bg-white rounded-lg">
-                    <span className="text-blue-900 font-medium">{pickup.name}</span>
-                    {pickup.relationship && (
-                      <span className="text-blue-600 ml-1">({pickup.relationship})</span>
-                    )}
+                  <div key={pickup.id} className="flex justify-between items-center p-3 bg-white rounded-lg">
+                    <div>
+                      <p className="font-medium text-blue-900">{pickup.name}</p>
+                      {pickup.relationship && (
+                        <p className="text-sm text-blue-700">{pickup.relationship}</p>
+                      )}
+                    </div>
                     {pickup.phone && (
-                      <p className="text-blue-700 text-sm mt-1">{pickup.phone}</p>
+                      <p className="text-sm text-blue-800">{pickup.phone}</p>
                     )}
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p className="text-blue-600 italic">No authorized pickups added yet</p>
             )}
@@ -190,6 +253,9 @@ export default async function CampRegistrationDetail({
                       {child.child_school && (
                         <p className="text-sm text-stone-500">{child.child_school}</p>
                       )}
+                      {child.tshirt_size && (
+                        <p className="text-sm text-stone-500">T-shirt: {child.tshirt_size}</p>
+                      )}
                     </div>
                     {child.discount_cents > 0 && (
                       <span className="text-sm text-green-600">
@@ -202,27 +268,27 @@ export default async function CampRegistrationDetail({
                   {(child.allergies || child.dietary_restrictions || child.medical_conditions || child.special_needs) && (
                     <div className="mt-3 pt-3 border-t border-stone-200 space-y-2">
                       {child.allergies && (
-                        <div>
-                          <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded">Allergies</span>
-                          <p className="text-sm text-stone-600 mt-1">{child.allergies}</p>
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-red-600 bg-red-100 px-2 py-0.5 rounded">Allergies</span>
+                          <span className="text-sm text-stone-700">{child.allergies}</span>
                         </div>
                       )}
                       {child.dietary_restrictions && (
-                        <div>
-                          <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-0.5 rounded">Dietary</span>
-                          <p className="text-sm text-stone-600 mt-1">{child.dietary_restrictions}</p>
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Dietary</span>
+                          <span className="text-sm text-stone-700">{child.dietary_restrictions}</span>
                         </div>
                       )}
                       {child.medical_conditions && (
-                        <div>
-                          <span className="text-xs font-medium text-red-700 bg-red-100 px-2 py-0.5 rounded">Medical</span>
-                          <p className="text-sm text-stone-600 mt-1">{child.medical_conditions}</p>
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-0.5 rounded">Medical</span>
+                          <span className="text-sm text-stone-700">{child.medical_conditions}</span>
                         </div>
                       )}
                       {child.special_needs && (
-                        <div>
-                          <span className="text-xs font-medium text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Special Needs</span>
-                          <p className="text-sm text-stone-600 mt-1">{child.special_needs}</p>
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Special Needs</span>
+                          <span className="text-sm text-stone-700">{child.special_needs}</span>
                         </div>
                       )}
                     </div>
@@ -230,6 +296,75 @@ export default async function CampRegistrationDetail({
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Media Consent */}
+          <div className="bg-white rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Media Consent</h2>
+            <div className="flex flex-wrap gap-3">
+              <span className={`text-sm px-3 py-1 rounded-full ${
+                registration.media_consent_internal
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-stone-100 text-stone-500'
+              }`}>
+                {registration.media_consent_internal ? '✓' : '✗'} Internal Documentation
+              </span>
+              <span className={`text-sm px-3 py-1 rounded-full ${
+                registration.media_consent_marketing
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-stone-100 text-stone-500'
+              }`}>
+                {registration.media_consent_marketing ? '✓' : '✗'} Marketing Use
+              </span>
+            </div>
+            {registration.media_consent_accepted_at && (
+              <p className="text-xs text-stone-400 mt-2">
+                Consent recorded {formatDateTime(registration.media_consent_accepted_at)}
+              </p>
+            )}
+          </div>
+
+          {/* Agreements */}
+          <div className="bg-white rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Agreements</h2>
+            <dl className="space-y-3">
+              <div className="flex justify-between items-center">
+                <dt className="text-stone-600">Terms & Conditions</dt>
+                <dd className="text-sm">
+                  {registration.terms_accepted ? (
+                    <span className="text-green-600">
+                      ✓ Accepted {registration.terms_accepted_at && formatDateTime(registration.terms_accepted_at)}
+                    </span>
+                  ) : (
+                    <span className="text-red-600">✗ Not accepted</span>
+                  )}
+                </dd>
+              </div>
+              <div className="flex justify-between items-center">
+                <dt className="text-stone-600">Liability Waiver</dt>
+                <dd className="text-sm">
+                  {registration.liability_waiver_accepted ? (
+                    <span className="text-green-600">
+                      ✓ Accepted {registration.liability_waiver_accepted_at && formatDateTime(registration.liability_waiver_accepted_at)}
+                    </span>
+                  ) : (
+                    <span className="text-red-600">✗ Not accepted</span>
+                  )}
+                </dd>
+              </div>
+              <div className="flex justify-between items-center">
+                <dt className="text-stone-600">Behavior Agreement</dt>
+                <dd className="text-sm">
+                  {registration.behavior_agreement_accepted ? (
+                    <span className="text-green-600">
+                      ✓ Accepted {registration.behavior_agreement_accepted_at && formatDateTime(registration.behavior_agreement_accepted_at)}
+                    </span>
+                  ) : (
+                    <span className="text-red-600">✗ Not accepted</span>
+                  )}
+                </dd>
+              </div>
+            </dl>
           </div>
 
           {/* Optional Info */}
@@ -258,6 +393,35 @@ export default async function CampRegistrationDetail({
               </dl>
             </div>
           )}
+
+          {/* Metadata */}
+          <div className="bg-stone-50 rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-600 mb-4">Registration Details</h2>
+            <dl className="grid gap-3 sm:grid-cols-2 text-sm">
+              <div>
+                <dt className="text-stone-400">Registration ID</dt>
+                <dd className="text-stone-600 font-mono text-xs">{registration.id}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Confirmation #</dt>
+                <dd className="text-stone-600 font-mono">{registration.id.substring(0, 8).toUpperCase()}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Created</dt>
+                <dd className="text-stone-600">{formatDateTime(registration.created_at)}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Last Updated</dt>
+                <dd className="text-stone-600">{formatDateTime(registration.updated_at)}</dd>
+              </div>
+              {registration.user_id && (
+                <div className="sm:col-span-2">
+                  <dt className="text-stone-400">Linked Account</dt>
+                  <dd className="text-stone-600 font-mono text-xs">{registration.user_id}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
         </div>
 
         {/* Sidebar */}
@@ -275,9 +439,31 @@ export default async function CampRegistrationDetail({
                 <dd className="text-stone-800">{formatCents(registration.amount_paid_cents)}</dd>
               </div>
               <div className="flex justify-between">
+                <dt className="text-stone-500">Outstanding</dt>
+                <dd className={`font-medium ${
+                  (registration.total_amount_cents || 0) - (registration.amount_paid_cents || 0) > 0
+                    ? 'text-red-600'
+                    : 'text-green-600'
+                }`}>
+                  {formatCents((registration.total_amount_cents || 0) - (registration.amount_paid_cents || 0))}
+                </dd>
+              </div>
+              <div className="flex justify-between">
                 <dt className="text-stone-500">Method</dt>
                 <dd className="text-stone-800">{registration.payment_method || '-'}</dd>
               </div>
+              {registration.payment_date && (
+                <div className="flex justify-between">
+                  <dt className="text-stone-500">Payment Date</dt>
+                  <dd className="text-stone-800">{formatDateTime(registration.payment_date)}</dd>
+                </div>
+              )}
+              {registration.payment_notes && (
+                <div className="pt-2 border-t border-stone-100">
+                  <dt className="text-sm text-stone-500 mb-1">Payment Notes</dt>
+                  <dd className="text-sm text-stone-700">{registration.payment_notes}</dd>
+                </div>
+              )}
               {registration.tuition_assistance && (
                 <div className="pt-2 border-t border-stone-100">
                   <p className="text-sm text-blue-600 font-medium">Tuition Assistance Requested</p>
@@ -295,6 +481,52 @@ export default async function CampRegistrationDetail({
             currentStatus={registration.status}
             currentPaymentStatus={registration.payment_status}
             currentNotes={registration.admin_notes}
+          />
+
+          {/* Edit Panel */}
+          <RegistrationEditPanel
+            registrationId={registration.id}
+            registrationStatus={registration.status}
+            parentInfo={{
+              parent_name: registration.parent_name,
+              parent_first_name: registration.parent_first_name,
+              parent_last_name: registration.parent_last_name,
+              parent_email: registration.parent_email,
+              parent_phone: registration.parent_phone,
+              parent_relationship: registration.parent_relationship,
+              parent2_name: [registration.parent2_first_name, registration.parent2_last_name].filter(Boolean).join(' ') || null,
+              parent2_email: registration.parent2_email,
+              parent2_phone: registration.parent2_phone,
+              parent2_relationship: registration.parent2_relationship,
+            }}
+            emergencyInfo={{
+              emergency_name: registration.emergency_name,
+              emergency_phone: registration.emergency_phone,
+              emergency_relationship: registration.emergency_relationship,
+            }}
+            mediaConsent={{
+              media_consent_internal: registration.media_consent_internal,
+              media_consent_marketing: registration.media_consent_marketing,
+            }}
+            registeredChildren={registration.children.map(c => ({
+              id: c.id,
+              child_name: c.child_name,
+              child_age: c.child_age,
+              child_grade: c.child_grade,
+              child_school: c.child_school,
+              tshirt_size: c.tshirt_size,
+              allergies: c.allergies,
+              dietary_restrictions: c.dietary_restrictions,
+              medical_conditions: c.medical_conditions,
+              special_needs: c.special_needs,
+              discount_cents: c.discount_cents,
+            }))}
+            pickups={registration.authorized_pickups?.map(p => ({
+              id: p.id,
+              name: p.name,
+              phone: p.phone,
+              relationship: p.relationship,
+            })) || []}
           />
         </div>
       </div>

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getWorkshopRegistrationWithChildren, getWorkshops } from '@/lib/data'
 import RegistrationActions from './RegistrationActions'
+import RegistrationEditPanel from './RegistrationEditPanel'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,6 +27,17 @@ export default async function WorkshopRegistrationDetail({
       year: 'numeric',
       month: 'long',
       day: 'numeric'
+    })
+  }
+
+  const formatDateTime = (dateString: string | null) => {
+    if (!dateString) return '-'
+    return new Date(dateString).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
     })
   }
 
@@ -70,6 +82,11 @@ export default async function WorkshopRegistrationDetail({
           </h1>
           <p className="text-stone-500">
             Registered {formatDate(registration.created_at)}
+            {registration.user_id && (
+              <span className="ml-2 text-xs bg-forest-100 text-forest-700 px-2 py-0.5 rounded-full">
+                Account Linked
+              </span>
+            )}
           </p>
         </div>
         <div className="flex gap-2">
@@ -112,6 +129,14 @@ export default async function WorkshopRegistrationDetail({
             <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Contact</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               <div>
+                <dt className="text-sm text-stone-500">Name</dt>
+                <dd className="text-stone-800">{registration.parent_name}</dd>
+              </div>
+              <div>
+                <dt className="text-sm text-stone-500">Relationship</dt>
+                <dd className="text-stone-800">{registration.parent_relationship || '-'}</dd>
+              </div>
+              <div>
                 <dt className="text-sm text-stone-500">Email</dt>
                 <dd className="text-stone-800">
                   <a href={`mailto:${registration.parent_email}`} className="text-forest-600 hover:underline">
@@ -126,6 +151,51 @@ export default async function WorkshopRegistrationDetail({
             </dl>
           </div>
 
+          {/* Emergency Contact */}
+          {(registration.emergency_name || registration.emergency_phone) && (
+            <div className="bg-red-50 rounded-xl border border-red-200 p-6">
+              <h2 className="font-display text-lg font-bold text-red-800 mb-4">Emergency Contact</h2>
+              <dl className="grid gap-4 sm:grid-cols-3">
+                <div>
+                  <dt className="text-sm text-red-600">Name</dt>
+                  <dd className="text-red-900 font-medium">{registration.emergency_name || '-'}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-red-600">Phone</dt>
+                  <dd className="text-red-900 font-medium">{registration.emergency_phone || '-'}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-red-600">Relationship</dt>
+                  <dd className="text-red-900">{registration.emergency_relationship || '-'}</dd>
+                </div>
+              </dl>
+            </div>
+          )}
+
+          {/* Authorized Pickups */}
+          {registration.authorized_pickups && registration.authorized_pickups.length > 0 && (
+            <div className="bg-blue-50 rounded-xl border border-blue-200 p-6">
+              <h2 className="font-display text-lg font-bold text-blue-800 mb-4">
+                Authorized Pickups ({registration.authorized_pickups.length})
+              </h2>
+              <div className="space-y-3">
+                {registration.authorized_pickups.map((pickup) => (
+                  <div key={pickup.id} className="flex justify-between items-center p-3 bg-white rounded-lg">
+                    <div>
+                      <p className="font-medium text-blue-900">{pickup.name}</p>
+                      {pickup.relationship && (
+                        <p className="text-sm text-blue-700">{pickup.relationship}</p>
+                      )}
+                    </div>
+                    {pickup.phone && (
+                      <p className="text-sm text-blue-800">{pickup.phone}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Children */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
             <h2 className="font-display text-lg font-bold text-stone-800 mb-4">
@@ -134,7 +204,7 @@ export default async function WorkshopRegistrationDetail({
             <div className="space-y-4">
               {registration.children.map((child) => (
                 <div key={child.id} className="p-4 bg-stone-50 rounded-lg">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start mb-3">
                     <div>
                       <p className="font-medium text-stone-800">{child.child_name}</p>
                       <p className="text-sm text-stone-600">Age {child.child_age}</p>
@@ -148,6 +218,29 @@ export default async function WorkshopRegistrationDetail({
                       </span>
                     )}
                   </div>
+                  {/* Medical Info */}
+                  {(child.allergies || child.dietary_restrictions || child.medical_conditions) && (
+                    <div className="pt-3 border-t border-stone-200 space-y-2">
+                      {child.allergies && (
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-red-600 bg-red-100 px-2 py-0.5 rounded">Allergies</span>
+                          <span className="text-sm text-stone-700">{child.allergies}</span>
+                        </div>
+                      )}
+                      {child.dietary_restrictions && (
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Dietary</span>
+                          <span className="text-sm text-stone-700">{child.dietary_restrictions}</span>
+                        </div>
+                      )}
+                      {child.medical_conditions && (
+                        <div className="flex items-start gap-2">
+                          <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-0.5 rounded">Medical</span>
+                          <span className="text-sm text-stone-700">{child.medical_conditions}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -176,6 +269,63 @@ export default async function WorkshopRegistrationDetail({
             </div>
           </div>
 
+          {/* Media Consent */}
+          <div className="bg-white rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Media Consent</h2>
+            <div className="flex flex-wrap gap-3">
+              <span className={`text-sm px-3 py-1 rounded-full ${
+                registration.media_consent_internal
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-stone-100 text-stone-500'
+              }`}>
+                {registration.media_consent_internal ? '✓' : '✗'} Internal Documentation
+              </span>
+              <span className={`text-sm px-3 py-1 rounded-full ${
+                registration.media_consent_marketing
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-stone-100 text-stone-500'
+              }`}>
+                {registration.media_consent_marketing ? '✓' : '✗'} Marketing Use
+              </span>
+            </div>
+            {registration.media_consent_accepted_at && (
+              <p className="text-xs text-stone-400 mt-2">
+                Consent recorded {formatDateTime(registration.media_consent_accepted_at)}
+              </p>
+            )}
+          </div>
+
+          {/* Agreements */}
+          <div className="bg-white rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Agreements</h2>
+            <dl className="space-y-3">
+              <div className="flex justify-between items-center">
+                <dt className="text-stone-600">Terms & Conditions</dt>
+                <dd className="text-sm">
+                  {registration.terms_accepted ? (
+                    <span className="text-green-600">
+                      ✓ Accepted {registration.terms_accepted_at && formatDateTime(registration.terms_accepted_at)}
+                    </span>
+                  ) : (
+                    <span className="text-red-600">✗ Not accepted</span>
+                  )}
+                </dd>
+              </div>
+              <div className="flex justify-between items-center">
+                <dt className="text-stone-600">Liability Waiver</dt>
+                <dd className="text-sm">
+                  {registration.liability_waiver_accepted ? (
+                    <span className="text-green-600">
+                      ✓ Accepted {registration.liability_waiver_accepted_at && formatDateTime(registration.liability_waiver_accepted_at)}
+                    </span>
+                  ) : (
+                    <span className="text-red-600">✗ Not accepted</span>
+                  )}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
           {/* Optional Info */}
           {(registration.how_heard || registration.excited_about || registration.message) && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
@@ -202,6 +352,35 @@ export default async function WorkshopRegistrationDetail({
               </dl>
             </div>
           )}
+
+          {/* Metadata */}
+          <div className="bg-stone-50 rounded-xl border border-stone-200 p-6">
+            <h2 className="font-display text-lg font-bold text-stone-600 mb-4">Registration Details</h2>
+            <dl className="grid gap-3 sm:grid-cols-2 text-sm">
+              <div>
+                <dt className="text-stone-400">Registration ID</dt>
+                <dd className="text-stone-600 font-mono text-xs">{registration.id}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Confirmation #</dt>
+                <dd className="text-stone-600 font-mono">{registration.id.substring(0, 8).toUpperCase()}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Created</dt>
+                <dd className="text-stone-600">{formatDateTime(registration.created_at)}</dd>
+              </div>
+              <div>
+                <dt className="text-stone-400">Last Updated</dt>
+                <dd className="text-stone-600">{formatDateTime(registration.updated_at)}</dd>
+              </div>
+              {registration.user_id && (
+                <div className="sm:col-span-2">
+                  <dt className="text-stone-400">Linked Account</dt>
+                  <dd className="text-stone-600 font-mono text-xs">{registration.user_id}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
         </div>
 
         {/* Sidebar - Payment & Actions */}
@@ -219,9 +398,31 @@ export default async function WorkshopRegistrationDetail({
                 <dd className="text-stone-800">{formatCents(registration.amount_paid_cents)}</dd>
               </div>
               <div className="flex justify-between">
+                <dt className="text-stone-500">Outstanding</dt>
+                <dd className={`font-medium ${
+                  (registration.total_amount_cents || 0) - (registration.amount_paid_cents || 0) > 0
+                    ? 'text-red-600'
+                    : 'text-green-600'
+                }`}>
+                  {formatCents((registration.total_amount_cents || 0) - (registration.amount_paid_cents || 0))}
+                </dd>
+              </div>
+              <div className="flex justify-between">
                 <dt className="text-stone-500">Method</dt>
                 <dd className="text-stone-800">{registration.payment_method || '-'}</dd>
               </div>
+              {registration.payment_date && (
+                <div className="flex justify-between">
+                  <dt className="text-stone-500">Payment Date</dt>
+                  <dd className="text-stone-800">{formatDateTime(registration.payment_date)}</dd>
+                </div>
+              )}
+              {registration.payment_notes && (
+                <div className="pt-2 border-t border-stone-100">
+                  <dt className="text-sm text-stone-500 mb-1">Payment Notes</dt>
+                  <dd className="text-sm text-stone-700">{registration.payment_notes}</dd>
+                </div>
+              )}
               {registration.tuition_assistance && (
                 <div className="pt-2 border-t border-stone-100">
                   <p className="text-sm text-blue-600 font-medium">Tuition Assistance Requested</p>
@@ -244,6 +445,45 @@ export default async function WorkshopRegistrationDetail({
               .filter((w): w is NonNullable<typeof w> => w !== undefined)
               .map(w => ({ id: w.id, title: w.title, date: w.date }))
             }
+          />
+
+          {/* Edit Panel */}
+          <RegistrationEditPanel
+            registrationId={registration.id}
+            registrationStatus={registration.status}
+            parentInfo={{
+              parent_name: registration.parent_name,
+              parent_first_name: registration.parent_first_name,
+              parent_last_name: registration.parent_last_name,
+              parent_email: registration.parent_email,
+              parent_phone: registration.parent_phone,
+              parent_relationship: registration.parent_relationship,
+            }}
+            emergencyInfo={{
+              emergency_name: registration.emergency_name,
+              emergency_phone: registration.emergency_phone,
+              emergency_relationship: registration.emergency_relationship,
+            }}
+            mediaConsent={{
+              media_consent_internal: registration.media_consent_internal,
+              media_consent_marketing: registration.media_consent_marketing,
+            }}
+            registeredChildren={registration.children.map(c => ({
+              id: c.id,
+              child_name: c.child_name,
+              child_age: c.child_age,
+              child_school: c.child_school,
+              allergies: c.allergies,
+              dietary_restrictions: c.dietary_restrictions,
+              medical_conditions: c.medical_conditions,
+              discount_cents: c.discount_cents,
+            }))}
+            pickups={registration.authorized_pickups?.map(p => ({
+              id: p.id,
+              name: p.name,
+              phone: p.phone,
+              relationship: p.relationship,
+            })) || []}
           />
         </div>
       </div>
