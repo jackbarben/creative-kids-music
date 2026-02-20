@@ -35,7 +35,7 @@ export default function CampThankYouPage() {
               You&apos;ll receive a confirmation email shortly with all the details—what to bring, drop-off info, and what to expect.
             </p>
             <p className="text-stone-400 text-sm mb-12">
-              Payment can be made day-of via the church&apos;s Vanco portal or by check/cash at the event.
+              Payment is collected day-of. We&apos;ll help you set up the church&apos;s Vanco portal, or you can pay by check or cash.
             </p>
 
             {/* Account Section - different based on login status */}

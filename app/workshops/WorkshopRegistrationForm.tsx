@@ -229,7 +229,7 @@ export default function WorkshopRegistrationForm({ workshops }: WorkshopRegistra
             {
               value: 'later',
               label: 'Standard payment',
-              description: 'Pay day-of via Vanco, check, or cash',
+              description: 'Payment collected day-of (Vanco, check, or cash)',
             },
             {
               value: 'assistance',
