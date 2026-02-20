@@ -40,6 +40,7 @@ Phase 6: Workshop Management, Attendance Tracking, and bug fixes.
 - **Attendance page query**: Fixed Supabase join syntax by using manual joins
 - **Date timezone issues**: Fixed date comparisons showing future workshops as "passed"
 - **Registration counts**: Now shows total kids instead of families for capacity tracking
+- **TypeScript build errors**: Fixed Set iteration and Map.values() iteration issues
 
 ### Database Migrations
 - `009_families.sql` - Family accounts table
