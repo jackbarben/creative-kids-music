@@ -11,7 +11,10 @@ function getResend() {
 }
 
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
-const ADMIN_EMAIL = 'jack@creativekidsmusic.org'
+const ADMIN_EMAILS = [
+  'jack@creativekidsmusic.org',
+  'elizabeth.femling@gmail.com',
+]
 const SITE_URL = 'https://creativekidsmusic.org'
 
 type EmailResult = {
@@ -502,7 +505,7 @@ export async function sendAdminNotification(data: AdminNotificationData): Promis
   try {
     const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
+      to: ADMIN_EMAILS,
       subject,
       html,
     })
@@ -559,21 +562,21 @@ export async function sendContactFormEmail(data: ContactFormData): Promise<Email
   try {
     const { data: result, error } = await getResend().emails.send({
       from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
+      to: ADMIN_EMAILS,
       replyTo: data.email,
       subject: emailSubject,
       html,
     })
 
     if (error) {
-      await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'failed', null)
+      await logEmail(ADMIN_EMAILS.join(', '), 'contact_form', emailSubject, null, null, 'failed', null)
       return { success: false, error: error.message }
     }
 
-    await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'sent', result?.id || null)
+    await logEmail(ADMIN_EMAILS.join(', '), 'contact_form', emailSubject, null, null, 'sent', result?.id || null)
     return { success: true, id: result?.id }
   } catch (error) {
-    await logEmail(ADMIN_EMAIL, 'contact_form', emailSubject, null, null, 'failed', null)
+    await logEmail(ADMIN_EMAILS.join(', '), 'contact_form', emailSubject, null, null, 'failed', null)
     return { success: false, error: String(error) }
   }
 }
