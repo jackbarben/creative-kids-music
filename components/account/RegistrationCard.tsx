@@ -32,7 +32,7 @@ export default function RegistrationCard({ registration, programType, workshops 
   const programStarted = (() => {
     if (programType === 'workshop' && workshops?.length) {
       const firstDate = workshops
-        .map(w => new Date(w.date))
+        .map(w => new Date(w.date + 'T00:00:00'))
         .sort((a, b) => a.getTime() - b.getTime())[0]
       return firstDate && firstDate < new Date()
     }
@@ -40,7 +40,8 @@ export default function RegistrationCard({ registration, programType, workshops 
   })()
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+    // Append T00:00:00 to avoid timezone shift issues
+    return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',

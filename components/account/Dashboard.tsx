@@ -24,7 +24,7 @@ export default function Dashboard({ user }: DashboardProps) {
       setError(null)
 
       try {
-        // Fetch workshop registrations with children
+        // Fetch workshop registrations with children (exclude cancelled/archived)
         const { data: workshopRegs, error: workshopError } = await supabase
           .from('workshop_registrations')
           .select(`
@@ -32,6 +32,8 @@ export default function Dashboard({ user }: DashboardProps) {
             children:workshop_children(*)
           `)
           .eq('user_id', user.id)
+          .neq('status', 'cancelled')
+          .neq('status', 'archived')
           .order('created_at', { ascending: false })
 
         if (workshopError) throw workshopError
@@ -55,7 +57,7 @@ export default function Dashboard({ user }: DashboardProps) {
 
         setWorkshopRegistrations(workshopsWithDetails)
 
-        // Fetch camp registrations with children and pickups
+        // Fetch camp registrations with children and pickups (exclude cancelled/archived)
         const { data: campRegs, error: campError } = await supabase
           .from('camp_registrations')
           .select(`
@@ -64,6 +66,8 @@ export default function Dashboard({ user }: DashboardProps) {
             authorized_pickups(*)
           `)
           .eq('user_id', user.id)
+          .neq('status', 'cancelled')
+          .neq('status', 'archived')
           .order('created_at', { ascending: false })
 
         if (campError) throw campError
