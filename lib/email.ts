@@ -129,7 +129,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Time</td>
-            <td style="padding: 4px 0;">${data.schedule || '4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner (Parents Welcome to Join!)<br>7:00 PM Performance'}</td>
+            <td style="padding: 4px 0;">${data.schedule || '4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner — Parents, please join us!<br>7:00 PM Performance for Parents'}</td>
           </tr>
           <tr>
             <td style="padding: 4px 0; color: #78716c;">Location</td>
@@ -141,8 +141,8 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What's Included</h2>
       <ul style="color: #57534e; padding-left: 20px;">
         <li>Music instruction and group activities</li>
-        <li>Dinner for all participants</li>
-        <li>Parent showcase performance at the end</li>
+        <li>Dinner for kids and parents — please join us!</li>
+        <li>Performance at 7:00 PM for parents to see what they've created</li>
       </ul>
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What You Agreed To</h2>

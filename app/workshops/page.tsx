@@ -82,8 +82,8 @@ export default async function WorkshopsPage() {
                           </p>
                           <p className="text-sm text-slate-500 mt-2">
                             4:00–6:30 PM Workshop<br />
-                            6:30–7:00 PM Dinner (Parents Welcome to Join!)<br />
-                            7:00 PM Performance
+                            6:30–7:00 PM Dinner — Parents, please join us!<br />
+                            7:00 PM Performance for Parents
                           </p>
                         </div>
                       ))}
