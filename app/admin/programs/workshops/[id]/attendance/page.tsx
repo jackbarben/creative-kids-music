@@ -57,46 +57,53 @@ async function getAttendance(workshopId: string): Promise<AttendanceRecord[]> {
   // First, ensure attendance records exist
   await supabase.rpc('generate_workshop_attendance', { p_workshop_id: workshopId })
 
-  // Then fetch attendance with child and registration details
-  const { data, error } = await supabase
+  // Fetch attendance records
+  const { data: attendanceData, error: attendanceError } = await supabase
     .from('workshop_attendance')
-    .select(`
-      id,
-      workshop_id,
-      registration_id,
-      child_id,
-      status,
-      checked_in_at,
-      checked_in_by,
-      notes,
-      child:workshop_children!inner(
-        id,
-        child_name,
-        child_age,
-        allergies,
-        medical_conditions
-      ),
-      registration:workshop_registrations!inner(
-        id,
-        parent_name,
-        parent_phone,
-        parent_email
-      )
-    `)
+    .select('*')
     .eq('workshop_id', workshopId)
-    .order('child->child_name')
 
-  if (error) {
-    console.error('Error fetching attendance:', error)
+  if (attendanceError || !attendanceData) {
+    console.error('Error fetching attendance:', attendanceError)
     return []
   }
 
-  // Transform the data to flatten the nested objects
-  return (data || []).map(record => ({
-    ...record,
-    child: Array.isArray(record.child) ? record.child[0] : record.child,
-    registration: Array.isArray(record.registration) ? record.registration[0] : record.registration
-  })) as AttendanceRecord[]
+  // Get unique child IDs and registration IDs
+  const childIds = attendanceData.map(a => a.child_id)
+  const registrationIds = [...new Set(attendanceData.map(a => a.registration_id))]
+
+  // Fetch children
+  const { data: children } = await supabase
+    .from('workshop_children')
+    .select('id, child_name, child_age, allergies, medical_conditions')
+    .in('id', childIds)
+
+  // Fetch registrations
+  const { data: registrations } = await supabase
+    .from('workshop_registrations')
+    .select('id, parent_name, parent_phone, parent_email')
+    .in('id', registrationIds)
+
+  // Create lookup maps
+  const childMap = new Map((children || []).map(c => [c.id, c]))
+  const regMap = new Map((registrations || []).map(r => [r.id, r]))
+
+  // Join the data
+  return attendanceData
+    .map(record => {
+      const child = childMap.get(record.child_id)
+      const registration = regMap.get(record.registration_id)
+
+      if (!child || !registration) return null
+
+      return {
+        ...record,
+        child,
+        registration
+      }
+    })
+    .filter((r): r is AttendanceRecord => r !== null)
+    .sort((a, b) => a.child.child_name.localeCompare(b.child.child_name))
 }
 
 async function getAttendanceSummary(workshopId: string) {
