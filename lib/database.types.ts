@@ -64,6 +64,7 @@ export interface Database {
           status: 'pending' | 'confirmed' | 'waitlist' | 'cancelled' | 'archived'
           waitlist_position: number | null
           user_id: string | null
+          family_id: string | null
           parent_name: string
           parent_email: string
           parent_phone: string | null
@@ -108,6 +109,7 @@ export interface Database {
           status?: 'pending' | 'confirmed' | 'waitlist' | 'cancelled' | 'archived'
           waitlist_position?: number | null
           user_id?: string | null
+          family_id?: string | null
           parent_name: string
           parent_email: string
           parent_phone?: string | null
@@ -691,6 +693,55 @@ export interface Database {
           updated_at?: string | null
         }
       }
+      // ============================================
+      // FAMILY TABLES (Migration 009)
+      // ============================================
+      families: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      family_members: {
+        Row: {
+          id: string
+          family_id: string
+          user_id: string | null
+          email: string
+          invited_at: string
+          joined_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          family_id: string
+          user_id?: string | null
+          email: string
+          invited_at?: string
+          joined_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          family_id?: string
+          user_id?: string | null
+          email?: string
+          invited_at?: string
+          joined_at?: string | null
+          created_at?: string
+        }
+      }
       workshop_authorized_pickups: {
         Row: {
           id: string
@@ -1141,6 +1192,27 @@ export interface Database {
         Args: { reg_user_id: string }
         Returns: boolean
       }
+      // Family functions (Migration 009)
+      get_family_id_for_user: {
+        Args: { p_user_id: string }
+        Returns: string | null
+      }
+      is_family_member: {
+        Args: { p_family_id: string }
+        Returns: boolean
+      }
+      create_family_for_user: {
+        Args: { p_user_id: string; p_email: string }
+        Returns: string
+      }
+      invite_family_member: {
+        Args: { p_family_id: string; p_email: string }
+        Returns: string
+      }
+      join_family: {
+        Args: { p_user_id: string; p_email: string }
+        Returns: string | null
+      }
     }
     Enums: {
       [_ in never]: never
@@ -1237,4 +1309,21 @@ export type RegistrationWithChildren = Registration & {
 // Program with sessions (for workshop-style programs)
 export type ProgramWithSessions = Program & {
   sessions: ProgramSession[]
+}
+
+// ============================================
+// FAMILY TYPES (Migration 009)
+// ============================================
+
+export type Family = Database['public']['Tables']['families']['Row']
+export type FamilyInsert = Database['public']['Tables']['families']['Insert']
+export type FamilyUpdate = Database['public']['Tables']['families']['Update']
+
+export type FamilyMember = Database['public']['Tables']['family_members']['Row']
+export type FamilyMemberInsert = Database['public']['Tables']['family_members']['Insert']
+export type FamilyMemberUpdate = Database['public']['Tables']['family_members']['Update']
+
+// Family with members (joined)
+export type FamilyWithMembers = Family & {
+  members: FamilyMember[]
 }
