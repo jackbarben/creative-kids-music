@@ -18,30 +18,47 @@ async function getWorkshopsWithCounts() {
     return []
   }
 
-  // Get registration counts for each workshop
-  const workshopsWithCounts = await Promise.all(
-    (workshops || []).map(async (workshop) => {
-      // Count confirmed/pending registrations
-      const { count: registeredCount } = await supabase
-        .from('workshop_registrations')
-        .select('id', { count: 'exact', head: true })
-        .contains('workshop_ids', [workshop.id])
-        .in('status', ['pending', 'confirmed'])
+  // Get all registrations with children counts
+  const { data: registrations } = await supabase
+    .from('workshop_registrations')
+    .select('id, workshop_ids, status')
+    .in('status', ['pending', 'confirmed', 'waitlist'])
 
-      // Count waitlist registrations
-      const { count: waitlistCount } = await supabase
-        .from('workshop_registrations')
-        .select('id', { count: 'exact', head: true })
-        .contains('workshop_ids', [workshop.id])
-        .eq('status', 'waitlist')
+  // Get children counts for each registration
+  const registrationIds = (registrations || []).map(r => r.id)
+  const { data: children } = await supabase
+    .from('workshop_children')
+    .select('id, registration_id')
+    .in('registration_id', registrationIds)
 
-      return {
-        ...workshop,
-        registeredCount: registeredCount || 0,
-        waitlistCount: waitlistCount || 0,
+  // Build child count map
+  const childCountMap = new Map<string, number>()
+  for (const child of children || []) {
+    childCountMap.set(child.registration_id, (childCountMap.get(child.registration_id) || 0) + 1)
+  }
+
+  // Calculate counts for each workshop
+  const workshopsWithCounts = (workshops || []).map(workshop => {
+    let registeredKids = 0
+    let waitlistKids = 0
+
+    for (const reg of registrations || []) {
+      if (reg.workshop_ids?.includes(workshop.id)) {
+        const kidCount = childCountMap.get(reg.id) || 0
+        if (reg.status === 'pending' || reg.status === 'confirmed') {
+          registeredKids += kidCount
+        } else if (reg.status === 'waitlist') {
+          waitlistKids += kidCount
+        }
       }
-    })
-  )
+    }
+
+    return {
+      ...workshop,
+      registeredCount: registeredKids,
+      waitlistCount: waitlistKids,
+    }
+  })
 
   return workshopsWithCounts
 }

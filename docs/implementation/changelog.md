@@ -4,6 +4,68 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.5.7 - 2026-02-19
+
+### Summary
+Phase 6: Workshop Management, Attendance Tracking, and bug fixes.
+
+### New Features
+
+**Workshop Management (`/admin/programs/workshops/`)**
+- List all workshops with capacity indicators
+- Create new workshops with full details
+- Edit workshop details, status, capacity, pricing
+- Archive/delete workshops
+- Program notes for post-workshop documentation
+
+**Attendance Tracking (`/admin/programs/workshops/[id]/attendance`)**
+- Generate attendance records from registrations
+- Check-in children with timestamp
+- Mark no-shows
+- Add notes per child
+- Filter by status (All, Expected, Checked In, No Show)
+- Medical alerts displayed (allergies, conditions)
+- Parent contact info visible
+
+**Notification System**
+- Send workshop reminder emails to registered families
+- Notify waitlist when spots open
+- Email templates for reminders and waitlist notifications
+
+**Family Infrastructure**
+- Family accounts for grouping users
+- Migration 009: families table with RLS policies
+
+### Bug Fixes
+- **Attendance page query**: Fixed Supabase join syntax by using manual joins
+- **Date timezone issues**: Fixed date comparisons showing future workshops as "passed"
+- **Registration counts**: Now shows total kids instead of families for capacity tracking
+
+### Database Migrations
+- `009_families.sql` - Family accounts table
+- `010_workshop_enhancements.sql` - Workshop status, waitlist, registration windows
+- `011_attendance.sql` - Attendance tracking table and functions
+
+### Files Created
+```
+app/admin/programs/
+├── workshops/
+│   ├── page.tsx              # Workshop list
+│   ├── new/
+│   │   └── page.tsx          # Create workshop
+│   └── [id]/
+│       ├── page.tsx          # Edit workshop
+│       ├── WorkshopEditForm.tsx
+│       ├── NotificationActions.tsx
+│       ├── actions.ts
+│       └── attendance/
+│           ├── page.tsx      # Attendance tracking
+│           ├── AttendanceList.tsx
+│           └── actions.ts
+```
+
+---
+
 ## v1.5.6 - 2026-02-19
 
 ### Summary

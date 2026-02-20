@@ -31,23 +31,59 @@ async function getWorkshop(id: string): Promise<Workshop | null> {
 async function getRegistrationStats(workshopId: string) {
   const supabase = createAdminClient()
 
-  // Get registration counts
+  // Get registrations with children count
   const { data: registrations } = await supabase
     .from('workshop_registrations')
     .select('id, status, parent_name, parent_email, created_at')
     .contains('workshop_ids', [workshopId])
     .order('created_at', { ascending: false })
 
-  const confirmed = registrations?.filter(r => r.status === 'confirmed') || []
-  const pending = registrations?.filter(r => r.status === 'pending') || []
-  const waitlist = registrations?.filter(r => r.status === 'waitlist') || []
+  if (!registrations || registrations.length === 0) {
+    return {
+      totalKids: 0,
+      confirmedKids: 0,
+      pendingKids: 0,
+      waitlistKids: 0,
+      totalFamilies: 0,
+      recentRegistrations: [],
+    }
+  }
+
+  // Get children counts for each registration
+  const registrationIds = registrations.map(r => r.id)
+  const { data: children } = await supabase
+    .from('workshop_children')
+    .select('id, registration_id')
+    .in('registration_id', registrationIds)
+
+  // Count children per registration
+  const childCountMap = new Map<string, number>()
+  for (const child of children || []) {
+    childCountMap.set(child.registration_id, (childCountMap.get(child.registration_id) || 0) + 1)
+  }
+
+  // Calculate totals by status
+  let confirmedKids = 0
+  let pendingKids = 0
+  let waitlistKids = 0
+
+  for (const reg of registrations) {
+    const kidCount = childCountMap.get(reg.id) || 0
+    if (reg.status === 'confirmed') confirmedKids += kidCount
+    else if (reg.status === 'pending') pendingKids += kidCount
+    else if (reg.status === 'waitlist') waitlistKids += kidCount
+  }
+
+  const confirmed = registrations.filter(r => r.status === 'confirmed')
+  const pending = registrations.filter(r => r.status === 'pending')
 
   return {
-    total: confirmed.length + pending.length,
-    confirmed: confirmed.length,
-    pending: pending.length,
-    waitlist: waitlist.length,
-    recentRegistrations: registrations?.slice(0, 5) || [],
+    totalKids: confirmedKids + pendingKids,
+    confirmedKids,
+    pendingKids,
+    waitlistKids,
+    totalFamilies: confirmed.length + pending.length,
+    recentRegistrations: registrations.slice(0, 5),
   }
 }
 
@@ -79,7 +115,7 @@ export default async function WorkshopEditPage({ params }: PageProps) {
   }
 
   const isPast = isDatePast(workshop.date)
-  const capacityPercentage = Math.round((stats.total / (workshop.capacity || 12)) * 100)
+  const capacityPercentage = Math.round((stats.totalKids / (workshop.capacity || 12)) * 100)
 
   return (
     <div className="space-y-6">
@@ -101,16 +137,20 @@ export default async function WorkshopEditPage({ params }: PageProps) {
         {/* Quick Stats */}
         <div className="flex gap-4">
           <div className="text-center px-4 py-2 bg-white rounded-lg border border-stone-200">
-            <p className="text-2xl font-bold text-stone-800">{stats.total}</p>
-            <p className="text-xs text-stone-500">Registered</p>
+            <p className="text-2xl font-bold text-stone-800">{stats.totalKids}</p>
+            <p className="text-xs text-stone-500">Kids Registered</p>
+          </div>
+          <div className="text-center px-4 py-2 bg-white rounded-lg border border-stone-200">
+            <p className="text-2xl font-bold text-stone-800">{stats.totalFamilies}</p>
+            <p className="text-xs text-stone-500">Families</p>
           </div>
           <div className="text-center px-4 py-2 bg-white rounded-lg border border-stone-200">
             <p className="text-2xl font-bold text-stone-800">{workshop.capacity}</p>
             <p className="text-xs text-stone-500">Capacity</p>
           </div>
-          {stats.waitlist > 0 && (
+          {stats.waitlistKids > 0 && (
             <div className="text-center px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-2xl font-bold text-blue-700">{stats.waitlist}</p>
+              <p className="text-2xl font-bold text-blue-700">{stats.waitlistKids}</p>
               <p className="text-xs text-blue-600">Waitlist</p>
             </div>
           )}
@@ -129,7 +169,7 @@ export default async function WorkshopEditPage({ params }: PageProps) {
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-stone-700">Registration Status</span>
           <span className="text-sm text-stone-500">
-            {stats.total} / {workshop.capacity} ({capacityPercentage}%)
+            {stats.totalKids} kids / {workshop.capacity} capacity ({capacityPercentage}%)
           </span>
         </div>
         <div className="w-full h-3 bg-stone-100 rounded-full overflow-hidden">
@@ -142,8 +182,8 @@ export default async function WorkshopEditPage({ params }: PageProps) {
           />
         </div>
         <div className="flex justify-between mt-2 text-xs text-stone-500">
-          <span>{stats.confirmed} confirmed, {stats.pending} pending</span>
-          {stats.waitlist > 0 && <span className="text-blue-600">+{stats.waitlist} on waitlist</span>}
+          <span>{stats.confirmedKids} confirmed, {stats.pendingKids} pending</span>
+          {stats.waitlistKids > 0 && <span className="text-blue-600">+{stats.waitlistKids} on waitlist</span>}
         </div>
       </div>
 
@@ -159,8 +199,8 @@ export default async function WorkshopEditPage({ params }: PageProps) {
           <NotificationActions
             workshopId={workshop.id}
             workshopDate={workshop.date}
-            registeredCount={stats.total}
-            waitlistCount={stats.waitlist}
+            registeredCount={stats.totalFamilies}
+            waitlistCount={stats.waitlistKids}
           />
 
           {/* Quick Actions */}
