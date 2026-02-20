@@ -70,7 +70,7 @@ async function getAttendance(workshopId: string): Promise<AttendanceRecord[]> {
 
   // Get unique child IDs and registration IDs
   const childIds = attendanceData.map(a => a.child_id)
-  const registrationIds = [...new Set(attendanceData.map(a => a.registration_id))]
+  const registrationIds = Array.from(new Set(attendanceData.map(a => a.registration_id)))
 
   // Fetch children
   const { data: children } = await supabase
