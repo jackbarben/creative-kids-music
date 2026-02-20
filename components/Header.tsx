@@ -3,11 +3,29 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 export default function Header() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setIsAdmin(!!user)
+    }
+    checkAuth()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAdmin(!!session?.user)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
@@ -64,6 +82,14 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-sm tracking-wide px-3 py-1 rounded-full bg-forest-100 text-forest-700 hover:bg-forest-200 transition-colors`}
+              >
+                Admin
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -98,6 +124,15 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3 text-base text-forest-700 font-medium"
+                >
+                  Admin Portal
+                </Link>
+              )}
             </div>
           </div>
         )}

@@ -910,6 +910,54 @@ export async function createAccountAndLinkRegistrations(
   const linkedCamp = campData?.length || 0
   const linkedWaitlist = waitlistData?.length || 0
 
+  // Auto-populate account_settings from the first linked registration
+  const firstWorkshopReg = workshopData?.[0]?.id
+  const firstCampReg = campData?.[0]?.id
+
+  if (firstWorkshopReg || firstCampReg) {
+    // Get registration data to populate account settings
+    let regData: {
+      parent_first_name?: string
+      parent_last_name?: string
+      parent_relationship?: string
+      parent_phone?: string
+      emergency_name?: string
+      emergency_phone?: string
+      emergency_relationship?: string
+    } | null = null
+
+    if (firstWorkshopReg) {
+      const { data } = await supabase
+        .from('workshop_registrations')
+        .select('parent_first_name, parent_last_name, parent_relationship, parent_phone, emergency_name, emergency_phone, emergency_relationship')
+        .eq('id', firstWorkshopReg)
+        .single()
+      regData = data
+    } else if (firstCampReg) {
+      const { data } = await supabase
+        .from('camp_registrations')
+        .select('parent_first_name, parent_last_name, parent_relationship, parent_phone, emergency_name, emergency_phone, emergency_relationship')
+        .eq('id', firstCampReg)
+        .single()
+      regData = data
+    }
+
+    if (regData) {
+      await supabase
+        .from('account_settings')
+        .insert({
+          user_id: userId,
+          parent_first_name: regData.parent_first_name || null,
+          parent_last_name: regData.parent_last_name || null,
+          parent_relationship: regData.parent_relationship || null,
+          parent_phone: regData.parent_phone || null,
+          emergency_name: regData.emergency_name || null,
+          emergency_phone: regData.emergency_phone || null,
+          emergency_relationship: regData.emergency_relationship || null,
+        })
+    }
+  }
+
   await logActivity(
     'parent_created_account',
     'users',
