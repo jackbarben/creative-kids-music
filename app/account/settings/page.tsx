@@ -9,6 +9,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { saveAccountSettings, type AccountSettings } from '../actions'
 import ChildrenSection from '@/components/account/ChildrenSection'
+import FamilyMembersSection from '@/components/account/FamilyMembersSection'
 import LoadingButton from '@/components/ui/LoadingButton'
 import SuccessModal from '@/components/ui/SuccessModal'
 import { formatPhoneNumber } from '@/lib/utils/phone'
@@ -274,6 +275,11 @@ export default function SettingsPage() {
             <div className="mb-6">
               <ChildrenSection userId={user.id} />
             </div>
+          )}
+
+          {/* Family Members Section */}
+          {user?.email && (
+            <FamilyMembersSection userEmail={user.email} />
           )}
 
           {/* Login & Security Section */}

@@ -578,6 +578,8 @@ export interface ParentSearchResult {
   email: string
   name: string
   phone: string | null
+  family_id: string | null
+  familyMembers: { email: string; joined_at: string | null }[]
   workshopRegistrations: WorkshopRegistration[]
   campRegistrations: CampRegistration[]
   waitlistSignups: WaitlistSignup[]
@@ -622,6 +624,8 @@ export async function getAllParents(): Promise<ParentSearchResult[]> {
         email,
         name,
         phone,
+        family_id: null,
+        familyMembers: [],
         workshopRegistrations: [],
         campRegistrations: [],
         waitlistSignups: [],
@@ -632,6 +636,11 @@ export async function getAllParents(): Promise<ParentSearchResult[]> {
     const parent = parentMap.get(key)!
     if (name && !parent.name) parent.name = name
     if (phone && !parent.phone) parent.phone = phone
+
+    // Track family_id from registrations
+    if ((registration as WorkshopRegistration | CampRegistration).family_id && !parent.family_id) {
+      parent.family_id = (registration as WorkshopRegistration | CampRegistration).family_id as string
+    }
 
     if (type === 'workshop') parent.workshopRegistrations.push(registration as WorkshopRegistration)
     if (type === 'camp') parent.campRegistrations.push(registration as CampRegistration)
@@ -674,6 +683,32 @@ export async function getAllParents(): Promise<ParentSearchResult[]> {
     if (reg) {
       const parent = parentMap.get(reg.parent_email.toLowerCase())
       if (parent) parent.campChildren.push(child)
+    }
+  }
+
+  // Fetch family members for parents with family_id
+  const familyIds = Array.from(parentMap.values())
+    .map(p => p.family_id)
+    .filter((id): id is string => id !== null)
+
+  if (familyIds.length > 0) {
+    try {
+      const { data: familyMembers } = await supabase
+        .from('family_members')
+        .select('family_id, email, joined_at')
+        .in('family_id', familyIds)
+
+      if (familyMembers) {
+        for (const parent of parentMap.values()) {
+          if (parent.family_id) {
+            parent.familyMembers = familyMembers
+              .filter(m => m.family_id === parent.family_id)
+              .map(m => ({ email: m.email, joined_at: m.joined_at }))
+          }
+        }
+      }
+    } catch {
+      // Family tables may not exist yet
     }
   }
 
@@ -728,6 +763,8 @@ export async function searchParents(query: string): Promise<ParentSearchResult[]
         email,
         name,
         phone,
+        family_id: null,
+        familyMembers: [],
         workshopRegistrations: [],
         campRegistrations: [],
         waitlistSignups: [],
@@ -739,6 +776,11 @@ export async function searchParents(query: string): Promise<ParentSearchResult[]
     // Update name/phone if we have better data
     if (name && !parent.name) parent.name = name
     if (phone && !parent.phone) parent.phone = phone
+
+    // Track family_id from registrations
+    if ((registration as WorkshopRegistration | CampRegistration).family_id && !parent.family_id) {
+      parent.family_id = (registration as WorkshopRegistration | CampRegistration).family_id as string
+    }
 
     if (type === 'workshop') parent.workshopRegistrations.push(registration as WorkshopRegistration)
     if (type === 'camp') parent.campRegistrations.push(registration as CampRegistration)
@@ -782,6 +824,32 @@ export async function searchParents(query: string): Promise<ParentSearchResult[]
     if (reg) {
       const parent = parentMap.get(reg.parent_email.toLowerCase())
       if (parent) parent.campChildren.push(child)
+    }
+  }
+
+  // Fetch family members for parents with family_id
+  const familyIds = Array.from(parentMap.values())
+    .map(p => p.family_id)
+    .filter((id): id is string => id !== null)
+
+  if (familyIds.length > 0) {
+    try {
+      const { data: familyMembers } = await supabase
+        .from('family_members')
+        .select('family_id, email, joined_at')
+        .in('family_id', familyIds)
+
+      if (familyMembers) {
+        for (const parent of parentMap.values()) {
+          if (parent.family_id) {
+            parent.familyMembers = familyMembers
+              .filter(m => m.family_id === parent.family_id)
+              .map(m => ({ email: m.email, joined_at: m.joined_at }))
+          }
+        }
+      }
+    } catch {
+      // Family tables may not exist yet
     }
   }
 

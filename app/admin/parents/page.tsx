@@ -269,6 +269,30 @@ function ParentDetail({ parent, workshopMap }: { parent: ParentSearchResult; wor
             </>
           )}
         </div>
+
+        {/* Family Members */}
+        {parent.familyMembers.length > 1 && (
+          <div className="mt-4 pt-4 border-t border-stone-100">
+            <p className="text-sm font-medium text-stone-600 mb-2">Family Members</p>
+            <div className="flex flex-wrap gap-2">
+              {parent.familyMembers.map((member) => (
+                <span
+                  key={member.email}
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    member.email === parent.email
+                      ? 'bg-forest-100 text-forest-700'
+                      : member.joined_at
+                      ? 'bg-stone-100 text-stone-600'
+                      : 'bg-amber-100 text-amber-700'
+                  }`}
+                >
+                  {member.email}
+                  {!member.joined_at && ' (pending)'}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Children Section - shows all children with medical info */}

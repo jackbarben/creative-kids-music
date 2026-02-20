@@ -66,6 +66,44 @@ function calculateSiblingDiscount(childIndex: number): number {
 }
 
 // ============================================================
+// HELPER: Check if user can access registration (family member or owner)
+// ============================================================
+async function canAccessRegistration(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  registrationId: string,
+  programType: 'workshop' | 'camp',
+  userId: string
+): Promise<boolean> {
+  const table = programType === 'camp' ? 'camp_registrations' : 'workshop_registrations'
+
+  // First, try to get registration with RLS (handles family_id check)
+  const { data: reg } = await supabase
+    .from(table)
+    .select('id, user_id, family_id')
+    .eq('id', registrationId)
+    .single()
+
+  if (!reg) return false
+
+  // Check direct ownership
+  if (reg.user_id === userId) return true
+
+  // Check family membership
+  if (reg.family_id) {
+    const { data: memberData } = await supabase
+      .from('family_members')
+      .select('id')
+      .eq('family_id', reg.family_id)
+      .eq('user_id', userId)
+      .single()
+
+    if (memberData) return true
+  }
+
+  return false
+}
+
+// ============================================================
 // EDIT CONTACT INFO
 // ============================================================
 export async function updateContactInfo(
@@ -85,6 +123,12 @@ export async function updateContactInfo(
     return { error: 'You must be logged in' }
   }
 
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, programType, user.id)
+  if (!hasAccess) {
+    return { error: 'Registration not found' }
+  }
+
   const table = programType === 'camp' ? 'camp_registrations' : 'workshop_registrations'
 
   const { error } = await supabase
@@ -98,7 +142,6 @@ export async function updateContactInfo(
       }),
     })
     .eq('id', registrationId)
-    .eq('user_id', user.id)
 
   if (error) {
     console.error('Update contact info error:', error)
@@ -139,6 +182,12 @@ export async function updateChild(
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return { error: 'You must be logged in' }
+  }
+
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, programType, user.id)
+  if (!hasAccess) {
+    return { error: 'Registration not found' }
   }
 
   // Check if program has started (block name/age edits)
@@ -212,6 +261,12 @@ export async function addChild(
     return { error: 'You must be logged in' }
   }
 
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, programType, user.id)
+  if (!hasAccess) {
+    return { error: 'Registration not found' }
+  }
+
   // Check if program has started
   const programStarted = await isProgramStarted(supabase, registrationId, programType)
   if (programStarted) {
@@ -227,12 +282,11 @@ export async function addChild(
   const regTable = programType === 'camp' ? 'camp_registrations' : 'workshop_registrations'
   const basePrice = programType === 'camp' ? CAMP_PRICE_CENTS : WORKSHOP_PRICE_CENTS
 
-  // Get current registration to check ownership and child count
+  // Get current registration (access already verified)
   const { data: reg, error: regError } = await supabase
     .from(regTable)
     .select('id, user_id, total_amount_cents')
     .eq('id', registrationId)
-    .eq('user_id', user.id)
     .single()
 
   if (regError || !reg) {
@@ -307,6 +361,12 @@ export async function removeChild(
     return { error: 'You must be logged in' }
   }
 
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, programType, user.id)
+  if (!hasAccess) {
+    return { error: 'Registration not found' }
+  }
+
   // Check if program has started
   const programStarted = await isProgramStarted(supabase, registrationId, programType)
   if (programStarted) {
@@ -314,7 +374,6 @@ export async function removeChild(
   }
 
   const table = programType === 'camp' ? 'camp_children' : 'workshop_children'
-  const regTable = programType === 'camp' ? 'camp_registrations' : 'workshop_registrations'
 
   // Get child info for logging
   const { data: child, error: childError } = await supabase
@@ -326,18 +385,6 @@ export async function removeChild(
 
   if (childError || !child) {
     return { error: 'Child not found' }
-  }
-
-  // Verify registration ownership
-  const { data: reg, error: regError } = await supabase
-    .from(regTable)
-    .select('id')
-    .eq('id', registrationId)
-    .eq('user_id', user.id)
-    .single()
-
-  if (regError || !reg) {
-    return { error: 'Registration not found' }
   }
 
   // Delete child
@@ -421,6 +468,12 @@ export async function cancelRegistration(
     return { error: 'You must be logged in' }
   }
 
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, programType, user.id)
+  if (!hasAccess) {
+    return { error: 'Registration not found' }
+  }
+
   // Check if program has started
   const programStarted = await isProgramStarted(supabase, registrationId, programType)
   if (programStarted) {
@@ -437,7 +490,6 @@ export async function cancelRegistration(
       cancellation_reason: reason?.trim() || null,
     })
     .eq('id', registrationId)
-    .eq('user_id', user.id)
 
   if (error) {
     console.error('Cancel registration error:', error)
@@ -472,15 +524,9 @@ export async function addPickup(
     return { error: 'You must be logged in' }
   }
 
-  // Verify registration ownership
-  const { data: reg } = await supabase
-    .from('camp_registrations')
-    .select('id')
-    .eq('id', registrationId)
-    .eq('user_id', user.id)
-    .single()
-
-  if (!reg) {
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, 'camp', user.id)
+  if (!hasAccess) {
     return { error: 'Registration not found' }
   }
 
@@ -521,15 +567,9 @@ export async function removePickup(
     return { error: 'You must be logged in' }
   }
 
-  // Verify registration ownership
-  const { data: reg } = await supabase
-    .from('camp_registrations')
-    .select('id')
-    .eq('id', registrationId)
-    .eq('user_id', user.id)
-    .single()
-
-  if (!reg) {
+  // Check if user can access this registration (owner or family member)
+  const hasAccess = await canAccessRegistration(supabase, registrationId, 'camp', user.id)
+  if (!hasAccess) {
     return { error: 'Registration not found' }
   }
 
@@ -830,6 +870,7 @@ export async function removeAccountChild(childId: string): Promise<ActionResult>
 // ============================================================
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { createAdminClient } from '@/lib/supabase/server'
+import { sendFamilyInviteEmail } from '@/lib/email'
 
 export type CreateAccountResult = {
   success?: boolean
@@ -882,14 +923,23 @@ export async function createAccountAndLinkRegistrations(
   // Link all registrations by email using admin client
   const supabase = createAdminClient()
 
-  // Create a family for this user
+  // Check if this email was invited to join an existing family
   let familyId: string | null = null
   try {
-    const { data: familyData, error: familyError } = await supabase
-      .rpc('create_family_for_user', { p_user_id: userId, p_email: normalizedEmail })
+    // First, try to join existing family (if invited)
+    const { data: joinedFamilyId } = await supabase
+      .rpc('join_family', { p_user_id: userId, p_email: normalizedEmail })
 
-    if (!familyError && familyData) {
-      familyId = familyData as string
+    if (joinedFamilyId) {
+      familyId = joinedFamilyId as string
+    } else {
+      // No invitation found, create a new family for this user
+      const { data: familyData, error: familyError } = await supabase
+        .rpc('create_family_for_user', { p_user_id: userId, p_email: normalizedEmail })
+
+      if (!familyError && familyData) {
+        familyId = familyData as string
+      }
     }
   } catch {
     // Family tables may not exist yet (migration not run)
@@ -1007,4 +1057,213 @@ export async function createAccountAndLinkRegistrations(
     linkedCamp,
     linkedWaitlist,
   }
+}
+
+// ============================================================
+// FAMILY MEMBER MANAGEMENT
+// ============================================================
+
+export type FamilyMember = {
+  id: string
+  family_id: string
+  user_id: string | null
+  email: string
+  invited_at: string
+  joined_at: string | null
+}
+
+export type FamilyInfo = {
+  id: string
+  members: FamilyMember[]
+}
+
+export async function getFamilyInfo(): Promise<FamilyInfo | null> {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+
+  try {
+    // Get user's family_id
+    const { data: memberData } = await supabase
+      .from('family_members')
+      .select('family_id')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!memberData?.family_id) return null
+
+    // Get all members of this family
+    const { data: members } = await supabase
+      .from('family_members')
+      .select('*')
+      .eq('family_id', memberData.family_id)
+      .order('joined_at', { ascending: true, nullsFirst: false })
+
+    return {
+      id: memberData.family_id,
+      members: members || [],
+    }
+  } catch {
+    // Tables may not exist yet
+    return null
+  }
+}
+
+export type InviteFamilyMemberResult = {
+  success?: boolean
+  error?: string
+  memberId?: string
+}
+
+export async function inviteFamilyMember(email: string): Promise<InviteFamilyMemberResult> {
+  const supabase = await createClient()
+  const adminSupabase = createAdminClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'You must be logged in' }
+  }
+
+  // Validate email
+  const normalizedEmail = email.trim().toLowerCase()
+  if (!normalizedEmail || !normalizedEmail.includes('@')) {
+    return { error: 'Please enter a valid email address' }
+  }
+
+  // Get current user's family
+  const { data: memberData, error: memberError } = await supabase
+    .from('family_members')
+    .select('family_id')
+    .eq('user_id', user.id)
+    .single()
+
+  if (memberError || !memberData?.family_id) {
+    return { error: 'Could not find your family. Please contact support.' }
+  }
+
+  // Get inviter's name for the email
+  const { data: settings } = await supabase
+    .from('account_settings')
+    .select('parent_first_name, parent_last_name')
+    .eq('user_id', user.id)
+    .single()
+
+  const inviterName = settings?.parent_first_name && settings?.parent_last_name
+    ? `${settings.parent_first_name} ${settings.parent_last_name}`
+    : user.email || 'A family member'
+
+  // Use the invite_family_member RPC function
+  const { data: memberId, error: inviteError } = await adminSupabase
+    .rpc('invite_family_member', {
+      p_family_id: memberData.family_id,
+      p_email: normalizedEmail,
+    })
+
+  if (inviteError) {
+    console.error('Invite family member error:', inviteError)
+    if (inviteError.message?.includes('already belongs to another family')) {
+      return { error: 'This email is already associated with another family. Please contact us to merge accounts.' }
+    }
+    if (inviteError.message?.includes('already a member')) {
+      return { error: 'This email is already a member of your family.' }
+    }
+    return { error: 'Failed to invite family member. Please try again.' }
+  }
+
+  // Send invite email
+  const emailResult = await sendFamilyInviteEmail({
+    inviteeEmail: normalizedEmail,
+    inviterName,
+    familyId: memberData.family_id,
+    memberId: memberId as string,
+  })
+
+  if (!emailResult.success) {
+    console.error('Failed to send invite email:', emailResult.error)
+    // Still return success since the invite was created, just log the email error
+  }
+
+  await logActivity(
+    'family_member_invited',
+    'family_member',
+    memberId as string,
+    {
+      invited_email: normalizedEmail,
+      invited_by: user.email,
+      family_id: memberData.family_id,
+    }
+  )
+
+  revalidatePath('/account')
+  revalidatePath('/account/settings')
+  return { success: true, memberId: memberId as string }
+}
+
+export async function removeFamilyMember(memberId: string): Promise<ActionResult> {
+  const supabase = await createClient()
+  const adminSupabase = createAdminClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'You must be logged in' }
+  }
+
+  // Get current user's family
+  const { data: myMemberData } = await supabase
+    .from('family_members')
+    .select('family_id')
+    .eq('user_id', user.id)
+    .single()
+
+  if (!myMemberData?.family_id) {
+    return { error: 'Could not find your family' }
+  }
+
+  // Get the member to remove
+  const { data: targetMember } = await adminSupabase
+    .from('family_members')
+    .select('id, email, user_id, family_id')
+    .eq('id', memberId)
+    .single()
+
+  if (!targetMember) {
+    return { error: 'Family member not found' }
+  }
+
+  // Verify same family
+  if (targetMember.family_id !== myMemberData.family_id) {
+    return { error: 'Cannot remove member from a different family' }
+  }
+
+  // Cannot remove yourself
+  if (targetMember.user_id === user.id) {
+    return { error: 'You cannot remove yourself from the family' }
+  }
+
+  // Delete the family member record
+  const { error: deleteError } = await adminSupabase
+    .from('family_members')
+    .delete()
+    .eq('id', memberId)
+
+  if (deleteError) {
+    console.error('Remove family member error:', deleteError)
+    return { error: 'Failed to remove family member' }
+  }
+
+  await logActivity(
+    'family_member_removed',
+    'family_member',
+    memberId,
+    {
+      removed_email: targetMember.email,
+      removed_by: user.email,
+      family_id: myMemberData.family_id,
+    }
+  )
+
+  revalidatePath('/account')
+  revalidatePath('/account/settings')
+  return { success: true }
 }

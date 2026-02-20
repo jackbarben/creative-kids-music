@@ -523,6 +523,88 @@ export async function sendAdminNotification(data: AdminNotificationData): Promis
 }
 
 // ============================================
+// Family Invite Email
+// ============================================
+
+interface FamilyInviteData {
+  inviteeEmail: string
+  inviterName: string
+  familyId: string
+  memberId: string
+}
+
+export async function sendFamilyInviteEmail(data: FamilyInviteData): Promise<EmailResult> {
+  const subject = "You're invited to join a Creative Kids Music family account"
+
+  // Link to account creation with invite context
+  const inviteUrl = `${SITE_URL}/account/create?email=${encodeURIComponent(data.inviteeEmail)}&invite=true`
+
+  const html = `
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
+      <h1 style="color: #166534; font-size: 24px; margin-bottom: 8px;">You're invited!</h1>
+      <p style="color: #78716c; margin-top: 0;">Join your family's Creative Kids Music account</p>
+
+      <p>Hi there,</p>
+
+      <p><strong>${data.inviterName}</strong> has invited you to join their family account on Creative Kids Music.</p>
+
+      <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #166534; font-size: 16px; margin: 0 0 12px 0;">What you'll have access to:</h2>
+        <ul style="color: #57534e; padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 8px;">View all family registrations and payments</li>
+          <li style="margin-bottom: 8px;">Manage children's information</li>
+          <li style="margin-bottom: 8px;">Update emergency contacts and pickup authorizations</li>
+          <li>Register for workshops and camps</li>
+        </ul>
+      </div>
+
+      <p style="margin: 24px 0;">
+        <a href="${inviteUrl}" style="display: inline-block; background: #166534; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500;">
+          Set Up Your Login
+        </a>
+      </p>
+
+      <p style="color: #78716c; font-size: 14px;">
+        Once you create your account, you'll automatically be connected to the family and can view all shared information.
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
+
+      <p style="color: #78716c; font-size: 14px;">
+        Questions? Contact us at
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+      </p>
+
+      <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
+        Creative Kids Music Project<br>
+        St. Luke's/San Lucas Episcopal Church<br>
+        Vancouver, WA
+      </p>
+    </div>
+  `
+
+  try {
+    const { data: result, error } = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: data.inviteeEmail,
+      subject,
+      html,
+    })
+
+    if (error) {
+      await logEmail(data.inviteeEmail, 'family_invite', subject, 'family_member', data.memberId, 'failed', null)
+      return { success: false, error: error.message }
+    }
+
+    await logEmail(data.inviteeEmail, 'family_invite', subject, 'family_member', data.memberId, 'sent', result?.id || null)
+    return { success: true, id: result?.id }
+  } catch (error) {
+    await logEmail(data.inviteeEmail, 'family_invite', subject, 'family_member', data.memberId, 'failed', null)
+    return { success: false, error: String(error) }
+  }
+}
+
+// ============================================
 // Contact Form Email
 // ============================================
 

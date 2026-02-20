@@ -26,6 +26,20 @@ export interface Database {
           price_cents: number
           is_active: boolean
           created_at: string
+          updated_at: string | null
+          // Phase 6 columns
+          waitlist_enabled: boolean
+          registration_opens_at: string | null
+          registration_closes_at: string | null
+          status: 'draft' | 'open' | 'closed' | 'completed' | 'archived'
+          notes: string | null
+          media_folder_url: string | null
+          archived_at: string | null
+          // Program notes (curriculum data)
+          performance_summary: string | null
+          session_summary: string | null
+          highlights: string | null
+          lessons_learned: string | null
         }
         Insert: {
           id?: string
@@ -40,6 +54,18 @@ export interface Database {
           price_cents?: number
           is_active?: boolean
           created_at?: string
+          updated_at?: string | null
+          waitlist_enabled?: boolean
+          registration_opens_at?: string | null
+          registration_closes_at?: string | null
+          status?: 'draft' | 'open' | 'closed' | 'completed' | 'archived'
+          notes?: string | null
+          media_folder_url?: string | null
+          archived_at?: string | null
+          performance_summary?: string | null
+          session_summary?: string | null
+          highlights?: string | null
+          lessons_learned?: string | null
         }
         Update: {
           id?: string
@@ -54,6 +80,18 @@ export interface Database {
           price_cents?: number
           is_active?: boolean
           created_at?: string
+          updated_at?: string | null
+          waitlist_enabled?: boolean
+          registration_opens_at?: string | null
+          registration_closes_at?: string | null
+          status?: 'draft' | 'open' | 'closed' | 'completed' | 'archived'
+          notes?: string | null
+          media_folder_url?: string | null
+          archived_at?: string | null
+          performance_summary?: string | null
+          session_summary?: string | null
+          highlights?: string | null
+          lessons_learned?: string | null
         }
       }
       workshop_registrations: {
@@ -1161,6 +1199,47 @@ export interface Database {
           created_at?: string
         }
       }
+      // ============================================
+      // ATTENDANCE TABLE (Migration 011)
+      // ============================================
+      workshop_attendance: {
+        Row: {
+          id: string
+          workshop_id: string
+          registration_id: string
+          child_id: string
+          status: 'expected' | 'checked_in' | 'no_show' | 'cancelled'
+          checked_in_at: string | null
+          checked_in_by: string | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          workshop_id: string
+          registration_id: string
+          child_id: string
+          status?: 'expected' | 'checked_in' | 'no_show' | 'cancelled'
+          checked_in_at?: string | null
+          checked_in_by?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          workshop_id?: string
+          registration_id?: string
+          child_id?: string
+          status?: 'expected' | 'checked_in' | 'no_show' | 'cancelled'
+          checked_in_at?: string | null
+          checked_in_by?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -1212,6 +1291,32 @@ export interface Database {
       join_family: {
         Args: { p_user_id: string; p_email: string }
         Returns: string | null
+      }
+      // Attendance functions (Migration 011)
+      generate_workshop_attendance: {
+        Args: { p_workshop_id: string }
+        Returns: number
+      }
+      check_in_child: {
+        Args: { p_workshop_id: string; p_child_id: string; p_checked_in_by?: string }
+        Returns: boolean
+      }
+      undo_check_in: {
+        Args: { p_workshop_id: string; p_child_id: string }
+        Returns: boolean
+      }
+      mark_no_show: {
+        Args: { p_workshop_id: string; p_child_id: string }
+        Returns: boolean
+      }
+      get_workshop_attendance_summary: {
+        Args: { p_workshop_id: string }
+        Returns: {
+          total_expected: number
+          checked_in: number
+          no_show: number
+          cancelled: number
+        }[]
       }
     }
     Enums: {
@@ -1326,4 +1431,22 @@ export type FamilyMemberUpdate = Database['public']['Tables']['family_members'][
 // Family with members (joined)
 export type FamilyWithMembers = Family & {
   members: FamilyMember[]
+}
+
+// ============================================
+// ATTENDANCE TYPES (Migration 011)
+// ============================================
+
+export type WorkshopAttendance = Database['public']['Tables']['workshop_attendance']['Row']
+export type WorkshopAttendanceInsert = Database['public']['Tables']['workshop_attendance']['Insert']
+export type WorkshopAttendanceUpdate = Database['public']['Tables']['workshop_attendance']['Update']
+
+// Attendance with child and registration info (joined)
+export type AttendanceWithDetails = WorkshopAttendance & {
+  child: WorkshopChild
+  registration: {
+    id: string
+    parent_name: string
+    parent_phone: string | null
+  }
 }

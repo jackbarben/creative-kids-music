@@ -14,6 +14,7 @@ interface DashboardProps {
 export default function Dashboard({ user }: DashboardProps) {
   const [workshopRegistrations, setWorkshopRegistrations] = useState<(WorkshopRegistrationWithChildren & { workshops?: Workshop[] })[]>([])
   const [campRegistrations, setCampRegistrations] = useState<CampRegistrationWithChildren[]>([])
+  const [familyId, setFamilyId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const supabase = createClient()
@@ -24,17 +25,40 @@ export default function Dashboard({ user }: DashboardProps) {
       setError(null)
 
       try {
-        // Fetch workshop registrations with children (exclude cancelled/archived)
-        const { data: workshopRegs, error: workshopError } = await supabase
+        // First, try to get the user's family_id
+        let userFamilyId: string | null = null
+        try {
+          const { data: memberData } = await supabase
+            .from('family_members')
+            .select('family_id')
+            .eq('user_id', user.id)
+            .single()
+          userFamilyId = memberData?.family_id || null
+          setFamilyId(userFamilyId)
+        } catch {
+          // Family tables may not exist yet
+          console.log('Family lookup skipped - tables may not exist')
+        }
+
+        // Build the query based on whether we have a family_id
+        // If we have a family_id, fetch by family_id; otherwise fall back to user_id
+        let workshopQuery = supabase
           .from('workshop_registrations')
           .select(`
             *,
             children:workshop_children(*)
           `)
-          .eq('user_id', user.id)
           .neq('status', 'cancelled')
           .neq('status', 'archived')
           .order('created_at', { ascending: false })
+
+        if (userFamilyId) {
+          workshopQuery = workshopQuery.eq('family_id', userFamilyId)
+        } else {
+          workshopQuery = workshopQuery.eq('user_id', user.id)
+        }
+
+        const { data: workshopRegs, error: workshopError } = await workshopQuery
 
         if (workshopError) throw workshopError
 
@@ -58,17 +82,24 @@ export default function Dashboard({ user }: DashboardProps) {
         setWorkshopRegistrations(workshopsWithDetails)
 
         // Fetch camp registrations with children and pickups (exclude cancelled/archived)
-        const { data: campRegs, error: campError } = await supabase
+        let campQuery = supabase
           .from('camp_registrations')
           .select(`
             *,
             children:camp_children(*),
             authorized_pickups(*)
           `)
-          .eq('user_id', user.id)
           .neq('status', 'cancelled')
           .neq('status', 'archived')
           .order('created_at', { ascending: false })
+
+        if (userFamilyId) {
+          campQuery = campQuery.eq('family_id', userFamilyId)
+        } else {
+          campQuery = campQuery.eq('user_id', user.id)
+        }
+
+        const { data: campRegs, error: campError } = await campQuery
 
         if (campError) throw campError
         setCampRegistrations((campRegs || []) as CampRegistrationWithChildren[])
@@ -123,7 +154,7 @@ export default function Dashboard({ user }: DashboardProps) {
 
       {/* Registrations Section Title */}
       <h2 className="font-display text-2xl font-semibold text-slate-800 mb-4">
-        My Registrations
+        {familyId ? 'Family Registrations' : 'My Registrations'}
       </h2>
 
       {/* Loading State */}
