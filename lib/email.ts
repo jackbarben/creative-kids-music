@@ -605,6 +605,202 @@ export async function sendFamilyInviteEmail(data: FamilyInviteData): Promise<Ema
 }
 
 // ============================================
+// Workshop Reminder Email
+// ============================================
+
+interface WorkshopReminderData {
+  parentName: string
+  parentEmail: string
+  childrenNames: string[]
+  workshopTitle: string
+  workshopDate: string  // formatted date string
+  workshopTime: string  // e.g., "4:00 PM"
+  location: string
+  address: string
+  registrationId: string
+}
+
+export async function sendWorkshopReminder(data: WorkshopReminderData): Promise<EmailResult> {
+  const subject = `Reminder: ${data.workshopTitle} is tomorrow!`
+
+  const childrenList = data.childrenNames.length === 1
+    ? data.childrenNames[0]
+    : data.childrenNames.slice(0, -1).join(', ') + ' and ' + data.childrenNames[data.childrenNames.length - 1]
+
+  const html = `
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
+      <h1 style="color: #166534; font-size: 24px; margin-bottom: 8px;">See you tomorrow!</h1>
+      <p style="color: #78716c; margin-top: 0;">${data.workshopTitle}</p>
+
+      <p>Hi ${data.parentName},</p>
+
+      <p>This is a friendly reminder that <strong>${childrenList}</strong> ${data.childrenNames.length === 1 ? 'is' : 'are'} registered for our workshop tomorrow!</p>
+
+      <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #166534; font-size: 16px; margin: 0 0 16px 0;">Workshop Details</h2>
+
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Date</td>
+            <td style="padding: 4px 0; font-weight: 600;">${data.workshopDate}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Drop-off Time</td>
+            <td style="padding: 4px 0;">${data.workshopTime}</td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Schedule</td>
+            <td style="padding: 4px 0;">
+              4:00–6:30 PM — Workshop<br>
+              6:30–7:00 PM — Dinner (join us!)<br>
+              7:00 PM — Performance
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 4px 0; color: #78716c;">Location</td>
+            <td style="padding: 4px 0;">${data.location}<br>${data.address}</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Quick Checklist</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li>Arrive by ${data.workshopTime} for drop-off</li>
+        <li>Come back at 6:30 PM for dinner and the 7:00 PM performance</li>
+        <li>Comfortable clothes recommended</li>
+        <li>No instruments needed — we provide everything!</li>
+      </ul>
+
+      <p style="margin-top: 24px;">
+        <a href="${SITE_URL}/account" style="display: inline-block; background: #166534; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: 500;">
+          View Your Registration
+        </a>
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
+
+      <p style="color: #78716c; font-size: 14px;">
+        Need to cancel? Please let us know as soon as possible at
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+      </p>
+
+      <p style="color: #78716c; font-size: 14px;">
+        See you tomorrow!<br>
+        Creative Kids Music Team
+      </p>
+
+      <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
+        Creative Kids Music Project<br>
+        ${data.location}<br>
+        ${data.address}
+      </p>
+    </div>
+  `
+
+  try {
+    const { data: result, error } = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: data.parentEmail,
+      subject,
+      html,
+    })
+
+    if (error) {
+      await logEmail(data.parentEmail, 'workshop_reminder', subject, 'workshop_registration', data.registrationId, 'failed', null)
+      return { success: false, error: error.message }
+    }
+
+    await logEmail(data.parentEmail, 'workshop_reminder', subject, 'workshop_registration', data.registrationId, 'sent', result?.id || null)
+    return { success: true, id: result?.id }
+  } catch (error) {
+    await logEmail(data.parentEmail, 'workshop_reminder', subject, 'workshop_registration', data.registrationId, 'failed', null)
+    return { success: false, error: String(error) }
+  }
+}
+
+// ============================================
+// Waitlist Spot Available Email
+// ============================================
+
+interface WaitlistSpotData {
+  parentName: string
+  parentEmail: string
+  workshopTitle: string
+  workshopDate: string
+  registrationId: string
+  spotsAvailable: number
+}
+
+export async function sendWaitlistSpotAvailable(data: WaitlistSpotData): Promise<EmailResult> {
+  const subject = `A spot opened up! ${data.workshopTitle}`
+
+  const html = `
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; color: #1c1917;">
+      <h1 style="color: #166534; font-size: 24px; margin-bottom: 8px;">Great news!</h1>
+      <p style="color: #78716c; margin-top: 0;">A spot just opened up</p>
+
+      <p>Hi ${data.parentName},</p>
+
+      <p>A spot has opened up for the <strong>${data.workshopTitle}</strong> on <strong>${data.workshopDate}</strong>!</p>
+
+      <p>You were on our waitlist, and we wanted to give you first priority to claim this spot.</p>
+
+      <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 24px 0; text-align: center;">
+        <p style="font-size: 18px; color: #166534; font-weight: 600; margin: 0 0 8px 0;">
+          ${data.spotsAvailable} spot${data.spotsAvailable > 1 ? 's' : ''} available
+        </p>
+        <p style="color: #57534e; margin: 0; font-size: 14px;">
+          First come, first served
+        </p>
+      </div>
+
+      <p style="text-align: center; margin: 24px 0;">
+        <a href="${SITE_URL}/account" style="display: inline-block; background: #166534; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+          Claim Your Spot
+        </a>
+      </p>
+
+      <p style="color: #78716c; font-size: 14px; text-align: center;">
+        Log in to your account to confirm your registration and secure your spot.
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e7e5e4; margin: 24px 0;">
+
+      <p style="color: #78716c; font-size: 14px;">
+        Questions? Contact us at
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+      </p>
+
+      <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
+        Creative Kids Music Project<br>
+        St. Luke's/San Lucas Episcopal Church<br>
+        Vancouver, WA
+      </p>
+    </div>
+  `
+
+  try {
+    const { data: result, error } = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: data.parentEmail,
+      subject,
+      html,
+    })
+
+    if (error) {
+      await logEmail(data.parentEmail, 'waitlist_spot_available', subject, 'workshop_registration', data.registrationId, 'failed', null)
+      return { success: false, error: error.message }
+    }
+
+    await logEmail(data.parentEmail, 'waitlist_spot_available', subject, 'workshop_registration', data.registrationId, 'sent', result?.id || null)
+    return { success: true, id: result?.id }
+  } catch (error) {
+    await logEmail(data.parentEmail, 'waitlist_spot_available', subject, 'workshop_registration', data.registrationId, 'failed', null)
+    return { success: false, error: String(error) }
+  }
+}
+
+// ============================================
 // Contact Form Email
 // ============================================
 

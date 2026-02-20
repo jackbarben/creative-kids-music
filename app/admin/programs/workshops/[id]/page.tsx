@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/server'
 import WorkshopEditForm from './WorkshopEditForm'
+import NotificationActions from './NotificationActions'
 import type { Workshop } from '@/lib/database.types'
 
 export const dynamic = 'force-dynamic'
@@ -147,6 +148,14 @@ export default async function WorkshopEditPage({ params }: PageProps) {
 
         {/* Sidebar */}
         <div className="space-y-6">
+          {/* Notifications */}
+          <NotificationActions
+            workshopId={workshop.id}
+            workshopDate={workshop.date}
+            registeredCount={stats.total}
+            waitlistCount={stats.waitlist}
+          />
+
           {/* Quick Actions */}
           <div className="bg-white rounded-xl border border-stone-200 p-6">
             <h3 className="font-display font-bold text-stone-800 mb-4">Quick Actions</h3>
@@ -157,14 +166,12 @@ export default async function WorkshopEditPage({ params }: PageProps) {
               >
                 View Registrations
               </Link>
-              {isPast && (
-                <Link
-                  href={`/admin/programs/workshops/${workshop.id}/attendance`}
-                  className="block w-full px-4 py-2 text-center bg-forest-100 hover:bg-forest-200 text-forest-700 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Take Attendance
-                </Link>
-              )}
+              <Link
+                href={`/admin/programs/workshops/${workshop.id}/attendance`}
+                className="block w-full px-4 py-2 text-center bg-forest-100 hover:bg-forest-200 text-forest-700 rounded-lg text-sm font-medium transition-colors"
+              >
+                {isPast ? 'View Attendance' : 'Take Attendance'}
+              </Link>
             </div>
           </div>
 

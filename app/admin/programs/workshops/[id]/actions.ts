@@ -3,6 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/lib/data'
+import { sendWorkshopReminder, sendWaitlistSpotAvailable } from '@/lib/email'
 
 type UpdateWorkshopInput = {
   title: string
@@ -210,4 +211,180 @@ export async function deleteWorkshop(workshopId: string): Promise<UpdateWorkshop
   revalidatePath('/workshops')
 
   return { success: true }
+}
+
+// ============================================
+// Send Reminder Emails
+// ============================================
+
+type SendRemindersResult = {
+  success: boolean
+  sent: number
+  failed: number
+  error?: string
+}
+
+export async function sendWorkshopReminders(workshopId: string): Promise<SendRemindersResult> {
+  const supabase = createAdminClient()
+
+  // Get workshop details
+  const { data: workshop, error: workshopError } = await supabase
+    .from('workshops')
+    .select('*')
+    .eq('id', workshopId)
+    .single()
+
+  if (workshopError || !workshop) {
+    return { success: false, sent: 0, failed: 0, error: 'Workshop not found' }
+  }
+
+  // Get all confirmed/pending registrations for this workshop
+  const { data: registrations, error: regError } = await supabase
+    .from('workshop_registrations')
+    .select(`
+      id,
+      parent_name,
+      parent_email,
+      workshop_children (
+        child_name
+      )
+    `)
+    .contains('workshop_ids', [workshopId])
+    .in('status', ['confirmed', 'pending'])
+
+  if (regError) {
+    return { success: false, sent: 0, failed: 0, error: 'Failed to fetch registrations' }
+  }
+
+  if (!registrations || registrations.length === 0) {
+    return { success: true, sent: 0, failed: 0 }
+  }
+
+  // Format workshop date
+  const workshopDate = new Date(workshop.date + 'T00:00:00').toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+
+  // Format start time
+  const [hours, minutes] = workshop.start_time.split(':')
+  const hour = parseInt(hours)
+  const ampm = hour >= 12 ? 'PM' : 'AM'
+  const hour12 = hour % 12 || 12
+  const workshopTime = `${hour12}:${minutes} ${ampm}`
+
+  let sent = 0
+  let failed = 0
+
+  for (const reg of registrations) {
+    const children = reg.workshop_children as { child_name: string }[]
+    const childrenNames = children.map(c => c.child_name)
+
+    const result = await sendWorkshopReminder({
+      parentName: reg.parent_name,
+      parentEmail: reg.parent_email,
+      childrenNames,
+      workshopTitle: workshop.title,
+      workshopDate,
+      workshopTime,
+      location: workshop.location,
+      address: workshop.address,
+      registrationId: reg.id,
+    })
+
+    if (result.success) {
+      sent++
+    } else {
+      failed++
+      console.error(`Failed to send reminder to ${reg.parent_email}:`, result.error)
+    }
+  }
+
+  await logActivity('workshop_reminders_sent', 'workshop', workshopId, {
+    sent,
+    failed,
+    total: registrations.length,
+  })
+
+  return { success: true, sent, failed }
+}
+
+// ============================================
+// Notify Waitlist (when spot opens)
+// ============================================
+
+type NotifyWaitlistResult = {
+  success: boolean
+  notified: number
+  error?: string
+}
+
+export async function notifyWaitlist(
+  workshopId: string,
+  spotsAvailable: number = 1
+): Promise<NotifyWaitlistResult> {
+  const supabase = createAdminClient()
+
+  // Get workshop details
+  const { data: workshop, error: workshopError } = await supabase
+    .from('workshops')
+    .select('*')
+    .eq('id', workshopId)
+    .single()
+
+  if (workshopError || !workshop) {
+    return { success: false, notified: 0, error: 'Workshop not found' }
+  }
+
+  // Get waitlist registrations, ordered by position
+  const { data: waitlistRegs, error: waitlistError } = await supabase
+    .from('workshop_registrations')
+    .select('id, parent_name, parent_email, waitlist_position')
+    .contains('workshop_ids', [workshopId])
+    .eq('status', 'waitlist')
+    .order('waitlist_position', { ascending: true })
+    .limit(spotsAvailable)
+
+  if (waitlistError) {
+    return { success: false, notified: 0, error: 'Failed to fetch waitlist' }
+  }
+
+  if (!waitlistRegs || waitlistRegs.length === 0) {
+    return { success: true, notified: 0 }
+  }
+
+  // Format workshop date
+  const workshopDate = new Date(workshop.date + 'T00:00:00').toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
+
+  let notified = 0
+
+  for (const reg of waitlistRegs) {
+    const result = await sendWaitlistSpotAvailable({
+      parentName: reg.parent_name,
+      parentEmail: reg.parent_email,
+      workshopTitle: workshop.title,
+      workshopDate,
+      registrationId: reg.id,
+      spotsAvailable,
+    })
+
+    if (result.success) {
+      notified++
+    } else {
+      console.error(`Failed to notify ${reg.parent_email}:`, result.error)
+    }
+  }
+
+  await logActivity('waitlist_notified', 'workshop', workshopId, {
+    notified,
+    spotsAvailable,
+  })
+
+  return { success: true, notified }
 }
