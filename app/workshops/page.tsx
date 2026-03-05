@@ -53,7 +53,7 @@ export default async function WorkshopsPage() {
                 <div className="mt-12">
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm">
                     <iframe
-                      src="https://www.youtube.com/embed/OyFniZn-kUg"
+                      src="https://www.youtube.com/embed/OyFniZn-kUg?rel=0"
                       title="Workshop Highlights"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
