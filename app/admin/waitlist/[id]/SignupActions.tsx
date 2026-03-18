@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { updateWaitlistSignup } from './actions'
+import { useRouter } from 'next/navigation'
+import { updateWaitlistSignup, deleteWaitlistSignup } from './actions'
 
 interface SignupActionsProps {
   signupId: string
@@ -14,9 +15,11 @@ export default function SignupActions({
   currentStatus,
   currentNotes,
 }: SignupActionsProps) {
+  const router = useRouter()
   const [status, setStatus] = useState(currentStatus)
   const [notes, setNotes] = useState(currentNotes || '')
   const [isPending, startTransition] = useTransition()
+  const [isDeleting, setIsDeleting] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -89,6 +92,28 @@ export default function SignupActions({
           {isPending ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
+
+      <div className="mt-6 pt-6 border-t border-stone-200">
+        <button
+          onClick={() => {
+            if (confirm('Are you sure you want to delete this signup? This cannot be undone.')) {
+              setIsDeleting(true)
+              deleteWaitlistSignup(signupId).then((result) => {
+                if (result.error) {
+                  setMessage({ type: 'error', text: result.error })
+                  setIsDeleting(false)
+                } else {
+                  router.push('/admin/waitlist')
+                }
+              })
+            }
+          }}
+          disabled={isDeleting}
+          className="w-full px-4 py-2 bg-white border border-red-300 text-red-600 rounded-lg font-medium hover:bg-red-50 disabled:opacity-50 transition-colors"
+        >
+          {isDeleting ? 'Deleting...' : 'Delete Signup'}
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Source_Serif_4, Inter } from 'next/font/google'
+import { Source_Serif_4, Inter, Roboto } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 
@@ -16,6 +16,13 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
+// YouTube-style font for media labels
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-roboto',
+})
+
 export const metadata: Metadata = {
   title: 'Creative Kids Music',
   description: 'Your child is already a musician. We help them discover that.',
@@ -30,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
+    <html lang="en" className={`${inter.variable} ${sourceSerif.variable} ${roboto.variable}`}>
       <body className="antialiased">
         {children}
         <Toaster position="top-right" richColors />

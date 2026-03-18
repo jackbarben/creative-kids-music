@@ -115,7 +115,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-24 max-w-3xl mx-auto">
+            <div className="mt-24 max-w-3xl mx-auto relative">
               <Image
                 src="/media/photos/homepage.jpg"
                 alt="Children making music together"
@@ -123,6 +123,18 @@ export default function Home() {
                 height={500}
                 className="w-full rounded-lg shadow-sm"
               />
+              <div className="absolute top-3 left-3 flex items-center gap-2.5 bg-black/60 backdrop-blur-sm rounded-full pl-1.5 pr-4 py-1.5">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/media/logos/treecolors2.png"
+                    alt=""
+                    width={28}
+                    height={28}
+                    className="w-7 h-7 object-contain"
+                  />
+                </div>
+                <span className="text-white text-sm font-medium" style={{ fontFamily: 'var(--font-roboto), sans-serif' }}>Island Beat Music/Nature Camp</span>
+              </div>
             </div>
 
             <div className="mt-12 max-w-3xl mx-auto">

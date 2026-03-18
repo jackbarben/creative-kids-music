@@ -11,10 +11,10 @@ export default function MusicSchoolThankYouPage() {
         <section className="py-24 bg-cream-50">
           <div className="max-w-2xl mx-auto px-6 text-center">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-stone-800 mb-6">
-              You&apos;re on the list.
+              Thank you for your interest.
             </h1>
             <p className="text-xl text-stone-600 mb-8">
-              We&apos;ll be in touch when registration opens for Fall 2026.
+              We&apos;ll review your responses and be in touch.
             </p>
             <p className="text-stone-500 mb-12">
               In the meantime, consider joining us for a{' '}
@@ -34,7 +34,7 @@ export default function MusicSchoolThankYouPage() {
                 Want to stay connected?
               </h2>
               <p className="text-stone-600 text-sm mb-4">
-                Create a free parent account to manage your waitlist signup and be first to know when registration opens.
+                Create a free parent account to manage your interest signup and be first to know when we have updates.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link

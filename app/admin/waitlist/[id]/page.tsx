@@ -117,10 +117,46 @@ export default async function WaitlistSignupDetail({
             </div>
           )}
 
-          {/* Message */}
+          {/* Survey Responses */}
+          {(signup.consider_3days || signup.transportation_affects || signup.tuition_assistance_affects) && (
+            <div className="bg-white rounded-xl border border-stone-200 p-6">
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Survey Responses</h2>
+              <dl className="space-y-4">
+                {signup.consider_3days && (
+                  <div>
+                    <dt className="text-sm text-stone-500">Would you consider a 3-day-a-week program?</dt>
+                    <dd className="text-stone-800 capitalize">{signup.consider_3days}</dd>
+                    {signup.consider_3days_notes && (
+                      <dd className="text-stone-600 text-sm mt-1">{signup.consider_3days_notes}</dd>
+                    )}
+                  </div>
+                )}
+                {signup.transportation_affects && (
+                  <div>
+                    <dt className="text-sm text-stone-500">Would transportation affect your decision?</dt>
+                    <dd className="text-stone-800 capitalize">{signup.transportation_affects}</dd>
+                    {signup.transportation_notes && (
+                      <dd className="text-stone-600 text-sm mt-1">{signup.transportation_notes}</dd>
+                    )}
+                  </div>
+                )}
+                {signup.tuition_assistance_affects && (
+                  <div>
+                    <dt className="text-sm text-stone-500">Would tuition assistance affect your decision?</dt>
+                    <dd className="text-stone-800 capitalize">{signup.tuition_assistance_affects}</dd>
+                    {signup.tuition_assistance_notes && (
+                      <dd className="text-stone-600 text-sm mt-1">{signup.tuition_assistance_notes}</dd>
+                    )}
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
+
+          {/* Questions */}
           {signup.message && (
             <div className="bg-white rounded-xl border border-stone-200 p-6">
-              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">Message</h2>
+              <h2 className="font-display text-lg font-bold text-stone-800 mb-4">What they want to know</h2>
               <p className="text-stone-700 whitespace-pre-wrap">{signup.message}</p>
             </div>
           )}

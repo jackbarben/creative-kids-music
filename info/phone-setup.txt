@@ -1,0 +1,48 @@
+PHONE SETUP DOCUMENTATION
+Created: March 11, 2026
+
+===============================================================================
+BUSINESS PHONE NUMBER
+===============================================================================
+
+NUMBER: (360) 524-2265
+SERVICE: Google Voice
+ACCOUNT: Connected to Jack's Google account
+
+===============================================================================
+CONFIGURATION
+===============================================================================
+
+FORWARDING TO: (619) 753-8268 (Jack's personal cell)
+
+Google Voice handles:
+- Incoming calls to (360) 524-2265 → forwards to personal cell
+- Voicemail
+- Text messages (via Google Voice app or voice.google.com)
+
+===============================================================================
+ACCESS
+===============================================================================
+
+WEB: https://voice.google.com
+APP: Google Voice (iOS/Android)
+SETTINGS: voice.google.com/settings
+
+===============================================================================
+WHERE THE NUMBER APPEARS
+===============================================================================
+
+- components/Footer.tsx
+- app/contact/page.tsx
+- app/about/page.tsx
+- app/faq/page.tsx
+- docs/policies/*.md (liability waiver, media release, etc.)
+
+===============================================================================
+NOTES
+===============================================================================
+
+- Google Voice is free
+- Can send/receive texts via the app
+- Voicemails are transcribed and sent to email
+- If personal number changes, update forwarding in Google Voice settings

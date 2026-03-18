@@ -16,7 +16,8 @@
       "WebFetch(domain:www.bfriendsarchitecture.com)",
       "WebFetch(domain:www.coachella.com)",
       "WebFetch(domain:www.gensler.com)",
-      "WebFetch(domain:kikk.be)"
+      "WebFetch(domain:kikk.be)",
+      "WebFetch(domain:supabase.com)"
     ],
     "deny": []
   }

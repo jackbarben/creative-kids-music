@@ -28,3 +28,22 @@ export async function updateWaitlistSignup(
 
   return { success: true }
 }
+
+export async function deleteWaitlistSignup(signupId: string) {
+  const supabase = createAdminClient()
+
+  const { error } = await supabase
+    .from('waitlist_signups')
+    .delete()
+    .eq('id', signupId)
+
+  if (error) {
+    console.error('Error deleting waitlist signup:', error)
+    return { error: 'Failed to delete signup' }
+  }
+
+  revalidatePath('/admin/waitlist')
+  revalidatePath('/admin')
+
+  return { success: true }
+}
