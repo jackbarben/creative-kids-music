@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { FormField, PhoneField } from './index'
 
 interface ParentSectionProps {
@@ -13,36 +14,38 @@ interface ParentSectionProps {
 }
 
 export default function ParentSection({ fieldErrors, defaultValues }: ParentSectionProps) {
+  const t = useTranslations('forms.shared')
+
   return (
     <section>
       <h3 className="font-display text-xl font-bold text-stone-800 mb-4">
-        Parent/Guardian
+        {t('parentGuardian')}
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
-          label="First Name"
+          label={t('firstName')}
           name="parent_first_name"
           required
           defaultValue={defaultValues?.parent_first_name}
           error={fieldErrors?.parent_first_name}
         />
         <FormField
-          label="Last Name"
+          label={t('lastName')}
           name="parent_last_name"
           required
           defaultValue={defaultValues?.parent_last_name}
           error={fieldErrors?.parent_last_name}
         />
         <FormField
-          label="Relationship to Child"
+          label={t('relationship')}
           name="parent_relationship"
           required
-          placeholder="e.g., Mother, Father, Guardian"
+          placeholder={t('relationshipPlaceholder')}
           defaultValue={defaultValues?.parent_relationship}
           error={fieldErrors?.parent_relationship}
         />
         <PhoneField
-          label="Phone"
+          label={t('phone')}
           name="parent_phone"
           required
           defaultValue={defaultValues?.parent_phone}

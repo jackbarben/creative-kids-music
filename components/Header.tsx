@@ -1,13 +1,15 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
   const pathname = usePathname()
+  const t = useTranslations('nav')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -19,7 +21,6 @@ export default function Header() {
     }
     checkAuth()
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setIsAdmin(!!session?.user)
     })
@@ -40,13 +41,12 @@ export default function Header() {
     }`
 
   const navLinks = [
-    { href: '/workshops', label: 'Workshops' },
-    { href: '/summer-camp', label: 'Summer Camp' },
-    { href: '/music-school', label: 'Music School' },
-    { href: '/faq', label: 'FAQ' },
-    { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
-    { href: '/account', label: 'Account' },
+    { href: '/workshops' as const, label: t('workshops') },
+    { href: '/summer-camp' as const, label: t('summerCamp') },
+    { href: '/music-school' as const, label: t('musicSchool') },
+    { href: '/faq' as const, label: t('faq') },
+    { href: '/about' as const, label: t('about') },
+    { href: '/contact' as const, label: t('contact') },
   ]
 
   return (
@@ -83,13 +83,14 @@ export default function Header() {
               </Link>
             ))}
             {isAdmin && (
-              <Link
+              <a
                 href="/admin"
-                className={`text-sm tracking-wide px-3 py-1 rounded-full bg-forest-100 text-forest-700 hover:bg-forest-200 transition-colors`}
+                className="text-sm tracking-wide px-3 py-1 rounded-full bg-forest-100 text-forest-700 hover:bg-forest-200 transition-colors"
               >
                 Admin
-              </Link>
+              </a>
             )}
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile Menu Button */}
@@ -125,14 +126,17 @@ export default function Header() {
                 </Link>
               ))}
               {isAdmin && (
-                <Link
+                <a
                   href="/admin"
                   onClick={() => setMobileOpen(false)}
                   className="py-3 text-base text-forest-700 font-medium"
                 >
                   Admin Portal
-                </Link>
+                </a>
               )}
+              <div className="pt-3 border-t border-slate-200 mt-2">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         )}

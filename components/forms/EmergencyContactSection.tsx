@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { FormField, PhoneField } from './index'
 
 interface EmergencyContactSectionProps {
@@ -12,34 +13,36 @@ interface EmergencyContactSectionProps {
 }
 
 export default function EmergencyContactSection({ fieldErrors, defaultValues }: EmergencyContactSectionProps) {
+  const t = useTranslations('forms.emergency')
+
   return (
     <section>
       <h3 className="font-display text-xl font-bold text-stone-800 mb-2">
-        Emergency Contact
+        {t('title')}
       </h3>
       <p className="text-sm text-stone-500 mb-4">
-        Someone we can reach in case of emergency (other than yourself).
+        {t('description')}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <FormField
-          label="Name"
+          label={t('name')}
           name="emergency_name"
           required
           defaultValue={defaultValues?.emergency_name}
           error={fieldErrors?.emergency_name}
         />
         <PhoneField
-          label="Phone"
+          label={t('phone')}
           name="emergency_phone"
           required
           defaultValue={defaultValues?.emergency_phone}
           error={fieldErrors?.emergency_phone}
         />
         <FormField
-          label="Relationship"
+          label={t('relationship')}
           name="emergency_relationship"
           required
-          placeholder="e.g., Grandmother"
+          placeholder={t('relationshipPlaceholder')}
           defaultValue={defaultValues?.emergency_relationship}
           error={fieldErrors?.emergency_relationship}
         />

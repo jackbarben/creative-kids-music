@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { WorkshopRegistrationWithChildren, CampRegistrationWithChildren, Workshop } from '@/lib/database.types'
 import EditChildModal from './EditChildModal'
 import AddChildModal from './AddChildModal'
@@ -24,6 +25,7 @@ export default function RegistrationCard({ registration, programType, workshops 
   const [removeChildOpen, setRemoveChildOpen] = useState<ChildType | null>(null)
   const [cancelOpen, setCancelOpen] = useState(false)
   const [addPickupOpen, setAddPickupOpen] = useState(false)
+  const t = useTranslations('account.registration')
 
   const isCancelled = registration.status === 'cancelled'
   const isPaid = registration.payment_status === 'paid'
@@ -59,23 +61,23 @@ export default function RegistrationCard({ registration, programType, workshops 
   // Get status badge
   const statusBadge = () => {
     if (isCancelled) {
-      return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded">Cancelled</span>
+      return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded">{t('statusCancelled')}</span>
     }
     if (programStarted) {
-      return <span className="px-2 py-1 text-xs font-medium bg-slate-100 text-slate-600 rounded">Completed</span>
+      return <span className="px-2 py-1 text-xs font-medium bg-slate-100 text-slate-600 rounded">{t('statusCompleted')}</span>
     }
     if (registration.status === 'confirmed') {
-      return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded">Confirmed</span>
+      return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded">{t('statusConfirmed')}</span>
     }
-    return <span className="px-2 py-1 text-xs font-medium bg-amber-100 text-amber-700 rounded">Pending</span>
+    return <span className="px-2 py-1 text-xs font-medium bg-amber-100 text-amber-700 rounded">{t('statusPending')}</span>
   }
 
   const handleRemovePickup = async (pickupId: string) => {
-    if (!confirm('Remove this pickup person?')) return
+    if (!confirm(t('removePickupConfirm'))) return
     await removePickup(pickupId, registration.id)
   }
 
-  const programName = programType === 'workshop' ? 'Spring Workshop' : 'Summer Camp 2026'
+  const programName = programType === 'workshop' ? t('springWorkshop') : t('summerCamp')
 
   // Get camp-specific data
   const campRegistration = programType === 'camp' ? registration as CampRegistrationWithChildren : null
@@ -95,7 +97,7 @@ export default function RegistrationCard({ registration, programType, workshops 
               </p>
             ) : programType === 'camp' ? (
               <p className="text-slate-500 text-sm mt-1">
-                August 3–7, 2026
+                {t('campDates')}
               </p>
             ) : null}
           </div>
@@ -104,7 +106,7 @@ export default function RegistrationCard({ registration, programType, workshops 
 
         {/* Children */}
         <div className="mb-4">
-          <h3 className="text-sm font-medium text-slate-700 mb-2">Children</h3>
+          <h3 className="text-sm font-medium text-slate-700 mb-2">{t('children')}</h3>
           <div className="space-y-2">
             {registration.children.map((child) => (
               <div
@@ -113,10 +115,10 @@ export default function RegistrationCard({ registration, programType, workshops 
               >
                 <div>
                   <span className="font-medium text-slate-800">{child.child_name}</span>
-                  <span className="text-slate-500 ml-2">Age {child.child_age}</span>
+                  <span className="text-slate-500 ml-2">{t('age', { age: child.child_age })}</span>
                   {'allergies' in child && child.allergies && (
                     <p className="text-xs text-slate-500 mt-1">
-                      Allergies: {child.allergies}
+                      {t('allergies', { allergies: child.allergies })}
                     </p>
                   )}
                 </div>
@@ -126,7 +128,7 @@ export default function RegistrationCard({ registration, programType, workshops 
                       onClick={() => setEditChildOpen(child)}
                       className="text-xs text-slate-500 hover:text-slate-700"
                     >
-                      Edit
+                      {t('edit')}
                     </button>
                     {registration.children.length > 1 && (
                       <button
@@ -146,7 +148,7 @@ export default function RegistrationCard({ registration, programType, workshops 
               onClick={() => setAddChildOpen(true)}
               className="mt-2 text-sm text-slate-600 hover:text-slate-800"
             >
-              + Add Child
+              {t('addChild')}
             </button>
           )}
         </div>
@@ -154,7 +156,7 @@ export default function RegistrationCard({ registration, programType, workshops 
         {/* Camp-specific: Authorized Pickups */}
         {programType === 'camp' && campRegistration && (
           <div className="mb-4">
-            <h3 className="text-sm font-medium text-slate-700 mb-2">Authorized Pickups</h3>
+            <h3 className="text-sm font-medium text-slate-700 mb-2">{t('authorizedPickups')}</h3>
             <div className="space-y-2">
               {campRegistration.authorized_pickups?.map((pickup) => (
                 <div
@@ -181,7 +183,7 @@ export default function RegistrationCard({ registration, programType, workshops 
                 </div>
               ))}
               {(!campRegistration.authorized_pickups || campRegistration.authorized_pickups.length === 0) && (
-                <p className="text-sm text-slate-500 italic">No pickups added yet</p>
+                <p className="text-sm text-slate-500 italic">{t('noPickupsYet')}</p>
               )}
             </div>
             {!programStarted && !isCancelled && (
@@ -189,7 +191,7 @@ export default function RegistrationCard({ registration, programType, workshops 
                 onClick={() => setAddPickupOpen(true)}
                 className="mt-2 text-sm text-slate-600 hover:text-slate-800"
               >
-                + Add Pickup Person
+                {t('addPickupPerson')}
               </button>
             )}
           </div>
@@ -198,27 +200,27 @@ export default function RegistrationCard({ registration, programType, workshops 
         {/* Payment Info */}
         <div className="py-4 border-t border-slate-100">
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Total</span>
+            <span className="text-slate-500">{t('total')}</span>
             <span className="text-slate-800 font-medium">
               {formatCurrency(registration.total_amount_cents)}
               {registration.children.length > 1 && (
-                <span className="text-slate-400 font-normal ml-1">(sibling discount applied)</span>
+                <span className="text-slate-400 font-normal ml-1">({t('siblingDiscountApplied')})</span>
               )}
             </span>
           </div>
           <div className="flex justify-between text-sm mt-1">
-            <span className="text-slate-500">Paid</span>
+            <span className="text-slate-500">{t('paid')}</span>
             <span className="text-slate-800">{formatCurrency(registration.amount_paid_cents)}</span>
           </div>
           {amountDue > 0 && (
             <div className="flex justify-between text-sm mt-1">
-              <span className="text-slate-500">Due</span>
+              <span className="text-slate-500">{t('due')}</span>
               <span className="text-amber-600 font-medium">{formatCurrency(amountDue)}</span>
             </div>
           )}
           {amountDue <= 0 && isPaid && (
             <div className="flex justify-between text-sm mt-1">
-              <span className="text-slate-500">Due</span>
+              <span className="text-slate-500">{t('due')}</span>
               <span className="text-green-600 font-medium">$0 ✓</span>
             </div>
           )}
@@ -231,7 +233,7 @@ export default function RegistrationCard({ registration, programType, workshops 
               onClick={() => setCancelOpen(true)}
               className="text-sm text-red-500 hover:text-red-700"
             >
-              Cancel Registration
+              {t('cancelRegistration')}
             </button>
           </div>
         )}
@@ -239,7 +241,7 @@ export default function RegistrationCard({ registration, programType, workshops 
         {/* Program Started Notice */}
         {programStarted && !isCancelled && (
           <p className="text-xs text-slate-400 mt-4">
-            No changes allowed — program has started
+            {t('noChangesAllowed')}
           </p>
         )}
       </div>

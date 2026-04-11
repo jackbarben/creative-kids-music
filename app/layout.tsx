@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Source_Serif_4, Inter, Roboto } from 'next/font/google'
 import { Toaster } from 'sonner'
+import { getLocale } from 'next-intl/server'
 import './globals.css'
 
 // Display font - elegant serif, sophisticated but warm
@@ -31,13 +32,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+
   return (
-    <html lang="en" className={`${inter.variable} ${sourceSerif.variable} ${roboto.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${sourceSerif.variable} ${roboto.variable}`}>
       <body className="antialiased">
         {children}
         <Toaster position="top-right" richColors />

@@ -1,7 +1,13 @@
-import Link from 'next/link'
+'use client'
+
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import packageJson from '@/package.json'
 
 export default function Footer() {
+  const t = useTranslations('nav')
+  const f = useTranslations('footer')
+
   return (
     <footer className="bg-[#4A4639] text-cream-100">
       <div className="max-w-6xl mx-auto px-6 md:px-12 py-16">
@@ -12,7 +18,7 @@ export default function Footer() {
               Creative Kids
             </Link>
             <p className="mt-4 text-slate-400 text-sm leading-relaxed">
-              Where children discover the musician inside.
+              {f('tagline')}
             </p>
           </div>
 
@@ -20,43 +26,28 @@ export default function Footer() {
           <div>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link
-                  href="/workshops"
-                  className="text-slate-400 hover:text-cream-100 transition-colors"
-                >
-                  Workshops
+                <Link href="/workshops" className="text-slate-400 hover:text-cream-100 transition-colors">
+                  {t('workshops')}
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/summer-camp"
-                  className="text-slate-400 hover:text-cream-100 transition-colors"
-                >
-                  Summer Camp
+                <Link href="/summer-camp" className="text-slate-400 hover:text-cream-100 transition-colors">
+                  {t('summerCamp')}
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/music-school"
-                  className="text-slate-400 hover:text-cream-100 transition-colors"
-                >
-                  Music School
+                <Link href="/music-school" className="text-slate-400 hover:text-cream-100 transition-colors">
+                  {t('musicSchool')}
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/about"
-                  className="text-slate-400 hover:text-cream-100 transition-colors"
-                >
-                  About
+                <Link href="/about" className="text-slate-400 hover:text-cream-100 transition-colors">
+                  {t('about')}
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="text-slate-400 hover:text-cream-100 transition-colors"
-                >
-                  Contact
+                <Link href="/contact" className="text-slate-400 hover:text-cream-100 transition-colors">
+                  {t('contact')}
                 </Link>
               </li>
             </ul>
@@ -82,16 +73,16 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-slate-700">
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500 mb-4">
             <Link href="/terms/program-terms" className="hover:text-slate-400 transition-colors">
-              Terms & Conditions
+              {f('termsConditions')}
             </Link>
             <Link href="/terms/program-terms#cancellation" className="hover:text-slate-400 transition-colors">
-              Refund Policy
+              {f('refundPolicy')}
             </Link>
             <Link href="/terms/liability-waiver" className="hover:text-slate-400 transition-colors">
-              Liability Waiver
+              {f('liabilityWaiver')}
             </Link>
             <Link href="/faq" className="hover:text-slate-400 transition-colors">
-              FAQ
+              {t('faq')}
             </Link>
           </div>
           <div className="flex justify-between items-center">

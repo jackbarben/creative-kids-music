@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { getFamilyInfo, inviteFamilyMember, removeFamilyMember, type FamilyInfo } from '@/app/account/actions'
 import LoadingButton from '@/components/ui/LoadingButton'
 
@@ -16,6 +17,7 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
   const [removingId, setRemovingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const t = useTranslations('account.family')
 
   const loadFamilyInfo = useCallback(async () => {
     const info = await getFamilyInfo()
@@ -40,7 +42,7 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
     if (result.error) {
       setError(result.error)
     } else {
-      setSuccess(`Invitation sent to ${inviteEmail}`)
+      setSuccess(t('inviteSent', { email: inviteEmail }))
       setInviteEmail('')
       await loadFamilyInfo()
     }
@@ -48,7 +50,7 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
   }
 
   const handleRemove = async (memberId: string, email: string) => {
-    if (!confirm(`Remove ${email} from your family? They will no longer be able to view or manage family registrations.`)) {
+    if (!confirm(t('removeConfirm', { email }))) {
       return
     }
 
@@ -61,7 +63,7 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
     if (result.error) {
       setError(result.error)
     } else {
-      setSuccess(`${email} has been removed from your family`)
+      setSuccess(t('removed', { email }))
       await loadFamilyInfo()
     }
     setRemovingId(null)
@@ -95,10 +97,10 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
   return (
     <div className="bg-white rounded-2xl border border-slate-100 p-6 mb-6">
       <h2 className="font-display text-xl font-semibold text-slate-800 mb-2">
-        Family Members
+        {t('title')}
       </h2>
       <p className="text-sm text-slate-500 mb-6">
-        Family members can view and manage all family registrations, children, and settings.
+        {t('description')}
       </p>
 
       {error && (
@@ -138,10 +140,10 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
               </div>
               <div>
                 <p className="text-slate-700 font-medium">{userEmail}</p>
-                <p className="text-xs text-slate-500">You</p>
+                <p className="text-xs text-slate-500">{t('you')}</p>
               </div>
             </div>
-            <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">Active</span>
+            <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">{t('active')}</span>
           </div>
         )}
 
@@ -158,25 +160,25 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
                 <p className="text-slate-700 font-medium">{member.email}</p>
                 {member.joined_at ? (
                   <p className="text-xs text-slate-500">
-                    Joined {new Date(member.joined_at).toLocaleDateString()}
+                    {t('joined', { date: new Date(member.joined_at).toLocaleDateString() })}
                   </p>
                 ) : (
-                  <p className="text-xs text-amber-600">Invitation pending</p>
+                  <p className="text-xs text-amber-600">{t('invitationPending')}</p>
                 )}
               </div>
             </div>
             <div className="flex items-center gap-2">
               {member.joined_at ? (
-                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">Active</span>
+                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">{t('active')}</span>
               ) : (
-                <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">Pending</span>
+                <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">{t('pending')}</span>
               )}
               <button
                 onClick={() => handleRemove(member.id, member.email)}
                 disabled={removingId === member.id}
                 className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50"
               >
-                {removingId === member.id ? 'Removing...' : 'Remove'}
+                {removingId === member.id ? t('removing') : t('remove')}
               </button>
             </div>
           </div>
@@ -185,16 +187,16 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
 
       {/* Invite Form */}
       <form onSubmit={handleInvite} className="border-t border-slate-100 pt-6">
-        <p className="text-sm font-medium text-slate-700 mb-3">Invite a family member</p>
+        <p className="text-sm font-medium text-slate-700 mb-3">{t('inviteTitle')}</p>
         <p className="text-sm text-slate-500 mb-4">
-          They&apos;ll receive an email to set up their login. Once they create an account, they&apos;ll automatically join your family.
+          {t('inviteDesc')}
         </p>
         <div className="flex gap-3">
           <input
             type="email"
             value={inviteEmail}
             onChange={(e) => setInviteEmail(e.target.value)}
-            placeholder="email@example.com"
+            placeholder={t('emailPlaceholder')}
             className={`${inputClass} flex-1`}
           />
           <LoadingButton
@@ -203,7 +205,7 @@ export default function FamilyMembersSection({ userEmail }: FamilyMembersSection
             disabled={!inviteEmail.trim()}
             className="whitespace-nowrap"
           >
-            Send Invite
+            {t('sendInvite')}
           </LoadingButton>
         </div>
       </form>
