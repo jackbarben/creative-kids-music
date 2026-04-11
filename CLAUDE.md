@@ -97,7 +97,26 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 - **Design**: Warm & Organic (forest green, terracotta, cream)
 - **Hosting**: Vercel (auto-deploy from GitHub master branch)
 - **Domain**: creativekidsmusic.org
+- **i18n**: next-intl (English + Spanish)
 - **Status**: Live in production
+
+---
+
+## Internationalization (i18n)
+
+- **Library**: next-intl
+- **Locales**: `en` (default), `es` (Spanish)
+- **Translation files**: `messages/en.json`, `messages/es.json` (857 keys each)
+- **Routing**: Public pages live under `app/[locale]/`. Middleware detects locale and redirects `/` to `/en`.
+- **Config**: `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts`
+- **Components**: Use `useTranslations` (client) or `getTranslations` (server) from next-intl
+- **Navigation**: Import `Link`, `usePathname`, `useRouter` from `@/i18n/navigation` (not `next/navigation`) in locale-aware pages
+- **Locale switcher**: `components/LanguageSwitcher.tsx` in header
+- **Spanish toast**: `components/SpanishToast.tsx` on home page (shows once, remembers dismissal)
+- **Emails**: Bilingual for ES registrations (English first, then Spanish with legal disclaimer)
+- **Excluded from i18n**: Admin (`/admin/*`), auth (`/auth/*`), account (`/account/*`) — English-only
+- **DB**: `locale` column on `workshop_registrations`, `camp_registrations`, `waitlist_signups`
+- **Checklist**: `docs/i18n-todo.md`
 
 ---
 
@@ -246,6 +265,10 @@ RESEND_API_KEY=your-resend-api-key
 Or from Windows: `\\wsl$\Ubuntu\home\jbarb\code\creative-kids`
 
 **Important**: Run commands from WSL, not Windows PowerShell.
+
+### Git Authentication
+
+The remote uses SSH (`git@github.com:jackbarben/creative-kids-music.git`). SSH keys are set up at `~/.ssh/id_ed25519` and authenticate as `jackbarben`. Do **not** switch the remote to HTTPS — the Windows credential manager doesn't work from WSL.
 
 ### Quick Start
 
