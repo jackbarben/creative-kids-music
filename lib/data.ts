@@ -82,6 +82,7 @@ interface PaginationFilters {
   search?: string
   status?: string
   payment?: string
+  workshop?: string
 }
 
 export async function getWorkshopRegistrationsPaginated(
@@ -108,6 +109,9 @@ export async function getWorkshopRegistrationsPaginated(
   }
   if (filters.payment) {
     query = query.eq('payment_status', filters.payment)
+  }
+  if (filters.workshop) {
+    query = query.contains('workshop_ids', [filters.workshop])
   }
 
   const { data, error, count } = await query

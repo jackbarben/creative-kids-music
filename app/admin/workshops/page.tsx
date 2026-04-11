@@ -6,7 +6,7 @@ import SearchFilter from '@/components/admin/SearchFilter'
 export const dynamic = 'force-dynamic'
 
 interface PageProps {
-  searchParams: Promise<{ page?: string; search?: string; status?: string; payment?: string }>
+  searchParams: Promise<{ page?: string; search?: string; status?: string; payment?: string; workshop?: string }>
 }
 
 export default async function WorkshopsAdmin({ searchParams }: PageProps) {
@@ -16,6 +16,7 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
     search: params.search,
     status: params.status,
     payment: params.payment,
+    workshop: params.workshop,
   }
 
   const workshops = await getWorkshops()
@@ -99,7 +100,7 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
 
       {/* Registrations */}
       <div className="bg-white rounded-2xl border border-stone-200 p-6">
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
           <div>
             <h2 className="font-display text-xl font-bold text-stone-800 mb-2">
               Workshop Registrations
@@ -109,7 +110,7 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
                 </span>
               )}
             </h2>
-            <p className="text-stone-500">
+            <p className="text-stone-500 text-sm">
               View and manage registrations for Spring 2026 workshops.
             </p>
           </div>
@@ -133,6 +134,10 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
 
         <SearchFilter
           baseUrl="/admin/workshops"
+          workshopOptions={workshops.map((w) => ({
+            value: w.id,
+            label: `${new Date(w.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — ${w.title}`,
+          }))}
           statusOptions={[
             { value: 'pending', label: 'Pending' },
             { value: 'confirmed', label: 'Confirmed' },
@@ -161,7 +166,29 @@ export default async function WorkshopsAdmin({ searchParams }: PageProps) {
           </div>
         ) : (
           <>
-            <div className="overflow-x-auto">
+            {/* Mobile card view */}
+            <div className="md:hidden space-y-3">
+              {registrations.map((reg) => (
+                <Link key={reg.id} href={`/admin/workshops/${reg.id}`} className="block p-4 bg-stone-50 rounded-lg hover:bg-stone-100 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-medium text-forest-600">{reg.parent_name}</span>
+                    <span className={`text-xs px-2 py-1 rounded ${getStatusBadge(reg.status)}`}>
+                      {reg.status}
+                    </span>
+                  </div>
+                  <p className="text-sm text-stone-500 truncate">{reg.parent_email}</p>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-stone-400">{reg.workshop_ids.length} workshop{reg.workshop_ids.length !== 1 ? 's' : ''}</span>
+                    <span className={`text-xs px-2 py-1 rounded ${getPaymentBadge(reg.payment_status)}`}>
+                      {reg.payment_status}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Desktop table view */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-stone-200">

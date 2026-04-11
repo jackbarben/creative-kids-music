@@ -29,6 +29,7 @@ export default function AdminLayout({
   const supabase = createClient()
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     const getUser = async () => {
@@ -38,6 +39,11 @@ export default function AdminLayout({
     }
     getUser()
   }, [supabase.auth])
+
+  // Close sidebar on navigation
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [pathname])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -62,22 +68,52 @@ export default function AdminLayout({
     )
   }
 
-  return (
-    <div className="min-h-screen bg-stone-50 font-sans">
-      {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 w-64 bg-white border-r border-stone-200">
-        {/* Logo */}
-        <div className="h-16 flex items-center px-6 border-b border-stone-200">
-          <Link href="/admin" className="font-display text-xl font-bold text-forest-600">
-            CKMP Admin
-          </Link>
-        </div>
+  const sidebarContent = (
+    <>
+      {/* Logo */}
+      <div className="h-16 flex items-center justify-between px-6 border-b border-stone-200">
+        <Link href="/admin" className="font-display text-xl font-bold text-forest-600">
+          CKMP Admin
+        </Link>
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="md:hidden p-1 text-stone-400 hover:text-stone-600"
+          aria-label="Close menu"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
-        {/* Navigation */}
-        <nav className="p-4 space-y-1">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href ||
-              (item.href !== '/admin' && pathname.startsWith(item.href))
+      {/* Navigation */}
+      <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
+        {navigation.map((item) => {
+          const isActive = pathname === item.href ||
+            (item.href !== '/admin' && pathname.startsWith(item.href))
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-forest-50 text-forest-700'
+                  : 'text-stone-600 hover:bg-stone-50 hover:text-stone-800'
+              }`}
+            >
+              <item.icon className={`w-5 h-5 ${isActive ? 'text-forest-600' : 'text-stone-400'}`} />
+              {item.name}
+            </Link>
+          )
+        })}
+
+        {/* Programs Section */}
+        <div className="pt-4 mt-4 border-t border-stone-200">
+          <p className="px-4 mb-2 text-xs font-semibold text-stone-400 uppercase tracking-wider">
+            Programs
+          </p>
+          {programsNavigation.map((item) => {
+            const isActive = pathname.startsWith(item.href)
             return (
               <Link
                 key={item.name}
@@ -93,75 +129,84 @@ export default function AdminLayout({
               </Link>
             )
           })}
+        </div>
+      </nav>
 
-          {/* Programs Section */}
-          <div className="pt-4 mt-4 border-t border-stone-200">
-            <p className="px-4 mb-2 text-xs font-semibold text-stone-400 uppercase tracking-wider">
-              Programs
+      {/* User section at bottom */}
+      <div className="p-4 border-t border-stone-200">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-8 bg-forest-100 rounded-full flex items-center justify-center">
+            <span className="text-forest-600 text-sm font-medium">
+              {user?.email?.[0].toUpperCase()}
+            </span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-stone-800 truncate">
+              {user?.email}
             </p>
-            {programsNavigation.map((item) => {
-              const isActive = pathname.startsWith(item.href)
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-forest-50 text-forest-700'
-                      : 'text-stone-600 hover:bg-stone-50 hover:text-stone-800'
-                  }`}
-                >
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-forest-600' : 'text-stone-400'}`} />
-                  {item.name}
-                </Link>
-              )
-            })}
-          </div>
-        </nav>
-
-        {/* User section at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-stone-200">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 bg-forest-100 rounded-full flex items-center justify-center">
-              <span className="text-forest-600 text-sm font-medium">
-                {user?.email?.[0].toUpperCase()}
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-stone-800 truncate">
-                {user?.email}
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Link
-              href="/"
-              className="flex-1 px-3 py-2 text-xs text-center text-stone-600 hover:text-stone-800 hover:bg-stone-50 rounded-lg transition-colors"
-            >
-              View Site
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="flex-1 px-3 py-2 text-xs text-center text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              Sign Out
-            </button>
           </div>
         </div>
+        <div className="flex gap-2">
+          <Link
+            href="/"
+            className="flex-1 px-3 py-2 text-xs text-center text-stone-600 hover:text-stone-800 hover:bg-stone-50 rounded-lg transition-colors"
+          >
+            View Site
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex-1 px-3 py-2 text-xs text-center text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </>
+  )
+
+  return (
+    <div className="min-h-screen bg-stone-50 font-sans">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar — hidden on mobile, visible on desktop */}
+      <aside className={`
+        fixed inset-y-0 left-0 w-64 bg-white border-r border-stone-200 z-50 flex flex-col
+        transition-transform duration-200 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0
+      `}>
+        {sidebarContent}
       </aside>
 
       {/* Main content */}
-      <main className="ml-64">
+      <main className="md:ml-64">
         {/* Header */}
-        <header className="h-16 bg-white border-b border-stone-200 flex items-center justify-between px-8">
-          <h1 className="font-display text-xl font-bold text-stone-800">
-            {navigation.find(n => n.href === pathname)?.name ||
-             programsNavigation.find(n => pathname.startsWith(n.href))?.name ||
-             'Admin'}
-          </h1>
+        <header className="h-16 bg-white border-b border-stone-200 flex items-center justify-between px-4 md:px-8">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden p-2 -ml-2 text-stone-600 hover:text-stone-800"
+              aria-label="Open menu"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <h1 className="font-display text-lg md:text-xl font-bold text-stone-800">
+              {navigation.find(n => n.href === pathname)?.name ||
+               programsNavigation.find(n => pathname.startsWith(n.href))?.name ||
+               'Admin'}
+            </h1>
+          </div>
           <Link
             href="/"
-            className="flex items-center gap-2 px-4 py-2 text-sm text-stone-600 hover:text-stone-800 hover:bg-stone-50 rounded-lg transition-colors"
+            className="hidden md:flex items-center gap-2 px-4 py-2 text-sm text-stone-600 hover:text-stone-800 hover:bg-stone-50 rounded-lg transition-colors"
           >
             <HomeIcon className="w-4 h-4" />
             View Site
@@ -169,7 +214,7 @@ export default function AdminLayout({
         </header>
 
         {/* Page content */}
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {children}
         </div>
       </main>

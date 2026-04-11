@@ -12,6 +12,7 @@ interface SearchFilterProps {
   placeholder?: string
   statusOptions?: FilterOption[]
   paymentOptions?: FilterOption[]
+  workshopOptions?: FilterOption[]
   baseUrl: string
 }
 
@@ -19,6 +20,7 @@ export default function SearchFilter({
   placeholder = 'Search by name or email...',
   statusOptions,
   paymentOptions,
+  workshopOptions,
   baseUrl,
 }: SearchFilterProps) {
   const router = useRouter()
@@ -28,12 +30,14 @@ export default function SearchFilter({
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [status, setStatus] = useState(searchParams.get('status') || '')
   const [payment, setPayment] = useState(searchParams.get('payment') || '')
+  const [workshop, setWorkshop] = useState(searchParams.get('workshop') || '')
 
   const applyFilters = () => {
     const params = new URLSearchParams()
     if (search) params.set('search', search)
     if (status) params.set('status', status)
     if (payment) params.set('payment', payment)
+    if (workshop) params.set('workshop', workshop)
     // Reset to page 1 when filtering
     params.set('page', '1')
 
@@ -46,12 +50,13 @@ export default function SearchFilter({
     setSearch('')
     setStatus('')
     setPayment('')
+    setWorkshop('')
     startTransition(() => {
       router.push(baseUrl)
     })
   }
 
-  const hasFilters = search || status || payment
+  const hasFilters = search || status || payment || workshop
 
   return (
     <div className="mb-6 space-y-3">
@@ -77,6 +82,22 @@ export default function SearchFilter({
           >
             <option value="">All statuses</option>
             {statusOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {/* Workshop filter */}
+        {workshopOptions && (
+          <select
+            value={workshop}
+            onChange={(e) => setWorkshop(e.target.value)}
+            className="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm text-slate-800"
+          >
+            <option value="">All workshops</option>
+            {workshopOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>
