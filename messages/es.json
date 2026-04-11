@@ -38,7 +38,7 @@
     "translationDisclaimerEs": "Este documento ha sido traducido al español para su conveniencia. En caso de cualquier discrepancia entre las versiones en inglés y en español, prevalecerá la versión en inglés."
   },
   "home": {
-    "heroTitle": "Su hijo/a\nya es\nmúsico.",
+    "heroTitle": "Su hijo/a\nya es\nmúsico/a.",
     "heroSubtitle": "Les ayudamos a descubrirlo.",
     "heroBody": "En Creative Kids, los niños hacen música de verdad desde el primer día junto a músicos profesionales—desarrollando no solo habilidades musicales, sino también confianza duradera, creatividad y la capacidad de colaborar y comprometerse con otros de por vida.",
     "heroImageAlt": "Un árbol con instrumentos musicales creciendo de sus ramas",
@@ -60,7 +60,7 @@
     "bio1": "Jack Barben ha tocado música toda su vida y la ha enseñado durante casi treinta años. Comenzó temprano—dirigiendo bandas y coros cuando era adolescente, luego estudiando piano, voz y trombón en la universidad, incluyendo piano en el Conservatorio Peabody. Ha dirigido música en iglesias durante más de veinte años, mantenido un estudio privado durante veinticinco, y continuado explorando: creando coros y ensambles, sumergiéndose en tradiciones de todo el mundo.",
     "bio2": "Todo apuntaba hacia aquí.",
     "bio3": "En Creative Kids, los niños hacen música de verdad desde el primer día. Tocan, improvisan, componen e interpretan—no después de años de preparación, sino como la puerta de entrada. Músicos profesionales tocan junto a ellos, modelando lo que no se puede enseñar con palabras. El groove viene antes que la teoría. Escuchar antes que leer. Sentir antes que la técnica.",
-    "bio4": "Su hijo/a ya es músico. Les ayudamos a descubrirlo.",
+    "bio4": "Su hijo/a ya es músico/a. Les ayudamos a descubrirlo.",
     "bio5": "Desde su primera sesión, están dentro de la música—tocando en flujo con otros, tomando decisiones reales, vivos en el momento. Algo cambia—en lo que pueden hacer y en quiénes saben que son. Y lo que construyen aquí—confianza, presencia, la capacidad de participar con otros—va mucho más allá de cualquier instrumento.",
     "ourHome": "Nuestro hogar",
     "ourHomeDesc": "Creative Kids Music Project tiene su sede en la Iglesia Episcopal St. Luke's / San Lucas en el corazón de Vancouver—una comunidad que comparte nuestra creencia en el poder formativo de la música, la naturaleza y la creatividad.",
@@ -75,7 +75,7 @@
     "title": "Talleres",
     "headline": "Su hijo/a hace música de verdad desde el primer día—no después de un año de lecciones.",
     "body1": "Comenzamos con la base: el ritmo. Siéntalo, muévase con él, manténgalo. Luego agregamos otra capa—un loop, un patrón, un riff. Su hijo/a toca junto a músicos profesionales que sostienen el ritmo cuando tropiezan y mantienen todo en movimiento.",
-    "body2": "Así es como enseñamos: comenzamos desde el éxito, apoyados por maestros, y la habilidad llega naturalmente.",
+    "body2": "Así es como enseñamos: partimos del éxito, apoyados por los maestros, y la habilidad llega naturalmente.",
     "videoTitle": "Momentos destacados de los talleres",
     "dates": "Fechas",
     "datesSoon": "Fechas próximamente.",
@@ -99,7 +99,7 @@
     "body2": "Luego profundizamos. Los niños sostienen la línea del bajo mientras otros llevan la melodía. Agregan ritmo, crean textura, escriben sus propias canciones, toman nuevos instrumentos. Músicos profesionales están ahí toda la semana, tocando junto a ellos, y cada día llega un instructor invitado, entrelazando movimiento, voz, ritmo, composición—otro hilo que se suma a la semana.",
     "photoAlt": "Niños en el campamento de música de verano",
     "finale": "El cierre",
-    "finaleBody1": "El viernes por la noche, los padres se reúnen para compartir la cena y escuchar lo que sus hijos han estado creando. El domingo por la mañana, los niños ayudan a crear y transformar el tapiz musical del servicio de las 10 a.m. en St. Luke's.",
+    "finaleBody1": "El viernes por la noche, los padres se reúnen para compartir la cena y escuchar lo que sus hijos han estado creando. El domingo por la mañana, los niños ayudan a crear y transformar la textura musical del servicio de las 10 a.m. en St. Luke's.",
     "finaleBody2": "Lo que se llevan a casa es más grande que cualquier presentación: una libertad para hacer música que nunca habían sentido.",
     "details": "Detalles",
     "datesLabel": "Fechas",
@@ -127,7 +127,7 @@
     "body2": "La visión se basa en un modelo sencillo de cómo la música solía arraigarnos y nutrirnos. Se inspira en la adquisición del lenguaje: inmersión primero, comprensión después. Se apoya en lo que sabemos sobre cómo aprende realmente el cerebro, en técnicas de concentración que desarrollan tanto la disciplina como la expresividad musical, y en fuentes tan variadas como la Técnica Alexander, el trabajo de Iain McGilchrist, la meditación y la conciencia corporal, y la vasta gama de métodos y técnicas que los músicos han utilizado durante cientos de años. En Creative Kids Music, estas herramientas y modelos toman forma en el mundo real y los resultados hablan por sí mismos.",
     "bullet1": "Los niños se sumergen en la música tres días a la semana.",
     "bullet2": "Los niños desarrollan una base musical que incluye teoría, oído relativo, dominio rítmico, técnicas de composición e improvisación, y una comprensión práctica de diferentes géneros musicales.",
-    "bullet3": "Enfatizamos el tocar. Los niños aprenden haciendo e imitando. El acceso a músicos profesionales en diversos entornos les ofrece múltiples modelos y diferentes formas de experimentar y expresar la música.",
+    "bullet3": "Damos prioridad a tocar. Los niños aprenden haciendo e imitando. El acceso a músicos profesionales en diversos entornos les ofrece múltiples modelos y diferentes formas de experimentar y expresar la música.",
     "bullet4": "Los niños ponen en práctica lo que aprenden a través de presentaciones frecuentes y sin presión.",
     "bullet5": "Los niños aprenden a escucharse mutuamente, a responder en tiempo real y a hacer que ellos mismos y las personas a su alrededor suenen bien.",
     "bullet6": "Los niños desarrollan disciplina, concentración, paciencia y diligencia. Aprenden a aprender. Construyen confianza sobre la base de habilidades reales. Desarrollan la capacidad de escucharse a sí mismos, evaluar honestamente lo que hacen y usar esa retroalimentación para crecer.",
@@ -268,11 +268,11 @@
       "grade": "Grado (otoño 2026)",
       "selectGrade": "Seleccionar grado",
       "gradeOptions": {
-        "3rd": "3er grado",
-        "4th": "4to grado",
-        "5th": "5to grado",
-        "6th": "6to grado",
-        "7th": "7mo grado",
+        "3rd": "3.° grado",
+        "4th": "4.° grado",
+        "5th": "5.° grado",
+        "6th": "6.° grado",
+        "7th": "7.° grado",
         "8th": "8vo grado"
       },
       "school": "Escuela",
@@ -383,11 +383,11 @@
       "school": "Escuela",
       "numChildren": "Número de hijos/as",
       "gradeOptions": {
-        "3rd": "3er grado",
-        "4th": "4to grado",
-        "5th": "5to grado",
-        "6th": "6to grado",
-        "7th": "7mo grado"
+        "3rd": "3.° grado",
+        "4th": "4.° grado",
+        "5th": "5.° grado",
+        "6th": "6.° grado",
+        "7th": "7.° grado"
       },
       "numChildrenOptions": {
         "1": "1 niño/a",
