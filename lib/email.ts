@@ -13,9 +13,16 @@ function getResend() {
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
 const ADMIN_EMAILS = [
   'jack@creativekidsmusic.org',
-  'elizabeth.femling@gmail.com',
 ]
 const SITE_URL = 'https://creativekidsmusic.org'
+
+// Legal disclaimer for bilingual emails
+const BILINGUAL_DISCLAIMER = `
+  <div style="background: #f1f5f9; border-radius: 8px; padding: 16px; margin: 24px 0; font-size: 13px; color: #64748b;">
+    <p style="margin: 0 0 8px 0;"><em>This email has been translated into Spanish for your convenience. In the event of any discrepancy between the English and Spanish versions, the English version shall prevail.</em></p>
+    <p style="margin: 0;"><em>Este correo electrónico ha sido traducido al español para su conveniencia. En caso de cualquier discrepancia entre las versiones en inglés y en español, prevalecerá la versión en inglés.</em></p>
+  </div>
+`
 
 type EmailResult = {
   success: boolean
@@ -72,6 +79,7 @@ interface WorkshopConfirmationData {
   location?: string
   address?: string
   schedule?: string // e.g., "4:00–6:30 PM Workshop<br>6:30–7:00 PM Dinner<br>7:00 PM Performance"
+  locale?: string
 }
 
 export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): Promise<EmailResult> {
@@ -147,8 +155,8 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What You Agreed To</h2>
       <ul style="color: #57534e; padding-left: 20px;">
-        <li><a href="${SITE_URL}/terms/liability-waiver" style="color: #166534;">Liability Waiver</a></li>
-        <li><a href="${SITE_URL}/terms/program-terms" style="color: #166534;">Program Terms & Conditions</a></li>
+        <li><a href="${SITE_URL}/en/terms/liability-waiver" style="color: #166534;">Liability Waiver</a></li>
+        <li><a href="${SITE_URL}/en/terms/program-terms" style="color: #166534;">Program Terms & Conditions</a></li>
         <li>Media Consent: ${mediaConsentText}</li>
       </ul>
 
@@ -192,6 +200,54 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
         St. Luke's/San Lucas Episcopal Church<br>
         Vancouver, WA
       </p>
+      ${data.locale === 'es' ? `
+      <hr style="border: none; border-top: 2px solid #166534; margin: 32px 0;">
+      ${BILINGUAL_DISCLAIMER}
+      <h1 style="color: #166534; font-size: 24px; margin-bottom: 8px;">\u00a1Est\u00e1s registrado/a!</h1>
+      <p style="color: #78716c; margin-top: 0;">Taller de M\u00fasica \u2014 Invierno/Primavera</p>
+
+      <p>Hola ${data.parentName},</p>
+
+      <p>\u00a1Gracias por inscribirte en nuestro Taller de M\u00fasica de Invierno/Primavera! Estamos emocionados de que te unas a nosotros.</p>
+
+      <div style="background: #f5f5f4; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #44403c; font-size: 16px; margin: 0 0 16px 0;">Resumen de Inscripci\u00f3n</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 4px 0; color: #78716c;">Confirmaci\u00f3n #</td><td style="padding: 4px 0; font-weight: 600;">${confirmationNumber}</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Participante(s)</td><td style="padding: 4px 0;">${childrenList}</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c; vertical-align: top;">Fecha(s) del Taller</td><td style="padding: 4px 0;"><ul style="margin: 0; padding-left: 16px;">${workshopList}</ul></td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Horario</td><td style="padding: 4px 0;">4:00\u20136:30 PM Taller<br>6:30\u20137:00 PM Cena \u2014 \u00a1Padres, acomp\u00e1\u00f1ennos!<br>7:00 PM Presentaci\u00f3n para Padres</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Ubicaci\u00f3n</td><td style="padding: 4px 0;">${data.location || "St. Luke's/San Lucas Episcopal Church"}<br>${data.address || '426 E Fourth Plain Blvd, Vancouver, WA'}</td></tr>
+        </table>
+      </div>
+
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Qu\u00e9 Incluye</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li>Instrucci\u00f3n musical y actividades en grupo</li>
+        <li>Cena para ni\u00f1os y padres \u2014 \u00a1acomp\u00e1\u00f1ennos!</li>
+        <li>Presentaci\u00f3n a las 7:00 PM para que los padres vean lo que han creado</li>
+      </ul>
+
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Pago</h2>
+      <p>${data.tuitionAssistance
+        ? 'Solicitaste asistencia de matr\u00edcula. Nos pondremos en contacto para conversar.'
+        : `Total: $${data.totalAmount}. El pago se recoge el d\u00eda del evento \u2014 te ayudaremos a configurar el portal Vanco de la iglesia, o puedes pagar con cheque o efectivo.`}</p>
+
+      <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #166534; font-size: 16px; margin: 0 0 12px 0;">Pr\u00f3ximos Pasos</h2>
+        <ol style="color: #57534e; padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 8px;"><strong>Guarda este correo</strong> para tus registros</li>
+          <li style="margin-bottom: 8px;"><strong>Marca tu calendario</strong> con la(s) fecha(s) del taller</li>
+          <li style="margin-bottom: 8px;"><strong>Espera nuestro correo de bienvenida</strong> \u2014 Enviaremos informaci\u00f3n detallada una semana antes</li>
+          <li><strong>Planea acompa\u00f1arnos para la presentaci\u00f3n</strong> \u2014 \u00a1Los padres est\u00e1n invitados!</li>
+        </ol>
+      </div>
+
+      <p style="color: #78716c; font-size: 14px;">
+        \u00bfNecesitas hacer cambios? Cont\u00e1ctanos en
+        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+      </p>
+      ` : ''}
     </div>
   `
 
@@ -232,6 +288,7 @@ interface CampConfirmationData {
   registrationId: string
   mediaConsentInternal?: boolean
   mediaConsentMarketing?: boolean
+  locale?: string
 }
 
 export async function sendCampConfirmation(data: CampConfirmationData): Promise<EmailResult> {
@@ -310,9 +367,9 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">What You Agreed To</h2>
       <ul style="color: #57534e; padding-left: 20px;">
-        <li><a href="${SITE_URL}/terms/liability-waiver" style="color: #c2410c;">Liability Waiver</a></li>
-        <li><a href="${SITE_URL}/terms/program-terms" style="color: #c2410c;">Program Terms & Conditions</a></li>
-        <li><a href="${SITE_URL}/terms/behavior-agreement" style="color: #c2410c;">Behavior Expectations Agreement</a></li>
+        <li><a href="${SITE_URL}/en/terms/liability-waiver" style="color: #c2410c;">Liability Waiver</a></li>
+        <li><a href="${SITE_URL}/en/terms/program-terms" style="color: #c2410c;">Program Terms & Conditions</a></li>
+        <li><a href="${SITE_URL}/en/terms/behavior-agreement" style="color: #c2410c;">Behavior Expectations Agreement</a></li>
         <li>Media Consent: ${mediaConsentText}</li>
       </ul>
 
@@ -356,6 +413,57 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
         St. Luke's/San Lucas Episcopal Church<br>
         Vancouver, WA
       </p>
+      ${data.locale === 'es' ? `
+      <hr style="border: none; border-top: 2px solid #c2410c; margin: 32px 0;">
+      ${BILINGUAL_DISCLAIMER}
+      <h1 style="color: #c2410c; font-size: 24px; margin-bottom: 8px;">\u00a1Est\u00e1s registrado/a!</h1>
+      <p style="color: #78716c; margin-top: 0;">Campamento de Verano 2026</p>
+
+      <p>Hola ${data.parentName},</p>
+
+      <p>\u00a1Gracias por inscribirte en el Campamento de Verano de Creative Kids Music! No podemos esperar a ver a tu familia en agosto.</p>
+
+      <div style="background: #fff7ed; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #44403c; font-size: 16px; margin: 0 0 16px 0;">Resumen de Inscripci\u00f3n</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 4px 0; color: #78716c;">Confirmaci\u00f3n #</td><td style="padding: 4px 0; font-weight: 600;">${confirmationNumber}</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Participante(s)</td><td style="padding: 4px 0;">${childrenList}</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Fechas del Campamento</td><td style="padding: 4px 0;">3\u20137 de agosto de 2026 (lunes a viernes)</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Horario Diario</td><td style="padding: 4px 0;">8:30 AM \u2013 5:00 PM</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Presentaci\u00f3n Domingo</td><td style="padding: 4px 0;">9 de agosto, 9\u201311 AM</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Ubicaci\u00f3n</td><td style="padding: 4px 0;">St. Luke's/San Lucas Episcopal Church<br>426 E Fourth Plain Blvd, Vancouver, WA</td></tr>
+          <tr><td style="padding: 4px 0; color: #78716c;">Contacto de Emergencia</td><td style="padding: 4px 0;">${data.emergencyName} (${data.emergencyPhone})</td></tr>
+        </table>
+      </div>
+
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Qu\u00e9 Incluye</h2>
+      <ul style="color: #57534e; padding-left: 20px;">
+        <li>Semana completa de instrucci\u00f3n musical y actividades</li>
+        <li>Almuerzo incluido todos los d\u00edas</li>
+        <li>Camiseta del campamento</li>
+        <li>Presentaci\u00f3n del domingo para familia y amigos</li>
+      </ul>
+
+      <h2 style="color: #44403c; font-size: 18px; margin-top: 24px;">Pago</h2>
+      <p>${data.tuitionAssistance
+        ? 'Solicitaste asistencia de matr\u00edcula. Nos pondremos en contacto para conversar.'
+        : `Total: $${data.totalAmount}. El pago se recoge el d\u00eda del evento \u2014 te ayudaremos a configurar el portal Vanco de la iglesia, o puedes pagar con cheque o efectivo.`}</p>
+
+      <div style="background: #fff7ed; border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <h2 style="color: #c2410c; font-size: 16px; margin: 0 0 12px 0;">Pr\u00f3ximos Pasos</h2>
+        <ol style="color: #57534e; padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 8px;"><strong>Guarda este correo</strong> para tus registros</li>
+          <li style="margin-bottom: 8px;"><strong>Marca tu calendario</strong> del 3 al 7 de agosto (\u00a1y la presentaci\u00f3n del domingo!)</li>
+          <li style="margin-bottom: 8px;"><strong>Espera nuestro paquete de bienvenida</strong> \u2014 Enviaremos informaci\u00f3n detallada antes del campamento</li>
+          <li><strong>Planea asistir a la presentaci\u00f3n del domingo</strong> \u2014 \u00a1Tu campista actuar\u00e1!</li>
+        </ol>
+      </div>
+
+      <p style="color: #78716c; font-size: 14px;">
+        \u00bfNecesitas hacer cambios? Cont\u00e1ctanos en
+        <a href="mailto:info@creativekidsmusic.org" style="color: #c2410c;">info@creativekidsmusic.org</a>
+      </p>
+      ` : ''}
     </div>
   `
 
@@ -388,6 +496,7 @@ interface WaitlistConfirmationData {
   parentName: string
   parentEmail: string
   signupId: string
+  locale?: string
 }
 
 export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): Promise<EmailResult> {
@@ -428,6 +537,24 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
         St. Luke's/San Lucas Episcopal Church<br>
         Vancouver, WA
       </p>
+      ${data.locale === 'es' ? `
+      <hr style="border: none; border-top: 2px solid #44403c; margin: 32px 0;">
+      ${BILINGUAL_DISCLAIMER}
+      <h1 style="color: #44403c; font-size: 24px;">\u00a1Est\u00e1s en la lista!</h1>
+
+      <p>Hola ${data.parentName},</p>
+
+      <p>Gracias por tu inter\u00e9s en Creative Kids Music School. Te hemos agregado a nuestra lista de espera para el programa despu\u00e9s de clases de oto\u00f1o 2026.</p>
+
+      <p>Estamos finalizando los detalles del programa y te contactaremos cuando se abra la inscripci\u00f3n. \u00a1Ser\u00e1s de los primeros en saberlo!</p>
+
+      <p>Mientras tanto, considera unirte a un <strong>taller</strong> o <strong>campamento de verano</strong> para conocer lo que hacemos.</p>
+
+      <p style="color: #78716c; font-size: 14px;">
+        \u00bfPreguntas? Cont\u00e1ctanos en
+        <a href="mailto:info@creativekidsmusic.org" style="color: #44403c;">info@creativekidsmusic.org</a>
+      </p>
+      ` : ''}
     </div>
   `
 

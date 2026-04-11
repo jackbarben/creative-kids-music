@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import Modal from './Modal'
 import { addChild } from '@/app/account/actions'
 
@@ -22,6 +23,7 @@ export default function AddChildModal({
 }: AddChildModalProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const t = useTranslations('account.modals')
 
   const basePrice = programType === 'camp' ? 400 : 75
   const siblingDiscount = currentChildCount * 10 // $10 off per sibling
@@ -47,15 +49,15 @@ export default function AddChildModal({
 
     if (result.error) {
       setError(result.error)
-      toast.error('Failed to add child')
+      toast.error(t('failedToAddChild'))
     } else {
-      toast.success('Child added successfully')
+      toast.success(t('childAdded'))
       onClose()
     }
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add Child">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('addChildTitle')}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="p-3 bg-red-50 text-red-700 text-sm rounded-lg">
@@ -65,16 +67,16 @@ export default function AddChildModal({
 
         <div className="p-3 bg-forest-50 rounded-lg text-sm">
           <p className="text-forest-800">
-            Additional child: <span className="font-semibold">${newChildPrice}</span>
+            {t('additionalChild', { price: newChildPrice })}
             {siblingDiscount > 0 && (
-              <span className="text-forest-600 ml-1">(includes ${siblingDiscount} sibling discount)</span>
+              <span className="text-forest-600 ml-1">{t('includesSiblingDiscount', { discount: siblingDiscount })}</span>
             )}
           </p>
         </div>
 
         <div>
           <label htmlFor="child_name" className="block text-sm font-medium text-slate-700 mb-1">
-            Name <span className="text-red-500">*</span>
+            {t('nameLabel')} <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -87,7 +89,7 @@ export default function AddChildModal({
 
         <div>
           <label htmlFor="child_age" className="block text-sm font-medium text-slate-700 mb-1">
-            Age <span className="text-red-500">*</span>
+            {t('ageLabel')} <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -98,12 +100,12 @@ export default function AddChildModal({
             max={13}
             className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
           />
-          <p className="mt-1 text-xs text-slate-500">Ages 9-13 only</p>
+          <p className="mt-1 text-xs text-slate-500">{t('agesOnly')}</p>
         </div>
 
         <div>
           <label htmlFor="child_school" className="block text-sm font-medium text-slate-700 mb-1">
-            School
+            {t('schoolLabel')}
           </label>
           <input
             type="text"
@@ -116,53 +118,53 @@ export default function AddChildModal({
         {programType === 'camp' && (
           <>
             <div className="pt-4 border-t border-slate-100">
-              <h3 className="text-sm font-medium text-slate-700 mb-3">Medical Information</h3>
+              <h3 className="text-sm font-medium text-slate-700 mb-3">{t('medicalInformation')}</h3>
             </div>
             <div>
               <label htmlFor="allergies" className="block text-sm font-medium text-slate-700 mb-1">
-                Allergies
+                {t('allergiesLabel')}
               </label>
               <textarea
                 id="allergies"
                 name="allergies"
                 rows={2}
-                placeholder="Food, environmental, or other allergies..."
+                placeholder={t('allergiesPlaceholder')}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>
             <div>
               <label htmlFor="dietary_restrictions" className="block text-sm font-medium text-slate-700 mb-1">
-                Dietary Restrictions
+                {t('dietaryRestrictionsLabel')}
               </label>
               <textarea
                 id="dietary_restrictions"
                 name="dietary_restrictions"
                 rows={2}
-                placeholder="Vegetarian, gluten-free, kosher, etc..."
+                placeholder={t('dietaryRestrictionsPlaceholder')}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>
             <div>
               <label htmlFor="medical_conditions" className="block text-sm font-medium text-slate-700 mb-1">
-                Medical Conditions
+                {t('medicalConditionsLabel')}
               </label>
               <textarea
                 id="medical_conditions"
                 name="medical_conditions"
                 rows={2}
-                placeholder="List any medical conditions..."
+                placeholder={t('medicalConditionsPlaceholder')}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>
             <div>
               <label htmlFor="special_needs" className="block text-sm font-medium text-slate-700 mb-1">
-                Special Needs
+                {t('specialNeedsLabel')}
               </label>
               <textarea
                 id="special_needs"
                 name="special_needs"
                 rows={2}
-                placeholder="Any special accommodations needed..."
+                placeholder={t('specialNeedsPlaceholder')}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>
@@ -175,14 +177,14 @@ export default function AddChildModal({
             onClick={onClose}
             className="px-4 py-2 text-sm text-slate-600 hover:text-slate-800"
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             type="submit"
             disabled={loading}
             className="px-4 py-2 text-sm bg-forest-600 text-white rounded-lg hover:bg-forest-700 disabled:opacity-50"
           >
-            {loading ? 'Adding...' : 'Add Child'}
+            {loading ? t('adding') : t('addChildButton')}
           </button>
         </div>
       </form>

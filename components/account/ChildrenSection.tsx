@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { addAccountChild, updateAccountChild, removeAccountChild, type AccountChild } from '@/app/account/actions'
 
@@ -35,6 +36,7 @@ export default function ChildrenSection({ userId }: ChildrenSectionProps) {
   const [showAddModal, setShowAddModal] = useState(false)
   const [editingChild, setEditingChild] = useState<(AccountChild & { id: string }) | null>(null)
   const [deletingChild, setDeletingChild] = useState<(AccountChild & { id: string }) | null>(null)
+  const t = useTranslations('account.children')
 
   const supabase = createClient()
 
@@ -95,21 +97,21 @@ export default function ChildrenSection({ userId }: ChildrenSectionProps) {
       <div className="bg-white rounded-2xl border border-slate-100 p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display text-xl font-semibold text-slate-800">
-            Your Children
+            {t('title')}
           </h2>
           <button
             onClick={() => setShowAddModal(true)}
             className="text-sm text-forest-600 hover:text-forest-700 font-medium"
           >
-            + Add Child
+            {t('addChild')}
           </button>
         </div>
 
         {children.length === 0 ? (
           <div className="text-center py-8 bg-slate-50 rounded-lg">
-            <p className="text-slate-500 mb-3">No children added yet</p>
+            <p className="text-slate-500 mb-3">{t('noChildrenYet')}</p>
             <p className="text-sm text-slate-400">
-              Add your children here to pre-fill registration forms
+              {t('noChildrenDesc')}
             </p>
           </div>
         ) : (
@@ -125,16 +127,16 @@ export default function ChildrenSection({ userId }: ChildrenSectionProps) {
                       {child.first_name} {child.last_name}
                       {child.date_of_birth && (
                         <span className="ml-2 text-sm font-normal text-slate-500">
-                          (Age {calculateAge(child.date_of_birth)})
+                          ({t('ageDisplay', { age: calculateAge(child.date_of_birth) })})
                         </span>
                       )}
                     </p>
                     <div className="text-sm text-slate-500 mt-1 space-y-0.5">
-                      {child.date_of_birth && <p>Birthday: {formatDate(child.date_of_birth)}</p>}
-                      {child.school && <p>School: {child.school}</p>}
-                      {child.allergies && <p>Allergies: {child.allergies}</p>}
-                      {child.dietary_restrictions && <p>Dietary: {child.dietary_restrictions}</p>}
-                      {child.medical_conditions && <p>Medical: {child.medical_conditions}</p>}
+                      {child.date_of_birth && <p>{t('birthday', { date: formatDate(child.date_of_birth) })}</p>}
+                      {child.school && <p>{t('school', { school: child.school })}</p>}
+                      {child.allergies && <p>{t('allergies', { allergies: child.allergies })}</p>}
+                      {child.dietary_restrictions && <p>{t('dietary', { restrictions: child.dietary_restrictions })}</p>}
+                      {child.medical_conditions && <p>{t('medical', { conditions: child.medical_conditions })}</p>}
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -142,13 +144,13 @@ export default function ChildrenSection({ userId }: ChildrenSectionProps) {
                       onClick={() => setEditingChild(child)}
                       className="text-sm text-slate-500 hover:text-slate-700"
                     >
-                      Edit
+                      {t('edit')}
                     </button>
                     <button
                       onClick={() => setDeletingChild(child)}
                       className="text-sm text-red-500 hover:text-red-700"
                     >
-                      Remove
+                      {t('remove')}
                     </button>
                   </div>
                 </div>
@@ -209,6 +211,7 @@ function ChildModal({
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const t = useTranslations('account.children')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -228,7 +231,7 @@ function ChildModal({
         <div className="p-6 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <h3 className="font-display text-xl font-semibold text-slate-800">
-              {child ? 'Edit Child' : 'Add Child'}
+              {child ? t('editChildTitle') : t('addChildTitle')}
             </h3>
             <button
               onClick={onClose}
@@ -251,7 +254,7 @@ function ChildModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
-                First Name <span className="text-red-500">*</span>
+                {t('firstNameLabel')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -263,7 +266,7 @@ function ChildModal({
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
-                Last Name <span className="text-red-500">*</span>
+                {t('lastNameLabel')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -277,7 +280,7 @@ function ChildModal({
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Date of Birth <span className="text-red-500">*</span>
+              {t('dateOfBirthLabel')} <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
@@ -288,14 +291,14 @@ function ChildModal({
             />
             {formData.date_of_birth && (
               <p className="mt-1 text-sm text-slate-500">
-                Age: {calculateAge(formData.date_of_birth)} years old
+                {t('ageDisplay', { age: calculateAge(formData.date_of_birth) })}
               </p>
             )}
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              School
+              {t('schoolLabel')}
             </label>
             <input
               type="text"
@@ -307,53 +310,53 @@ function ChildModal({
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Allergies
+              {t('allergiesLabel')}
             </label>
             <input
               type="text"
               value={formData.allergies || ''}
               onChange={(e) => setFormData({ ...formData, allergies: e.target.value })}
               className={inputClass}
-              placeholder="e.g., Peanuts, Tree nuts"
+              placeholder={t('allergiesPlaceholder')}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Dietary Restrictions
+              {t('dietaryRestrictionsLabel')}
             </label>
             <input
               type="text"
               value={formData.dietary_restrictions || ''}
               onChange={(e) => setFormData({ ...formData, dietary_restrictions: e.target.value })}
               className={inputClass}
-              placeholder="e.g., Vegetarian, Gluten-free"
+              placeholder={t('dietaryRestrictionsPlaceholder')}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Medical Conditions
+              {t('medicalConditionsLabel')}
             </label>
             <input
               type="text"
               value={formData.medical_conditions || ''}
               onChange={(e) => setFormData({ ...formData, medical_conditions: e.target.value })}
               className={inputClass}
-              placeholder="e.g., Asthma, Diabetes"
+              placeholder={t('medicalConditionsPlaceholder')}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Notes
+              {t('notesLabel')}
             </label>
             <textarea
               value={formData.notes || ''}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows={3}
               className={`${inputClass} resize-none`}
-              placeholder="Any additional information..."
+              placeholder={t('notesPlaceholder')}
             />
           </div>
 
@@ -363,7 +366,7 @@ function ChildModal({
               onClick={onClose}
               className="flex-1 px-4 py-3 border border-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-colors"
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               type="submit"
@@ -376,7 +379,7 @@ function ChildModal({
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
               )}
-              {saving ? 'Saving...' : child ? 'Save Changes' : 'Add Child'}
+              {saving ? t('saving') : child ? t('saveChanges') : t('addChildTitle')}
             </button>
           </div>
         </form>
@@ -397,6 +400,7 @@ function DeleteModal({
 }) {
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const t = useTranslations('account.children')
 
   const handleDelete = async () => {
     setDeleting(true)
@@ -414,13 +418,13 @@ function DeleteModal({
       <div className="bg-white rounded-2xl max-w-md w-full">
         <div className="p-6">
           <h3 className="font-display text-xl font-semibold text-slate-800 mb-3">
-            Remove Child
+            {t('removeChildTitle')}
           </h3>
           <p className="text-slate-600 mb-4">
-            Are you sure you want to remove <strong>{childName}</strong> from your account?
+            {t('removeChildConfirm', { childName })}
           </p>
           <p className="text-sm text-slate-500 mb-6">
-            This will not affect existing registrations. You can add them back anytime.
+            {t('removeChildNote')}
           </p>
 
           {error && (
@@ -435,7 +439,7 @@ function DeleteModal({
               onClick={onClose}
               className="flex-1 px-4 py-3 border border-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-colors"
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               type="button"
@@ -449,7 +453,7 @@ function DeleteModal({
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
               )}
-              {deleting ? 'Removing...' : 'Remove'}
+              {deleting ? t('removing') : t('removeButton')}
             </button>
           </div>
         </div>

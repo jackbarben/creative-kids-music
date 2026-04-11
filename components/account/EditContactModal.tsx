@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import Modal from './Modal'
 import { updateContactInfo } from '@/app/account/actions'
 
@@ -26,6 +27,7 @@ export default function EditContactModal({
 }: EditContactModalProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const t = useTranslations('account.modals')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -50,7 +52,7 @@ export default function EditContactModal({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Edit Contact Info">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('editContactTitle')}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="p-3 bg-red-50 text-red-700 text-sm rounded-lg">
@@ -60,7 +62,7 @@ export default function EditContactModal({
 
         <div>
           <label htmlFor="parent_phone" className="block text-sm font-medium text-slate-700 mb-1">
-            Phone
+            {t('phoneLabel')}
           </label>
           <input
             type="tel"
@@ -74,11 +76,11 @@ export default function EditContactModal({
         {programType === 'camp' && (
           <>
             <div className="pt-4 border-t border-slate-100">
-              <h3 className="text-sm font-medium text-slate-700 mb-3">Emergency Contact</h3>
+              <h3 className="text-sm font-medium text-slate-700 mb-3">{t('emergencyContactTitle')}</h3>
             </div>
             <div>
               <label htmlFor="emergency_name" className="block text-sm font-medium text-slate-700 mb-1">
-                Name
+                {t('emergencyNameLabel')}
               </label>
               <input
                 type="text"
@@ -90,7 +92,7 @@ export default function EditContactModal({
             </div>
             <div>
               <label htmlFor="emergency_phone" className="block text-sm font-medium text-slate-700 mb-1">
-                Phone
+                {t('emergencyPhoneLabel')}
               </label>
               <input
                 type="tel"
@@ -102,14 +104,14 @@ export default function EditContactModal({
             </div>
             <div>
               <label htmlFor="emergency_relationship" className="block text-sm font-medium text-slate-700 mb-1">
-                Relationship
+                {t('relationshipLabel')}
               </label>
               <input
                 type="text"
                 id="emergency_relationship"
                 name="emergency_relationship"
                 defaultValue={currentData.emergency_relationship || ''}
-                placeholder="e.g., Grandparent, Aunt"
+                placeholder={t('relationshipPlaceholder')}
                 className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
               />
             </div>
@@ -122,14 +124,14 @@ export default function EditContactModal({
             onClick={onClose}
             className="px-4 py-2 text-sm text-slate-600 hover:text-slate-800"
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             type="submit"
             disabled={loading}
             className="px-4 py-2 text-sm bg-slate-800 text-white rounded-lg hover:bg-slate-900 disabled:opacity-50"
           >
-            {loading ? 'Saving...' : 'Save Changes'}
+            {loading ? t('saving') : t('saveChanges')}
           </button>
         </div>
       </form>

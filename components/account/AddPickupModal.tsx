@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import Modal from './Modal'
 import { addPickup } from '@/app/account/actions'
 import { formatPhoneNumber } from '@/lib/utils/phone'
@@ -22,12 +23,13 @@ export default function AddPickupModal({
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [relationship, setRelationship] = useState('')
+  const t = useTranslations('account.modals')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!name.trim()) {
-      setError('Please enter a name')
+      setError(t('pleaseEnterName'))
       return
     }
 
@@ -40,9 +42,9 @@ export default function AddPickupModal({
 
     if (result.error) {
       setError(result.error)
-      toast.error('Failed to add pickup person')
+      toast.error(t('failedToAddPickup'))
     } else {
-      toast.success('Pickup person added')
+      toast.success(t('pickupAdded'))
       setName('')
       setPhone('')
       setRelationship('')
@@ -59,7 +61,7 @@ export default function AddPickupModal({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Add Authorized Pickup">
+    <Modal isOpen={isOpen} onClose={handleClose} title={t('addPickupTitle')}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="p-3 bg-red-50 text-red-700 text-sm rounded-lg">
@@ -68,13 +70,12 @@ export default function AddPickupModal({
         )}
 
         <p className="text-sm text-slate-600">
-          Add someone who is authorized to pick up your child from camp.
-          We&apos;ll verify their identity in person at pickup.
+          {t('addPickupDesc')}
         </p>
 
         <div>
           <label htmlFor="pickup_name" className="block text-sm font-medium text-slate-700 mb-1">
-            Name <span className="text-red-500">*</span>
+            {t('pickupNameLabel')} <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -82,35 +83,35 @@ export default function AddPickupModal({
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            placeholder="Jane Doe"
+            placeholder={t('pickupNamePlaceholder')}
             className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
           />
         </div>
 
         <div>
           <label htmlFor="pickup_phone" className="block text-sm font-medium text-slate-700 mb-1">
-            Phone
+            {t('pickupPhoneLabel')}
           </label>
           <input
             type="tel"
             id="pickup_phone"
             value={phone}
             onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
-            placeholder="(555) 555-5555"
+            placeholder={t('pickupPhonePlaceholder')}
             className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
           />
         </div>
 
         <div>
           <label htmlFor="pickup_relationship" className="block text-sm font-medium text-slate-700 mb-1">
-            Relationship
+            {t('pickupRelationshipLabel')}
           </label>
           <input
             type="text"
             id="pickup_relationship"
             value={relationship}
             onChange={(e) => setRelationship(e.target.value)}
-            placeholder="e.g., Grandmother, Neighbor, Family Friend"
+            placeholder={t('pickupRelationshipPlaceholder')}
             className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
           />
         </div>
@@ -121,14 +122,14 @@ export default function AddPickupModal({
             onClick={handleClose}
             className="px-4 py-2 text-sm text-slate-600 hover:text-slate-800"
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             type="submit"
             disabled={loading}
             className="px-4 py-2 text-sm bg-forest-600 text-white rounded-lg hover:bg-forest-700 disabled:opacity-50"
           >
-            {loading ? 'Adding...' : 'Add Pickup Person'}
+            {loading ? t('adding') : t('addPickupButton')}
           </button>
         </div>
       </form>

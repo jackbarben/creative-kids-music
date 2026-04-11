@@ -1,24 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash",
-      "Edit",
-      "Write",
-      "Read",
-      "Bash(npx create-next-app:*)",
-      "Bash(npm install:*)",
-      "Bash(npm run build:*)",
-      "Bash(npm run dev:*)",
-      "WebFetch(domain:dns.google)",
-      "WebSearch",
-      "WebFetch(domain:www.selldorfarchitects.com)",
-      "WebFetch(domain:www.sanaa.co.jp)",
-      "WebFetch(domain:www.bfriendsarchitecture.com)",
-      "WebFetch(domain:www.coachella.com)",
-      "WebFetch(domain:www.gensler.com)",
-      "WebFetch(domain:kikk.be)",
-      "WebFetch(domain:supabase.com)"
-    ],
-    "deny": []
+      "mcp__claude_ai_Supabase__execute_sql"
+    ]
   }
 }

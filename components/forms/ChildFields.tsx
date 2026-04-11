@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { SelectedChild } from './ChildrenSelectionSection'
 
 interface ChildData {
@@ -24,6 +25,7 @@ interface ChildFieldsProps {
   siblingDiscount: number
   onTotalChange?: (total: number, count: number) => void
   onChildrenChange?: (children: SelectedChild[]) => void
+  fieldErrors?: Record<string, string>
 }
 
 function convertToSelectedChildren(childDataArray: ChildData[]): SelectedChild[] {
@@ -55,7 +57,9 @@ export default function ChildFields({
   siblingDiscount,
   onTotalChange,
   onChildrenChange,
+  fieldErrors,
 }: ChildFieldsProps) {
+  const t = useTranslations('forms.children')
   const [children, setChildren] = useState<ChildData[]>([
     { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }
   ])
@@ -90,7 +94,6 @@ export default function ChildFields({
   const calculateTotal = (count: number) => {
     let total = 0
     for (let i = 0; i < count; i++) {
-      // First child: full price, subsequent children get increasing discount
       const discount = i * siblingDiscount
       total += Math.max(0, basePrice - discount)
     }
@@ -100,8 +103,8 @@ export default function ChildFields({
   const getAgeWarning = (age: string) => {
     const ageNum = parseInt(age)
     if (isNaN(ageNum)) return null
-    if (ageNum < 9) return 'This program is designed for ages 9-13. Younger children may find it challenging.'
-    if (ageNum > 13) return 'This program is designed for ages 9-13. Older children may want a more advanced program.'
+    if (ageNum < 9) return t('ageWarningYoung')
+    if (ageNum > 13) return t('ageWarningOld')
     return null
   }
 
@@ -116,7 +119,7 @@ export default function ChildFields({
                 type="button"
                 onClick={() => removeChild(index)}
                 className="absolute top-3 right-3 text-stone-400 hover:text-red-500 transition-colors"
-                aria-label="Remove child"
+                aria-label={t('removeChild')}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -125,10 +128,10 @@ export default function ChildFields({
             )}
 
             <h3 className="text-sm font-medium text-stone-600 mb-4">
-              {children.length === 1 ? 'Child Information' : `Child ${index + 1}`}
+              {children.length === 1 ? t('childInfo') : t('childNumber', { number: index + 1 })}
               {index > 0 && (
                 <span className="ml-2 text-forest-600 font-normal">
-                  (${siblingDiscount * index} sibling discount)
+                  (${siblingDiscount * index} {t('siblingDiscount')})
                 </span>
               )}
             </h3>
@@ -136,7 +139,7 @@ export default function ChildFields({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  Child&apos;s name <span className="text-terracotta-500">*</span>
+                  {t('childName')} <span className="text-terracotta-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -144,13 +147,16 @@ export default function ChildFields({
                   required
                   value={child.name}
                   onChange={(e) => updateChild(index, 'name', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+                  className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_name_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
                 />
+                {fieldErrors?.[`child_name_${index}`] && (
+                  <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_name_${index}`]}</p>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  Age <span className="text-terracotta-500">*</span>
+                  {t('age')} <span className="text-terracotta-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -160,8 +166,11 @@ export default function ChildFields({
                   max={18}
                   value={child.age}
                   onChange={(e) => updateChild(index, 'age', e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+                  className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_age_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
                 />
+                {fieldErrors?.[`child_age_${index}`] && (
+                  <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_age_${index}`]}</p>
+                )}
                 {ageWarning && (
                   <p className="mt-1 text-xs text-amber-600">{ageWarning}</p>
                 )}
@@ -170,7 +179,7 @@ export default function ChildFields({
               {showGrade && (
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    Grade (Fall 2026)
+                    {t('grade')}
                   </label>
                   <select
                     name={`child_grade_${index}`}
@@ -178,12 +187,12 @@ export default function ChildFields({
                     onChange={(e) => updateChild(index, 'grade', e.target.value)}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
                   >
-                    <option value="">Select grade</option>
-                    <option value="4th">4th Grade</option>
-                    <option value="5th">5th Grade</option>
-                    <option value="6th">6th Grade</option>
-                    <option value="7th">7th Grade</option>
-                    <option value="8th">8th Grade</option>
+                    <option value="">{t('selectGrade')}</option>
+                    <option value="4th">{t('gradeOptions.4th')}</option>
+                    <option value="5th">{t('gradeOptions.5th')}</option>
+                    <option value="6th">{t('gradeOptions.6th')}</option>
+                    <option value="7th">{t('gradeOptions.7th')}</option>
+                    <option value="8th">{t('gradeOptions.8th')}</option>
                   </select>
                 </div>
               )}
@@ -191,7 +200,7 @@ export default function ChildFields({
               {showSchool && (
                 <div className={showGrade ? '' : 'md:col-span-2'}>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    School
+                    {t('school')}
                   </label>
                   <input
                     type="text"
@@ -206,23 +215,26 @@ export default function ChildFields({
               {showTshirtSize && (
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    T-Shirt Size <span className="text-terracotta-500">*</span>
+                    {t('tshirtSize')} <span className="text-terracotta-500">*</span>
                   </label>
                   <select
                     name={`child_tshirt_size_${index}`}
                     required
                     value={child.tshirtSize}
                     onChange={(e) => updateChild(index, 'tshirtSize', e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+                    className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_tshirt_size_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
                   >
-                    <option value="">Select size</option>
-                    <option value="YS">Youth Small</option>
-                    <option value="YM">Youth Medium</option>
-                    <option value="YL">Youth Large</option>
-                    <option value="AS">Adult Small</option>
-                    <option value="AM">Adult Medium</option>
-                    <option value="AL">Adult Large</option>
+                    <option value="">{t('selectSize')}</option>
+                    <option value="YS">{t('sizeOptions.ys')}</option>
+                    <option value="YM">{t('sizeOptions.ym')}</option>
+                    <option value="YL">{t('sizeOptions.yl')}</option>
+                    <option value="AS">{t('sizeOptions.as')}</option>
+                    <option value="AM">{t('sizeOptions.am')}</option>
+                    <option value="AL">{t('sizeOptions.al')}</option>
                   </select>
+                  {fieldErrors?.[`child_tshirt_size_${index}`] && (
+                    <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_tshirt_size_${index}`]}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -231,53 +243,53 @@ export default function ChildFields({
               <div className="mt-4 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    Allergies
+                    {t('allergies')}
                   </label>
                   <textarea
                     name={`child_allergies_${index}`}
                     rows={2}
                     value={child.allergies}
                     onChange={(e) => updateChild(index, 'allergies', e.target.value)}
-                    placeholder="Food, environmental, or other allergies"
+                    placeholder={t('allergiesPlaceholder')}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    Dietary Restrictions
+                    {t('dietary')}
                   </label>
                   <textarea
                     name={`child_dietary_${index}`}
                     rows={2}
                     value={child.dietary}
                     onChange={(e) => updateChild(index, 'dietary', e.target.value)}
-                    placeholder="Vegetarian, gluten-free, kosher, etc."
+                    placeholder={t('dietaryPlaceholder')}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    Medical conditions / medications
+                    {t('medical')}
                   </label>
                   <textarea
                     name={`child_medical_${index}`}
                     rows={2}
                     value={child.medical}
                     onChange={(e) => updateChild(index, 'medical', e.target.value)}
-                    placeholder="Any conditions or medications we should know about"
+                    placeholder={t('medicalPlaceholder')}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-stone-700 mb-1">
-                    Special needs / accommodations
+                    {t('specialNeeds')}
                   </label>
                   <textarea
                     name={`child_special_${index}`}
                     rows={2}
                     value={child.special}
                     onChange={(e) => updateChild(index, 'special', e.target.value)}
-                    placeholder="Any accommodations that would help your child succeed"
+                    placeholder={t('specialNeedsPlaceholder')}
                     className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800 resize-y"
                   />
                 </div>
@@ -287,7 +299,6 @@ export default function ChildFields({
         )
       })}
 
-      {/* Hidden field to track child count */}
       <input type="hidden" name="child_count" value={children.length} />
 
       <button
@@ -298,7 +309,7 @@ export default function ChildFields({
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        Add another child
+        {t('addAnother')}
       </button>
     </div>
   )

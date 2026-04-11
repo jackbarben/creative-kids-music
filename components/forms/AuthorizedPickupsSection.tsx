@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Pickup {
   name: string
@@ -19,16 +20,15 @@ export default function AuthorizedPickupsSection({
   fieldErrors,
   defaultValues = [],
 }: AuthorizedPickupsSectionProps) {
+  const t = useTranslations('forms.pickups')
   const [pickups, setPickups] = useState<Pickup[]>(
     defaultValues.length > 0
       ? defaultValues
       : [{ name: '', phone: '', relationship: '' }]
   )
 
-  // Track if user has manually modified the form
   const hasUserModified = useRef(false)
 
-  // Update pickups when defaultValues change (async load from account settings)
   useEffect(() => {
     if (!hasUserModified.current && defaultValues.length > 0) {
       setPickups(defaultValues)
@@ -57,10 +57,10 @@ export default function AuthorizedPickupsSection({
   return (
     <section>
       <h3 className="font-display text-xl font-bold text-stone-800 mb-2">
-        Authorized Pickups
+        {t('title')}
       </h3>
       <p className="text-sm text-stone-500 mb-4">
-        People other than parents who can pick up your children at the end of the event.
+        {t('description')}
       </p>
 
       <div className="space-y-4">
@@ -68,7 +68,7 @@ export default function AuthorizedPickupsSection({
           <div key={index} className="p-4 bg-stone-50 rounded-lg">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-stone-600">
-                Pickup #{index + 1}
+                {t('pickupNumber', { number: index + 1 })}
               </span>
               {pickups.length > 1 && (
                 <button
@@ -76,14 +76,14 @@ export default function AuthorizedPickupsSection({
                   onClick={() => removePickup(index)}
                   className="text-sm text-red-600 hover:text-red-700"
                 >
-                  Remove
+                  {t('remove')}
                 </button>
               )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  Name <span className="text-red-500">*</span>
+                  {t('name')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -99,7 +99,7 @@ export default function AuthorizedPickupsSection({
               </div>
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  Phone <span className="text-red-500">*</span>
+                  {t('phone')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -113,14 +113,14 @@ export default function AuthorizedPickupsSection({
               </div>
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  Relationship
+                  {t('relationship')}
                 </label>
                 <input
                   type="text"
                   name={`pickup_relationship_${index}`}
                   value={pickup.relationship}
                   onChange={(e) => updatePickup(index, 'relationship', e.target.value)}
-                  placeholder="e.g., Aunt"
+                  placeholder={t('relationshipPlaceholder')}
                   className="w-full px-4 py-3 rounded-lg border border-stone-200 focus:border-forest-400 focus:ring-2 focus:ring-forest-100 outline-none transition-colors text-slate-800 placeholder:text-slate-400"
                 />
               </div>
@@ -128,7 +128,6 @@ export default function AuthorizedPickupsSection({
           </div>
         ))}
 
-        {/* Hidden input to track pickup count */}
         <input type="hidden" name="pickup_count" value={pickups.length} />
 
         {pickups.length < maxPickups && (
@@ -137,7 +136,7 @@ export default function AuthorizedPickupsSection({
             onClick={addPickup}
             className="text-sm text-forest-600 hover:text-forest-700 font-medium"
           >
-            + Add Another Pickup Person
+            {t('addAnother')}
           </button>
         )}
       </div>
