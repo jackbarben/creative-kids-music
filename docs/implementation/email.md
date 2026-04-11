@@ -43,6 +43,12 @@ RESEND_API_KEY=re_xxxxxxxxxx
 | Camp Confirmation | Camp registration | Orange header, camp dates, emergency contact |
 | Waitlist Confirmation | Music school signup | Gray header, next steps |
 
+### Bilingual Emails (Spanish)
+
+When a registration is submitted from a Spanish (`/es/`) page, confirmation emails are **bilingual**: English content first, followed by a Spanish translation with a legal disclaimer stating the English version prevails in case of discrepancy. Admin notifications remain English-only.
+
+The `locale` parameter is passed from the form to the server action and forwarded to the email function. The email template conditionally appends the Spanish section when `locale === 'es'`.
+
 ### Admin Notifications
 
 All registrations trigger an admin notification to `jack@creativekidsmusic.org` with:

@@ -38,6 +38,7 @@ Workshop signups linked to parent accounts.
 |--------|------|-------------|
 | `id` | UUID | Primary key |
 | `user_id` | UUID | FK to auth.users (parent account) |
+| `locale` | TEXT | Language preference (en, es) |
 | `parent_name` | TEXT | Parent/guardian name |
 | `parent_email` | TEXT | Email (lowercase) |
 | `parent_phone` | TEXT | Phone number |
@@ -116,6 +117,7 @@ Summer camp signups linked to parent accounts.
 |--------|------|-------------|
 | `id` | UUID | Primary key |
 | `user_id` | UUID | FK to auth.users (parent account) |
+| `locale` | TEXT | Language preference (en, es) |
 | `parent_name` | TEXT | Parent/guardian name |
 | `parent_email` | TEXT | Email (lowercase) |
 | `parent_phone` | TEXT | Phone number |
@@ -249,6 +251,7 @@ Music school interest list.
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | UUID | Primary key |
+| `locale` | TEXT | Language preference (en, es) |
 | `parent_name` | TEXT | Parent name |
 | `parent_email` | TEXT | Email |
 | `child_name` | TEXT | Child name |
@@ -414,6 +417,13 @@ Returns remaining capacity for a workshop.
 | `004_registration_expansion.sql` | Account tables, expanded registration fields, consent/waiver columns | ✅ Applied |
 | `005_media_consent_checkboxes.sql` | Split media consent into internal + marketing booleans | ✅ Applied |
 | `006_pickup_phone.sql` | Added phone and relationship to authorized_pickups | ✅ Applied |
+| `007_unified_programs.sql` | Unified programs system (programs, registrations, sessions) | ✅ Applied |
+| `008_get_user_by_email.sql` | Function to look up user by email | ✅ Applied |
+| `008_interest_survey.sql` | Interest survey fields on waitlist_signups | ✅ Applied |
+| `009_archive_support.sql` | Archive/soft-delete support for registrations | ✅ Applied |
+| `009_families.sql` | Family accounts table | ✅ Applied |
+| `010_workshop_enhancements.sql` | Workshop status, waitlist, registration windows | ✅ Applied |
+| `011_attendance.sql` | Attendance tracking table and functions | ✅ Applied |
 
 ---
 

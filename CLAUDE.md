@@ -147,21 +147,24 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 
 ## Site Structure
 
-### Public Pages
+### Public Pages (under `app/[locale]/`)
+All public pages are served at `/{locale}/...` (e.g., `/en/workshops`, `/es/workshops`). Root `/` redirects to `/en`.
+
 | Route | Purpose |
 |-------|---------|
-| `/` | Home page |
-| `/workshops` | Workshop info + registration link |
-| `/workshops/register` | Workshop registration form |
-| `/summer-camp` | Camp info + registration link |
-| `/summer-camp/register` | Camp registration form |
-| `/music-school` | Fall 2026 teaser + waitlist form |
-| `/about` | Philosophy and approach |
-| `/contact` | Contact form |
-| `/faq` | Frequently asked questions |
-| `/account` | Parent login/dashboard |
-| `/account/settings` | Email and password management |
-| `/account/reset-password` | Password reset handler |
+| `/` | Redirects to `/en` |
+| `/{locale}/` | Home page |
+| `/{locale}/workshops` | Workshop info + registration link |
+| `/{locale}/workshops/register` | Workshop registration form |
+| `/{locale}/summer-camp` | Camp info + registration link |
+| `/{locale}/summer-camp/register` | Camp registration form |
+| `/{locale}/music-school` | Fall 2026 teaser + interest form |
+| `/{locale}/about` | Philosophy and approach |
+| `/{locale}/contact` | Contact form |
+| `/{locale}/faq` | Frequently asked questions |
+| `/{locale}/account` | Parent login/dashboard |
+| `/{locale}/account/settings` | Email and password management |
+| `/{locale}/account/reset-password` | Password reset handler |
 
 ### Admin Pages (protected)
 | Route | Purpose |
@@ -236,6 +239,14 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 | `005_media_consent_checkboxes.sql` | Split media consent into internal + marketing booleans | ✅ Applied |
 | `006_pickup_phone.sql` | Phone and relationship on authorized_pickups | ✅ Applied |
 | `007_unified_programs.sql` | Unified programs system (programs, registrations, sessions) | ✅ Applied |
+| `008_get_user_by_email.sql` | Function to look up user by email | ✅ Applied |
+| `008_interest_survey.sql` | Interest survey fields on waitlist_signups | ✅ Applied |
+| `009_archive_support.sql` | Archive/soft-delete support for registrations | ✅ Applied |
+| `009_families.sql` | Family accounts table | ✅ Applied |
+| `010_workshop_enhancements.sql` | Workshop status, waitlist, registration windows | ✅ Applied |
+| `011_attendance.sql` | Attendance tracking table and functions | ✅ Applied |
+
+**Note**: The `locale` column was added directly via SQL to `workshop_registrations`, `camp_registrations`, and `waitlist_signups` (no migration file).
 
 **Credentials**: See `info/supabase-info.txt` for database password.
 
@@ -259,10 +270,10 @@ RESEND_API_KEY=your-resend-api-key
 ### Project Location
 
 ```
-~/code/creative-kids
+~/code/creative-kids-music
 ```
 
-Or from Windows: `\\wsl$\Ubuntu\home\jbarb\code\creative-kids`
+Or from Windows: `\\wsl$\Ubuntu\home\jack\code\creative-kids-music`
 
 **Important**: Run commands from WSL, not Windows PowerShell.
 
@@ -273,7 +284,7 @@ The remote uses SSH (`git@github.com:jackbarben/creative-kids-music.git`). SSH k
 ### Quick Start
 
 ```bash
-cd ~/code/creative-kids
+cd ~/code/creative-kids-music
 npm run dev
 ```
 

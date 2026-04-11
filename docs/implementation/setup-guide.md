@@ -132,41 +132,45 @@ Visit:
 ## Folder Structure
 
 ```
-/creative-kids
+/creative-kids-music
 ├── app/                      # Next.js App Router pages
-│   ├── layout.tsx           # Root layout (fonts)
-│   ├── page.tsx             # Home page
+│   ├── layout.tsx           # Root layout (fonts, lang attribute)
 │   ├── globals.css          # Global styles
-│   ├── auth/
-│   │   ├── login/page.tsx   # Login page
-│   │   └── callback/route.ts # OAuth callback
-│   └── admin/
-│       ├── layout.tsx       # Admin sidebar layout
-│       ├── page.tsx         # Dashboard
-│       ├── workshops/       # Workshop management
-│       ├── camp/            # Camp management
-│       ├── waitlist/        # Waitlist management
-│       └── activity/        # Activity log
+│   ├── [locale]/            # Public pages (EN/ES)
+│   │   ├── layout.tsx      # NextIntlClientProvider
+│   │   ├── page.tsx        # Home page
+│   │   ├── about/          # About page
+│   │   ├── faq/            # FAQ page
+│   │   ├── contact/        # Contact form
+│   │   ├── workshops/      # Workshop info + registration
+│   │   ├── summer-camp/    # Camp info + registration
+│   │   ├── music-school/   # Music school + interest form
+│   │   ├── account/        # Parent portal (English-only content)
+│   │   └── terms/          # Legal pages
+│   ├── auth/                # Login (English-only)
+│   └── admin/               # Admin portal (English-only)
+├── i18n/                    # Internationalization config
+│   ├── routing.ts          # Locales: en, es
+│   ├── request.ts          # Message loading per locale
+│   └── navigation.ts       # Locale-aware Link, useRouter
+├── messages/                # Translation files
+│   ├── en.json             # English (~857 keys)
+│   └── es.json             # Spanish (~857 keys)
 ├── components/              # React components
-│   ├── Header.tsx          # Site header
-│   └── Footer.tsx          # Site footer
+│   ├── Header.tsx          # Site header + LanguageSwitcher
+│   ├── Footer.tsx          # Site footer
+│   ├── LanguageSwitcher.tsx # EN/ES toggle
+│   ├── SpanishToast.tsx    # One-time Spanish prompt
+│   └── forms/              # Shared form components
 ├── lib/                     # Utilities
+│   ├── email.ts            # Email templates (bilingual)
 │   └── supabase/           # Supabase clients
-│       ├── client.ts       # Browser client
-│       ├── server.ts       # Server client
-│       └── middleware.ts   # Auth middleware helper
 ├── public/                  # Static assets
-│   ├── media/              # Images, audio
-│   └── favicon.png         # Site icon
-├── archive/                 # Old static site (preserved)
-├── docs/                    # Documentation
-│   ├── vision/             # Plans and specs
-│   └── implementation/     # Build logs
-├── middleware.ts            # Next.js middleware (auth)
+├── middleware.ts            # Locale detection + routing
+├── next.config.mjs          # Wrapped with createNextIntlPlugin
 ├── package.json
 ├── tsconfig.json
-├── tailwind.config.ts
-└── next.config.mjs
+└── tailwind.config.ts
 ```
 
 ---
@@ -186,8 +190,8 @@ Visit:
 
 | Font | Usage |
 |------|-------|
-| Fraunces | Display headings |
-| Nunito | Body text |
+| Source Serif 4 | Display headings (`font-display`) |
+| Inter | Body text (`font-sans`) |
 
 ### Tailwind Classes
 

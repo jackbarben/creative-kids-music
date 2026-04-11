@@ -4,6 +4,44 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.6.0 - 2026-04-11
+
+### Summary
+Spanish internationalization (i18n) using next-intl.
+
+### New Features
+
+**Spanish Language Support**
+- Full site translation (857 keys) in English and Spanish
+- Public pages moved under `app/[locale]/` with locale-aware routing
+- `middleware.ts` handles locale detection and redirects (`/` → `/en`)
+- LanguageSwitcher component (EN/ES toggle) in header
+- SpanishToast component on home page (one-time prompt, remembers dismissal)
+
+**Bilingual Emails**
+- Workshop, camp, and waitlist confirmation emails include Spanish translation when registered from `/es/` pages
+- English content first, then Spanish with legal disclaimer
+- Admin notifications remain English-only
+
+**i18n Infrastructure**
+- `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts` configuration
+- `messages/en.json` and `messages/es.json` translation files
+- All form components use `useTranslations` / `getTranslations`
+- Server actions read locale from form, use translated validation messages
+- `locale` column added to `workshop_registrations`, `camp_registrations`, `waitlist_signups`
+
+### Scope
+- Admin portal (`/admin/*`) stays English-only
+- Auth pages (`/auth/*`) stay English-only
+- Account pages (`/account/*`) stay English-only for now
+
+### Branch Cleanup
+- GitHub default branch changed from `main` to `master`
+- `main` branch deleted (local + remote)
+- Git remote switched from HTTPS to SSH
+
+---
+
 ## v1.5.7 - 2026-02-19
 
 ### Summary
