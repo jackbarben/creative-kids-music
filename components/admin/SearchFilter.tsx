@@ -32,17 +32,35 @@ export default function SearchFilter({
   const [payment, setPayment] = useState(searchParams.get('payment') || '')
   const [workshop, setWorkshop] = useState(searchParams.get('workshop') || '')
 
-  const applyFilters = () => {
+  const buildUrl = (overrides: Record<string, string> = {}) => {
+    const values = {
+      search,
+      status,
+      payment,
+      workshop,
+      ...overrides,
+    }
     const params = new URLSearchParams()
-    if (search) params.set('search', search)
-    if (status) params.set('status', status)
-    if (payment) params.set('payment', payment)
-    if (workshop) params.set('workshop', workshop)
-    // Reset to page 1 when filtering
+    if (values.search) params.set('search', values.search)
+    if (values.status) params.set('status', values.status)
+    if (values.payment) params.set('payment', values.payment)
+    if (values.workshop) params.set('workshop', values.workshop)
     params.set('page', '1')
+    return `${baseUrl}?${params.toString()}`
+  }
 
+  const applyFilters = () => {
     startTransition(() => {
-      router.push(`${baseUrl}?${params.toString()}`)
+      router.push(buildUrl())
+    })
+  }
+
+  const applySelectFilter = (key: string, value: string) => {
+    if (key === 'status') setStatus(value)
+    if (key === 'payment') setPayment(value)
+    if (key === 'workshop') setWorkshop(value)
+    startTransition(() => {
+      router.push(buildUrl({ [key]: value }))
     })
   }
 
@@ -77,7 +95,7 @@ export default function SearchFilter({
         {statusOptions && (
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => applySelectFilter('status', e.target.value)}
             className="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm text-slate-800"
           >
             <option value="">All statuses</option>
@@ -93,7 +111,7 @@ export default function SearchFilter({
         {workshopOptions && (
           <select
             value={workshop}
-            onChange={(e) => setWorkshop(e.target.value)}
+            onChange={(e) => applySelectFilter('workshop', e.target.value)}
             className="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm text-slate-800"
           >
             <option value="">All workshops</option>
@@ -109,7 +127,7 @@ export default function SearchFilter({
         {paymentOptions && (
           <select
             value={payment}
-            onChange={(e) => setPayment(e.target.value)}
+            onChange={(e) => applySelectFilter('payment', e.target.value)}
             className="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-sm text-slate-800"
           >
             <option value="">All payments</option>
