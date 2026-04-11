@@ -111,6 +111,7 @@ export async function getWorkshopRegistrationsPaginated(
     query = query.eq('payment_status', filters.payment)
   }
   if (filters.workshop) {
+    console.log('Filtering by workshop:', filters.workshop)
     query = query.contains('workshop_ids', [filters.workshop])
   }
 
@@ -120,6 +121,7 @@ export async function getWorkshopRegistrationsPaginated(
 
   if (error) {
     console.error('Error fetching workshop registrations:', error)
+    console.error('Filters were:', filters)
     return { data: [], count: 0, page, pageSize, totalPages: 0 }
   }
 

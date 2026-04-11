@@ -52,6 +52,7 @@ export default function SearchFilter({
   const applyFilters = () => {
     startTransition(() => {
       router.push(buildUrl())
+      router.refresh()
     })
   }
 
@@ -61,6 +62,7 @@ export default function SearchFilter({
     if (key === 'workshop') setWorkshop(value)
     startTransition(() => {
       router.push(buildUrl({ [key]: value }))
+      router.refresh()
     })
   }
 
@@ -71,6 +73,7 @@ export default function SearchFilter({
     setWorkshop('')
     startTransition(() => {
       router.push(baseUrl)
+      router.refresh()
     })
   }
 
