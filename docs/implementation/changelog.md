@@ -7,9 +7,21 @@ Chronological log of implementation progress.
 ## v1.6.0 - 2026-04-11
 
 ### Summary
-Spanish internationalization (i18n) using next-intl.
+Spanish internationalization (i18n), mobile admin layout, and workshop registration filtering.
 
 ### New Features
+
+**Mobile Admin Layout**
+- Sidebar hidden on mobile with hamburger menu toggle
+- Slide-in drawer with overlay backdrop, auto-closes on navigation
+- Registration list uses card layout on mobile, table on desktop
+- Reduced padding throughout on small screens
+
+**Workshop Registration Filter**
+- Filter registrations by specific workshop date from the admin panel
+- Dropdown in SearchFilter shows each workshop by date and title
+- All select filters (workshop, status, payment) apply immediately on change
+- Uses `router.refresh()` after navigation to ensure server data re-fetches on mobile
 
 **Spanish Language Support**
 - Full site translation (857 keys) in English and Spanish
