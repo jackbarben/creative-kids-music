@@ -73,7 +73,7 @@ The `ChildFields` component handles adding/removing children with automatic sibl
 - 3rd child: $20 off
 - etc.
 
-Child data is submitted as indexed fields: `child_name_0`, `child_age_0`, `child_name_1`, etc.
+Child data is submitted as indexed fields: `child_first_name_0`, `child_last_name_0`, `child_age_0`, `child_first_name_1`, etc. A concatenated `child_name_${i}` hidden field is also submitted for backward compatibility.
 
 ---
 
@@ -303,7 +303,9 @@ Account: user_id (links to parent account)
 
 ### Workshop Children
 ```
-registration_id, child_name, child_age (required)
+registration_id, first_name, child_age (required)
+last_name (required for new registrations, nullable for legacy)
+child_name (kept in sync as `${first_name} ${last_name}`)
 child_school (optional)
 allergies, dietary_restrictions, medical_conditions (optional)
 account_child_id (links to reusable child profile)
@@ -325,7 +327,9 @@ Account: user_id (links to parent account)
 
 ### Camp Children
 ```
-registration_id, child_name, child_age (required)
+registration_id, first_name, child_age (required)
+last_name (required for new registrations, nullable for legacy)
+child_name (kept in sync as `${first_name} ${last_name}`)
 child_grade, child_school, tshirt_size (optional)
 allergies, dietary_restrictions, medical_conditions, special_needs (optional)
 account_child_id (links to reusable child profile)

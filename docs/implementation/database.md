@@ -85,9 +85,9 @@ Children linked to workshop registrations.
 | `id` | UUID | Primary key |
 | `registration_id` | UUID | FK to workshop_registrations |
 | `account_child_id` | UUID | FK to account_children (if linked) |
-| `child_name` | TEXT | Child's full name |
-| `first_name` | TEXT | Child's first name |
-| `last_name` | TEXT | Child's last name |
+| `first_name` | TEXT NOT NULL | Child's first name |
+| `last_name` | TEXT | Child's last name (nullable for legacy rows) |
+| `child_name` | TEXT NOT NULL | Full name, kept in sync with first/last by app code |
 | `child_age` | INTEGER | Child's age |
 | `child_school` | TEXT | School name |
 | `allergies` | TEXT | Known allergies |
@@ -170,9 +170,9 @@ Children linked to camp registrations with medical info.
 | `id` | UUID | Primary key |
 | `registration_id` | UUID | FK to camp_registrations |
 | `account_child_id` | UUID | FK to account_children (if linked) |
-| `child_name` | TEXT | Child's full name |
-| `first_name` | TEXT | Child's first name |
-| `last_name` | TEXT | Child's last name |
+| `first_name` | TEXT NOT NULL | Child's first name |
+| `last_name` | TEXT | Child's last name (nullable for legacy rows) |
+| `child_name` | TEXT NOT NULL | Full name, kept in sync with first/last by app code |
 | `child_age` | INTEGER | Child's age |
 | `child_grade` | TEXT | Grade level |
 | `child_school` | TEXT | School name |
@@ -424,6 +424,7 @@ Returns remaining capacity for a workshop.
 | `009_families.sql` | Family accounts table | ✅ Applied |
 | `010_workshop_enhancements.sql` | Workshop status, waitlist, registration windows | ✅ Applied |
 | `011_attendance.sql` | Attendance tracking table and functions | ✅ Applied |
+| `012_child_last_name.sql` | Backfill workshop_children/camp_children first_name (NOT NULL) and last_name from account_children or by splitting child_name | ✅ Applied |
 
 ---
 

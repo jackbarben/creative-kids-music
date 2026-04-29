@@ -245,6 +245,7 @@ psql "postgresql://postgres.qidzeagzbrqxntrqbpzx:PASSWORD@aws-0-us-west-2.pooler
 | `009_families.sql` | Family accounts table | ✅ Applied |
 | `010_workshop_enhancements.sql` | Workshop status, waitlist, registration windows | ✅ Applied |
 | `011_attendance.sql` | Attendance tracking table and functions | ✅ Applied |
+| `012_child_last_name.sql` | Backfill workshop_children/camp_children first_name (NOT NULL) and last_name | ✅ Applied |
 
 **Note**: The `locale` column was added directly via SQL to `workshop_registrations`, `camp_registrations`, and `waitlist_signups` (no migration file).
 
@@ -455,6 +456,9 @@ To test:
 | v1.0.0 | Dec 2024 | Initial launch - workshops, camp, parent accounts |
 | v1.1.0 | Dec 2024 | Contact form, portal fixes, docs cleanup |
 | v1.2.0 | Dec 2024 | Parent lookup, admin improvements, accessibility |
+| v1.3.0 – v1.5.7 | early 2026 | Account decoupling, admin portal enhancements, payment messaging, Phase 6 program management + attendance, family model |
+| v1.6.0 | 2026-04-11 | Spanish i18n, mobile admin layout, workshop registration filter |
+| v1.7.0 | 2026-04-29 | Split child names into first + last across forms, parent portal, admin, attendance, exports |
 
 ### Where Version Appears
 
