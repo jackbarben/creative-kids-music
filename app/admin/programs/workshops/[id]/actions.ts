@@ -246,6 +246,8 @@ export async function sendWorkshopReminders(workshopId: string): Promise<SendRem
       parent_name,
       parent_email,
       workshop_children (
+        first_name,
+        last_name,
         child_name
       )
     `)
@@ -279,8 +281,8 @@ export async function sendWorkshopReminders(workshopId: string): Promise<SendRem
   let failed = 0
 
   for (const reg of registrations) {
-    const children = reg.workshop_children as { child_name: string }[]
-    const childrenNames = children.map(c => c.child_name)
+    const children = reg.workshop_children as { first_name: string | null; last_name: string | null; child_name: string }[]
+    const childrenNames = children.map(c => `${c.first_name ?? ''} ${c.last_name ?? ''}`.trim() || c.child_name)
 
     const result = await sendWorkshopReminder({
       parentName: reg.parent_name,

@@ -4,6 +4,32 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.7.0 - 2026-04-29
+
+### Summary
+Split child names into separate first and last name fields across registration forms, parent portal, admin pages, attendance roster, and CSV exports.
+
+### Schema
+- Migration `012_child_last_name.sql` — backfilled the existing `first_name` / `last_name` columns on `workshop_children` and `camp_children` (added in 004 but never populated). Used `account_children` data where linked, otherwise split `child_name` on the first whitespace run. `first_name` is now `NOT NULL`; `last_name` stays nullable for legacy rows that only had a single name.
+
+### Forms
+- Workshop and camp registration forms now collect First Name and Last Name as two required inputs (both for logged-out and logged-in flows).
+- Server actions write all three columns (`first_name`, `last_name`, `child_name`) so any reader still using `child_name` keeps working.
+
+### Parent portal
+- `AddChildModal` and `EditChildModal` split into First / Last fields, both required. Existing kids without a last name fall back to splitting `child_name` on first space when populating the edit form.
+
+### Admin
+- Edit panel for workshop and camp registrations splits the Child Name input into First / Last.
+- Display surfaces (registration detail, parents/families page, attendance roster, CSV exports, workshop reminder emails) render `${first} ${last}` with fallback to `child_name` for legacy rows.
+- Attendance roster sorts by last name, then first.
+
+### Notes
+- 4 legacy workshop kids have a single name and need last names collected manually (Manny, Sadie, Test, Theo). They display as just their first name until updated.
+- `waitlist_signups.child_name` left as a single field — interest signups don't need the split.
+
+---
+
 ## v1.6.0 - 2026-04-11
 
 ### Summary

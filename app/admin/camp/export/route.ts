@@ -69,26 +69,29 @@ export async function GET() {
     'Admin Notes',
   ]
 
+  const displayName = (c: { first_name?: string | null; last_name?: string | null; child_name: string }) =>
+    `${c.first_name ?? ''} ${c.last_name ?? ''}`.trim() || c.child_name
+
   // CSV rows
   const rows = registrations.map(reg => {
     const regChildren = childrenByReg.get(reg.id) || []
     const childrenStr = regChildren
-      .map(c => `${c.child_name} (${c.child_age}${c.child_grade ? `, ${c.child_grade}` : ''})`)
+      .map(c => `${displayName(c)} (${c.child_age}${c.child_grade ? `, ${c.child_grade}` : ''})`)
       .join('; ')
 
     const allergiesStr = regChildren
       .filter(c => c.allergies)
-      .map(c => `${c.child_name}: ${c.allergies}`)
+      .map(c => `${displayName(c)}: ${c.allergies}`)
       .join('; ')
 
     const medicalStr = regChildren
       .filter(c => c.medical_conditions)
-      .map(c => `${c.child_name}: ${c.medical_conditions}`)
+      .map(c => `${displayName(c)}: ${c.medical_conditions}`)
       .join('; ')
 
     const specialStr = regChildren
       .filter(c => c.special_needs)
-      .map(c => `${c.child_name}: ${c.special_needs}`)
+      .map(c => `${displayName(c)}: ${c.special_needs}`)
       .join('; ')
 
     return [

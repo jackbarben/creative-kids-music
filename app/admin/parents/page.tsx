@@ -16,6 +16,11 @@ function hasMedicalInfo(parent: ParentSearchResult): boolean {
   )
 }
 
+// Helper: render full child name from first/last with fallback
+function childFullName(c: { first_name?: string | null; last_name?: string | null; child_name: string }): string {
+  return `${c.first_name ?? ''} ${c.last_name ?? ''}`.trim() || c.child_name
+}
+
 export default async function ParentsAdmin({ searchParams }: PageProps) {
   const params = await searchParams
   const query = params.q || ''
@@ -164,8 +169,8 @@ function ParentDirectory({ parents, medicalFilter }: { parents: ParentSearchResu
               const totalRegs = parent.workshopRegistrations.length + parent.campRegistrations.length + parent.waitlistSignups.length
               // Count unique children
               const uniqueChildNames = new Set([
-                ...parent.workshopChildren.map(c => c.child_name.toLowerCase()),
-                ...parent.campChildren.map(c => c.child_name.toLowerCase())
+                ...parent.workshopChildren.map(c => childFullName(c).toLowerCase()),
+                ...parent.campChildren.map(c => childFullName(c).toLowerCase())
               ])
               const childCount = uniqueChildNames.size
               return (
@@ -234,8 +239,8 @@ function ParentDetail({ parent, workshopMap }: { parent: ParentSearchResult; wor
   // Calculate summary stats
   const totalRegistrations = parent.workshopRegistrations.length + parent.campRegistrations.length
   const uniqueChildNames = new Set([
-    ...parent.workshopChildren.map(c => c.child_name),
-    ...parent.campChildren.map(c => c.child_name)
+    ...parent.workshopChildren.map(c => childFullName(c)),
+    ...parent.campChildren.map(c => childFullName(c))
   ])
   const totalChildren = uniqueChildNames.size
 
@@ -334,7 +339,7 @@ function ParentDetail({ parent, workshopMap }: { parent: ParentSearchResult; wor
                       </div>
                       {children.length > 0 && (
                         <p className="text-sm text-stone-600 mt-2">
-                          Children: {children.map(c => `${c.child_name} (${c.child_age})`).join(', ')}
+                          Children: {children.map(c => `${childFullName(c)} (${c.child_age})`).join(', ')}
                         </p>
                       )}
                       <div className="mt-2 text-sm text-stone-500">
@@ -386,7 +391,7 @@ function ParentDetail({ parent, workshopMap }: { parent: ParentSearchResult; wor
                       </div>
                       {children.length > 0 && (
                         <p className="text-sm text-stone-600 mt-2">
-                          Children: {children.map(c => `${c.child_name} (${c.child_age})`).join(', ')}
+                          Children: {children.map(c => `${childFullName(c)} (${c.child_age})`).join(', ')}
                         </p>
                       )}
                       <p className="mt-2 text-sm text-stone-500">August 3–7, 2026</p>
@@ -466,10 +471,10 @@ function ChildrenSection({
 
   // Add workshop children first
   for (const child of workshopChildren) {
-    const key = child.child_name.toLowerCase()
+    const key = childFullName(child).toLowerCase()
     if (!childrenMap.has(key)) {
       childrenMap.set(key, {
-        name: child.child_name,
+        name: childFullName(child),
         age: child.child_age,
         school: child.child_school,
         programs: ['Workshop'],
@@ -488,10 +493,10 @@ function ChildrenSection({
 
   // Add/update with camp children (has medical info)
   for (const child of campChildren) {
-    const key = child.child_name.toLowerCase()
+    const key = childFullName(child).toLowerCase()
     if (!childrenMap.has(key)) {
       childrenMap.set(key, {
-        name: child.child_name,
+        name: childFullName(child),
         age: child.child_age,
         school: child.child_school,
         programs: ['Camp'],

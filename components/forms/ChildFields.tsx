@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl'
 import type { SelectedChild } from './ChildrenSelectionSection'
 
 interface ChildData {
-  name: string
+  first_name: string
+  last_name: string
   age: string
   grade?: string
   school?: string
@@ -30,22 +31,19 @@ interface ChildFieldsProps {
 
 function convertToSelectedChildren(childDataArray: ChildData[]): SelectedChild[] {
   return childDataArray
-    .filter(child => child.name || child.age)
-    .map(child => {
-      const nameParts = child.name.trim().split(/\s+/)
-      return {
-        first_name: nameParts[0] || '',
-        last_name: nameParts.slice(1).join(' ') || '',
-        age: child.age,
-        school: child.school || '',
-        allergies: child.allergies || '',
-        dietary_restrictions: child.dietary || '',
-        medical_conditions: child.medical || '',
-        notes: child.special || '',
-        tshirt_size: child.tshirtSize || '',
-        isNew: true,
-      }
-    })
+    .filter(child => child.first_name || child.age)
+    .map(child => ({
+      first_name: child.first_name.trim(),
+      last_name: child.last_name.trim(),
+      age: child.age,
+      school: child.school || '',
+      allergies: child.allergies || '',
+      dietary_restrictions: child.dietary || '',
+      medical_conditions: child.medical || '',
+      notes: child.special || '',
+      tshirt_size: child.tshirtSize || '',
+      isNew: true,
+    }))
 }
 
 export default function ChildFields({
@@ -61,11 +59,11 @@ export default function ChildFields({
 }: ChildFieldsProps) {
   const t = useTranslations('forms.children')
   const [children, setChildren] = useState<ChildData[]>([
-    { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }
+    { first_name: '', last_name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }
   ])
 
   const addChild = () => {
-    const newChildren = [...children, { name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }]
+    const newChildren = [...children, { first_name: '', last_name: '', age: '', grade: '', school: '', allergies: '', dietary: '', medical: '', special: '', tshirtSize: '' }]
     setChildren(newChildren)
     if (onTotalChange) {
       onTotalChange(calculateTotal(newChildren.length), newChildren.length)
@@ -139,18 +137,35 @@ export default function ChildFields({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1">
-                  {t('childName')} <span className="text-terracotta-500">*</span>
+                  {t('childFirstName')} <span className="text-terracotta-500">*</span>
                 </label>
                 <input
                   type="text"
-                  name={`child_name_${index}`}
+                  name={`child_first_name_${index}`}
                   required
-                  value={child.name}
-                  onChange={(e) => updateChild(index, 'name', e.target.value)}
-                  className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_name_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
+                  value={child.first_name}
+                  onChange={(e) => updateChild(index, 'first_name', e.target.value)}
+                  className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_first_name_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
                 />
-                {fieldErrors?.[`child_name_${index}`] && (
-                  <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_name_${index}`]}</p>
+                {fieldErrors?.[`child_first_name_${index}`] && (
+                  <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_first_name_${index}`]}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-stone-700 mb-1">
+                  {t('childLastName')} <span className="text-terracotta-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name={`child_last_name_${index}`}
+                  required
+                  value={child.last_name}
+                  onChange={(e) => updateChild(index, 'last_name', e.target.value)}
+                  className={`w-full px-4 py-2 rounded-lg border ${fieldErrors?.[`child_last_name_${index}`] ? 'border-red-400' : 'border-stone-300'} focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800`}
+                />
+                {fieldErrors?.[`child_last_name_${index}`] && (
+                  <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_last_name_${index}`]}</p>
                 )}
               </div>
 

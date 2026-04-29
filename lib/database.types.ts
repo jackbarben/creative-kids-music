@@ -236,7 +236,7 @@ export interface Database {
           registration_id: string
           account_child_id: string | null
           child_name: string
-          first_name: string | null
+          first_name: string
           last_name: string | null
           child_age: number
           child_school: string | null
@@ -251,7 +251,7 @@ export interface Database {
           registration_id: string
           account_child_id?: string | null
           child_name: string
-          first_name?: string | null
+          first_name: string
           last_name?: string | null
           child_age: number
           child_school?: string | null
@@ -266,7 +266,7 @@ export interface Database {
           registration_id?: string
           account_child_id?: string | null
           child_name?: string
-          first_name?: string | null
+          first_name?: string
           last_name?: string | null
           child_age?: number
           child_school?: string | null
@@ -435,7 +435,7 @@ export interface Database {
           registration_id: string
           account_child_id: string | null
           child_name: string
-          first_name: string | null
+          first_name: string
           last_name: string | null
           child_age: number
           child_grade: string | null
@@ -453,7 +453,7 @@ export interface Database {
           registration_id: string
           account_child_id?: string | null
           child_name: string
-          first_name?: string | null
+          first_name: string
           last_name?: string | null
           child_age: number
           child_grade?: string | null
@@ -471,7 +471,7 @@ export interface Database {
           registration_id?: string
           account_child_id?: string | null
           child_name?: string
-          first_name?: string | null
+          first_name?: string
           last_name?: string | null
           child_age?: number
           child_grade?: string | null

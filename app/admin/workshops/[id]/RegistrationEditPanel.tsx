@@ -26,6 +26,8 @@ import {
 
 interface Child {
   id: string
+  first_name: string | null
+  last_name: string | null
   child_name: string
   child_age: number
   child_school?: string | null

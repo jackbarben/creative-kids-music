@@ -35,8 +35,12 @@ export default function AddChildModal({
     setError(null)
 
     const formData = new FormData(e.currentTarget)
+    const firstName = ((formData.get('first_name') as string) || '').trim()
+    const lastName = ((formData.get('last_name') as string) || '').trim()
     const result = await addChild(registrationId, programType, {
-      child_name: formData.get('child_name') as string,
+      first_name: firstName,
+      last_name: lastName,
+      child_name: `${firstName} ${lastName}`.trim(),
       child_age: parseInt(formData.get('child_age') as string) || 0,
       child_school: formData.get('child_school') as string,
       allergies: formData.get('allergies') as string,
@@ -74,17 +78,31 @@ export default function AddChildModal({
           </p>
         </div>
 
-        <div>
-          <label htmlFor="child_name" className="block text-sm font-medium text-slate-700 mb-1">
-            {t('nameLabel')} <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="child_name"
-            name="child_name"
-            required
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label htmlFor="first_name" className="block text-sm font-medium text-slate-700 mb-1">
+              {t('firstNameLabel')} <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              required
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="last_name" className="block text-sm font-medium text-slate-700 mb-1">
+              {t('lastNameLabel')} <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              required
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-100 focus:border-forest-400 text-slate-800 placeholder:text-slate-400"
+            />
+          </div>
         </div>
 
         <div>

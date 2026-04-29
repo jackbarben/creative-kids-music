@@ -80,7 +80,7 @@ export async function GET() {
   const rows = registrations.map(reg => {
     const regChildren = childrenByReg.get(reg.id) || []
     const childrenStr = regChildren
-      .map(c => `${c.child_name} (${c.child_age})`)
+      .map(c => `${(`${c.first_name ?? ''} ${c.last_name ?? ''}`.trim() || c.child_name)} (${c.child_age})`)
       .join('; ')
 
     const workshopsStr = reg.workshop_ids

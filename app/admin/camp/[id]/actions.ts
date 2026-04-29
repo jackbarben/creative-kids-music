@@ -314,6 +314,8 @@ export async function updatePaymentDetails(
 // ============================================
 
 interface CampChildData {
+  first_name: string
+  last_name: string
   child_name: string
   child_age: number
   child_grade?: string | null
@@ -341,6 +343,8 @@ export async function addChild(registrationId: string, data: CampChildData) {
     .from('camp_children')
     .insert({
       registration_id: registrationId,
+      first_name: data.first_name,
+      last_name: data.last_name,
       child_name: data.child_name,
       child_age: data.child_age,
       child_grade: data.child_grade || null,
@@ -395,6 +399,8 @@ export async function updateChild(childId: string, data: CampChildData) {
   const { error } = await supabase
     .from('camp_children')
     .update({
+      first_name: data.first_name,
+      last_name: data.last_name,
       child_name: data.child_name,
       child_age: data.child_age,
       child_grade: data.child_grade || null,

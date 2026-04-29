@@ -6,6 +6,8 @@ import ConfirmDialog from '../ConfirmDialog'
 
 interface Child {
   id: string
+  first_name: string | null
+  last_name: string | null
   child_name: string
   child_age: number
   child_grade?: string | null
@@ -19,6 +21,8 @@ interface Child {
 }
 
 interface ChildFormData {
+  first_name: string
+  last_name: string
   child_name: string
   child_age: number
   child_grade?: string | null
@@ -56,6 +60,8 @@ export default function EditChildrenSection({
   const [confirmDelete, setConfirmDelete] = useState<{ show: boolean; childId: string; childName: string } | null>(null)
 
   const emptyForm: ChildFormData = {
+    first_name: '',
+    last_name: '',
     child_name: '',
     child_age: 9,
     child_grade: '',
@@ -72,7 +78,10 @@ export default function EditChildrenSection({
   const handleEdit = (child: Child) => {
     setEditingChildId(child.id)
     setShowAddForm(false)
+    const nameParts = child.child_name.split(' ')
     setFormData({
+      first_name: child.first_name || nameParts[0] || '',
+      last_name: child.last_name || nameParts.slice(1).join(' ') || '',
       child_name: child.child_name,
       child_age: child.child_age,
       child_grade: child.child_grade || '',
@@ -103,9 +112,20 @@ export default function EditChildrenSection({
   }
 
   const handleSave = () => {
-    if (!formData.child_name.trim()) {
-      setMessage({ type: 'error', text: 'Child name is required' })
+    if (!formData.first_name.trim()) {
+      setMessage({ type: 'error', text: 'First name is required' })
       return
+    }
+    if (!formData.last_name.trim()) {
+      setMessage({ type: 'error', text: 'Last name is required' })
+      return
+    }
+
+    const dataToSave: ChildFormData = {
+      ...formData,
+      first_name: formData.first_name.trim(),
+      last_name: formData.last_name.trim(),
+      child_name: `${formData.first_name.trim()} ${formData.last_name.trim()}`,
     }
 
     setMessage(null)
@@ -113,9 +133,9 @@ export default function EditChildrenSection({
       try {
         let result
         if (editingChildId) {
-          result = await updateAction(editingChildId, formData)
+          result = await updateAction(editingChildId, dataToSave)
         } else {
-          result = await addAction(registrationId, formData)
+          result = await addAction(registrationId, dataToSave)
         }
 
         if (result.error) {
@@ -156,25 +176,35 @@ export default function EditChildrenSection({
     <div className="bg-stone-50 rounded-lg p-4 space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1">Child Name *</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1">First Name *</label>
           <input
             type="text"
-            value={formData.child_name}
-            onChange={(e) => handleChange('child_name', e.target.value)}
+            value={formData.first_name}
+            onChange={(e) => handleChange('first_name', e.target.value)}
             className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-slate-800"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1">Age</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1">Last Name *</label>
           <input
-            type="number"
-            min={5}
-            max={18}
-            value={formData.child_age}
-            onChange={(e) => handleChange('child_age', parseInt(e.target.value) || 9)}
+            type="text"
+            value={formData.last_name}
+            onChange={(e) => handleChange('last_name', e.target.value)}
             className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-slate-800"
           />
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-stone-700 mb-1">Age</label>
+        <input
+          type="number"
+          min={5}
+          max={18}
+          value={formData.child_age}
+          onChange={(e) => handleChange('child_age', parseInt(e.target.value) || 9)}
+          className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent text-slate-800"
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -296,7 +326,7 @@ export default function EditChildrenSection({
               <div className="flex items-start justify-between">
                 <div>
                   <div className="font-medium text-stone-800">
-                    {child.child_name}
+                    {`${child.first_name ?? ''} ${child.last_name ?? ''}`.trim() || child.child_name}
                     <span className="text-stone-500 font-normal ml-2">
                       (Age {child.child_age})
                     </span>

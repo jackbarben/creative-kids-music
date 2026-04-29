@@ -360,6 +360,8 @@ export async function updateWorkshopSelection(
 // ============================================
 
 interface ChildData {
+  first_name: string
+  last_name: string
   child_name: string
   child_age: number
   child_school?: string | null
@@ -384,6 +386,8 @@ export async function addChild(registrationId: string, data: ChildData) {
     .from('workshop_children')
     .insert({
       registration_id: registrationId,
+      first_name: data.first_name,
+      last_name: data.last_name,
       child_name: data.child_name,
       child_age: data.child_age,
       child_school: data.child_school || null,
@@ -435,6 +439,8 @@ export async function updateChild(childId: string, data: ChildData) {
   const { error } = await supabase
     .from('workshop_children')
     .update({
+      first_name: data.first_name,
+      last_name: data.last_name,
       child_name: data.child_name,
       child_age: data.child_age,
       child_school: data.child_school || null,

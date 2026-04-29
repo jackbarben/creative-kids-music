@@ -114,7 +114,7 @@ export default function RegistrationCard({ registration, programType, workshops 
                 className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
               >
                 <div>
-                  <span className="font-medium text-slate-800">{child.child_name}</span>
+                  <span className="font-medium text-slate-800">{`${child.first_name ?? ''} ${child.last_name ?? ''}`.trim() || child.child_name}</span>
                   <span className="text-slate-500 ml-2">{t('age', { age: child.child_age })}</span>
                   {'allergies' in child && child.allergies && (
                     <p className="text-xs text-slate-500 mt-1">
@@ -255,6 +255,8 @@ export default function RegistrationCard({ registration, programType, workshops 
           registrationId={registration.id}
           programType={programType}
           currentData={{
+            first_name: editChildOpen.first_name,
+            last_name: editChildOpen.last_name,
             child_name: editChildOpen.child_name,
             child_age: editChildOpen.child_age,
             child_school: editChildOpen.child_school,

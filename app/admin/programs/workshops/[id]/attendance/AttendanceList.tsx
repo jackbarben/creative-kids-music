@@ -15,6 +15,8 @@ interface AttendanceRecord {
   child: {
     id: string
     child_name: string
+    first_name: string | null
+    last_name: string | null
     child_age: number
     allergies: string | null
     medical_conditions: string | null
@@ -149,7 +151,7 @@ export default function AttendanceList({ workshopId, attendance }: AttendanceLis
                 {/* Child Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <h3 className="font-medium text-stone-800">{record.child.child_name}</h3>
+                    <h3 className="font-medium text-stone-800">{`${record.child.first_name ?? ''} ${record.child.last_name ?? ''}`.trim() || record.child.child_name}</h3>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${getStatusBadge(record.status)}`}>
                       {getStatusLabel(record.status)}
                     </span>

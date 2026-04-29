@@ -39,6 +39,8 @@ interface AttendanceRecord {
   child: {
     id: string
     child_name: string
+    first_name: string | null
+    last_name: string | null
     child_age: number
     allergies: string | null
     medical_conditions: string | null
@@ -75,7 +77,7 @@ async function getAttendance(workshopId: string): Promise<AttendanceRecord[]> {
   // Fetch children
   const { data: children } = await supabase
     .from('workshop_children')
-    .select('id, child_name, child_age, allergies, medical_conditions')
+    .select('id, child_name, first_name, last_name, child_age, allergies, medical_conditions')
     .in('id', childIds)
 
   // Fetch registrations
@@ -103,7 +105,12 @@ async function getAttendance(workshopId: string): Promise<AttendanceRecord[]> {
       }
     })
     .filter((r): r is AttendanceRecord => r !== null)
-    .sort((a, b) => a.child.child_name.localeCompare(b.child.child_name))
+    .sort((a, b) => {
+      const aLast = (a.child.last_name || '').toLowerCase()
+      const bLast = (b.child.last_name || '').toLowerCase()
+      if (aLast !== bLast) return aLast.localeCompare(bLast)
+      return (a.child.first_name || a.child.child_name).localeCompare(b.child.first_name || b.child.child_name)
+    })
 }
 
 async function getAttendanceSummary(workshopId: string) {

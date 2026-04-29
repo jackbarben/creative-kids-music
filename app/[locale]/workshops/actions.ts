@@ -112,6 +112,8 @@ export async function submitWorkshopRegistration(
 
   // Validate children
   const children: {
+    first_name: string
+    last_name: string
     name: string
     age: number
     school: string | null
@@ -120,22 +122,28 @@ export async function submitWorkshopRegistration(
     medical_conditions: string | null
   }[] = []
   for (let i = 0; i < childCount; i++) {
-    const childName = formData.get(`child_name_${i}`) as string
+    const childFirstName = (formData.get(`child_first_name_${i}`) as string | null)?.trim() || ''
+    const childLastName = (formData.get(`child_last_name_${i}`) as string | null)?.trim() || ''
     const childAge = parseInt(formData.get(`child_age_${i}`) as string)
     const childSchool = formData.get(`child_school_${i}`) as string | null
     const accountChildId = formData.get(`child_account_id_${i}`) as string | null
     const childAllergies = formData.get(`child_allergies_${i}`) as string | null
     const childMedical = formData.get(`child_medical_${i}`) as string | null
 
-    if (!childName || childName.trim().length < 2) {
-      fieldErrors[`child_name_${i}`] = t('enterChildName', { number: i + 1 })
+    if (!childFirstName) {
+      fieldErrors[`child_first_name_${i}`] = t('enterChildName', { number: i + 1 })
+    }
+    if (!childLastName) {
+      fieldErrors[`child_last_name_${i}`] = t('enterChildName', { number: i + 1 })
     }
     if (isNaN(childAge) || childAge < 1 || childAge > 18) {
       fieldErrors[`child_age_${i}`] = t('validAge')
     }
 
     children.push({
-      name: childName?.trim() || '',
+      first_name: childFirstName,
+      last_name: childLastName,
+      name: `${childFirstName} ${childLastName}`.trim(),
       age: childAge || 0,
       school: childSchool?.trim() || null,
       account_child_id: accountChildId?.trim() || null,
@@ -241,6 +249,8 @@ export async function submitWorkshopRegistration(
     .from('workshop_children')
     .insert(children.map((child, i) => ({
       registration_id: registration.id,
+      first_name: child.first_name,
+      last_name: child.last_name,
       child_name: child.name,
       child_age: child.age,
       child_school: child.school,

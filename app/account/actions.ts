@@ -168,6 +168,8 @@ export async function updateChild(
   registrationId: string,
   programType: 'workshop' | 'camp',
   data: {
+    first_name: string
+    last_name: string
     child_name: string
     child_age: number
     child_school?: string
@@ -201,9 +203,15 @@ export async function updateChild(
     return { error: 'Child age must be between 9 and 13' }
   }
 
+  if (!data.first_name?.trim() || !data.last_name?.trim()) {
+    return { error: 'First and last name are required' }
+  }
+
   const table = programType === 'camp' ? 'camp_children' : 'workshop_children'
 
   const updateData = {
+    first_name: data.first_name.trim(),
+    last_name: data.last_name.trim(),
     child_name: data.child_name.trim(),
     child_age: data.child_age,
     child_school: data.child_school?.trim() || null,
@@ -245,6 +253,8 @@ export async function addChild(
   registrationId: string,
   programType: 'workshop' | 'camp',
   data: {
+    first_name: string
+    last_name: string
     child_name: string
     child_age: number
     child_school?: string
@@ -278,6 +288,10 @@ export async function addChild(
     return { error: 'Child age must be between 9 and 13' }
   }
 
+  if (!data.first_name?.trim() || !data.last_name?.trim()) {
+    return { error: 'First and last name are required' }
+  }
+
   const table = programType === 'camp' ? 'camp_children' : 'workshop_children'
   const regTable = programType === 'camp' ? 'camp_registrations' : 'workshop_registrations'
   const basePrice = programType === 'camp' ? CAMP_PRICE_CENTS : WORKSHOP_PRICE_CENTS
@@ -306,6 +320,8 @@ export async function addChild(
   // Insert child
   const insertData = {
     registration_id: registrationId,
+    first_name: data.first_name.trim(),
+    last_name: data.last_name.trim(),
     child_name: data.child_name.trim(),
     child_age: data.child_age,
     child_school: data.child_school?.trim() || null,

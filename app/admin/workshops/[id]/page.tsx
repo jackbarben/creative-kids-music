@@ -206,7 +206,7 @@ export default async function WorkshopRegistrationDetail({
                 <div key={child.id} className="p-4 bg-stone-50 rounded-lg">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <p className="font-medium text-stone-800">{child.child_name}</p>
+                      <p className="font-medium text-stone-800">{`${child.first_name ?? ''} ${child.last_name ?? ''}`.trim() || child.child_name}</p>
                       <p className="text-sm text-stone-600">Age {child.child_age}</p>
                       {child.child_school && (
                         <p className="text-sm text-stone-500">{child.child_school}</p>
@@ -470,6 +470,8 @@ export default async function WorkshopRegistrationDetail({
             }}
             registeredChildren={registration.children.map(c => ({
               id: c.id,
+              first_name: c.first_name,
+              last_name: c.last_name,
               child_name: c.child_name,
               child_age: c.child_age,
               child_school: c.child_school,

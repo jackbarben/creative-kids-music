@@ -245,7 +245,7 @@ export default async function CampRegistrationDetail({
                 <div key={child.id} className="p-4 bg-stone-50 rounded-lg">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <p className="font-medium text-stone-800">{child.child_name}</p>
+                      <p className="font-medium text-stone-800">{`${child.first_name ?? ''} ${child.last_name ?? ''}`.trim() || child.child_name}</p>
                       <p className="text-sm text-stone-600">
                         Age {child.child_age}
                         {child.child_grade && ` • ${child.child_grade} grade`}
@@ -510,6 +510,8 @@ export default async function CampRegistrationDetail({
             }}
             registeredChildren={registration.children.map(c => ({
               id: c.id,
+              first_name: c.first_name,
+              last_name: c.last_name,
               child_name: c.child_name,
               child_age: c.child_age,
               child_grade: c.child_grade,

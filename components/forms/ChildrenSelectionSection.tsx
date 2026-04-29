@@ -253,6 +253,8 @@ export default function ChildrenSelectionSection({
         {selectedChildren.map((child, i) => (
           <div key={i}>
             <input type="hidden" name={`child_account_id_${i}`} value={child.account_child_id || ''} />
+            <input type="hidden" name={`child_first_name_${i}`} value={child.first_name || ''} />
+            <input type="hidden" name={`child_last_name_${i}`} value={child.last_name || ''} />
             <input type="hidden" name={`child_name_${i}`} value={`${child.first_name} ${child.last_name}`.trim()} />
             <input type="hidden" name={`child_age_${i}`} value={child.age} />
             <input type="hidden" name={`child_school_${i}`} value={child.school || ''} />
@@ -482,7 +484,7 @@ export default function ChildrenSelectionSection({
             </div>
             <div>
               <label className="block text-sm font-medium text-stone-700 mb-1">
-                Last Name
+                Last Name <span className="text-terracotta-500">*</span>
               </label>
               <input
                 type="text"
@@ -583,7 +585,7 @@ export default function ChildrenSelectionSection({
           <button
             type="button"
             onClick={handleAddNewChild}
-            disabled={!newChild.first_name || !newChild.age}
+            disabled={!newChild.first_name || !newChild.last_name || !newChild.age}
             className="px-4 py-2 bg-forest-600 text-white rounded-lg font-medium hover:bg-forest-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add Child
@@ -596,6 +598,8 @@ export default function ChildrenSelectionSection({
       {selectedChildren.map((child, i) => (
         <div key={i}>
           <input type="hidden" name={`child_account_id_${i}`} value={child.account_child_id || ''} />
+          <input type="hidden" name={`child_first_name_${i}`} value={child.first_name || ''} />
+          <input type="hidden" name={`child_last_name_${i}`} value={child.last_name || ''} />
           <input type="hidden" name={`child_name_${i}`} value={`${child.first_name} ${child.last_name}`.trim()} />
           <input type="hidden" name={`child_age_${i}`} value={child.age} />
           <input type="hidden" name={`child_school_${i}`} value={child.school || ''} />
@@ -683,22 +687,35 @@ function ChildInputForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-stone-700 mb-1">
-            Child&apos;s name <span className="text-terracotta-500">*</span>
+            First name <span className="text-terracotta-500">*</span>
           </label>
           <input
             type="text"
-            name={`child_name_${index}`}
+            name={`child_first_name_${index}`}
             required
-            value={`${child.first_name} ${child.last_name}`.trim()}
-            onChange={(e) => {
-              const parts = e.target.value.split(' ')
-              onChange('first_name', parts[0] || '')
-              onChange('last_name', parts.slice(1).join(' ') || '')
-            }}
+            value={child.first_name}
+            onChange={(e) => onChange('first_name', e.target.value)}
             className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
           />
-          {fieldErrors?.[`child_name_${index}`] && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_name_${index}`]}</p>
+          {fieldErrors?.[`child_first_name_${index}`] && (
+            <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_first_name_${index}`]}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1">
+            Last name <span className="text-terracotta-500">*</span>
+          </label>
+          <input
+            type="text"
+            name={`child_last_name_${index}`}
+            required
+            value={child.last_name}
+            onChange={(e) => onChange('last_name', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white text-stone-800"
+          />
+          {fieldErrors?.[`child_last_name_${index}`] && (
+            <p className="mt-1 text-xs text-red-600">{fieldErrors[`child_last_name_${index}`]}</p>
           )}
         </div>
 
