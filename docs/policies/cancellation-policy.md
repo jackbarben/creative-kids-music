@@ -84,7 +84,7 @@ We understand that emergencies happen. For special circumstances, contact us dir
 
 We will review requests on a case-by-case basis.
 
-**Contact**: info@creativekidsmusic.org or (360) 524-2265
+**Contact**: creativekidsmusicproject@gmail.com or (360) 524-2265
 
 ---
 
@@ -109,4 +109,4 @@ Existing registrations are governed by the policy in effect at the time of regis
 
 ---
 
-**Questions?** Contact us at info@creativekidsmusic.org or (360) 524-2265
+**Questions?** Contact us at creativekidsmusicproject@gmail.com or (360) 524-2265

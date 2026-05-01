@@ -77,4 +77,4 @@ By selecting a media consent option on the registration form, I acknowledge that
 
 ---
 
-**Questions?** Contact us at info@creativekidsmusic.org or (360) 524-2265
+**Questions?** Contact us at creativekidsmusicproject@gmail.com or (360) 524-2265

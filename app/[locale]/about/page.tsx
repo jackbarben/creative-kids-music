@@ -96,8 +96,8 @@ export default async function AboutPage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12 text-center">
             <p className="text-slate-500">
               {c('questions')}{' '}
-              <a href="mailto:info@creativekidsmusic.org" className="text-slate-700 hover:text-slate-900 underline underline-offset-4">
-                info@creativekidsmusic.org
+              <a href="mailto:creativekidsmusicproject@gmail.com" className="text-slate-700 hover:text-slate-900 underline underline-offset-4">
+                creativekidsmusicproject@gmail.com
               </a>
               {' '}{c('or')}{' '}
               <a href="tel:+13605242265" className="text-slate-700 hover:text-slate-900 underline underline-offset-4">

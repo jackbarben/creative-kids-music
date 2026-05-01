@@ -40,6 +40,7 @@ next-env.d.ts
 info/domain-info.txt
 info/supabase-info.txt
 info/admin-credentials.txt
+info/vercel-info.txt
 client_secret_*.json
 *:Zone.Identifier
 .claude/

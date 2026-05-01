@@ -4,9 +4,9 @@
 
 **Domain:** creativekidsmusic.org (purchased via Namecheap)
 **Hosting:** Vercel (free tier with automatic deployments)
-**Email:** Zoho Mail (free tier)
-- jack@creativekidsmusic.org - for known contacts and personal correspondence
-- info@creativekidsmusic.org - for public inquiries and new connections
+**Email:** creativekidsmusicproject@gmail.com (public contact)
+- Outbound transactional email via Resend from `noreply@creativekidsmusic.org` (SPF/DKIM only, no inbox)
+- See `info/email-setup.txt` for details
 
 **Deployment:** GitHub → Vercel automatic deployment from master branch
 

@@ -82,4 +82,4 @@ By checking the medical authorization checkbox on the camp registration form, I 
 
 ---
 
-**Questions?** Contact us at info@creativekidsmusic.org or (360) 524-2265
+**Questions?** Contact us at creativekidsmusicproject@gmail.com or (360) 524-2265

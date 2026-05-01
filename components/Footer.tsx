@@ -56,10 +56,10 @@ export default function Footer() {
           {/* Contact */}
           <div className="space-y-3 text-sm">
             <a
-              href="mailto:info@creativekidsmusic.org"
+              href="mailto:creativekidsmusicproject@gmail.com"
               className="block text-slate-400 hover:text-cream-100 transition-colors"
             >
-              info@creativekidsmusic.org
+              creativekidsmusicproject@gmail.com
             </a>
             <a
               href="tel:+13605242265"

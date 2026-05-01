@@ -117,8 +117,8 @@ export default function ContactPage() {
               <div className="space-y-3 text-slate-600">
                 <p>
                   <span className="font-medium text-slate-700">{t('emailLabel')}</span>{' '}
-                  <a href="mailto:info@creativekidsmusic.org" className="text-forest-600 hover:text-forest-700 underline underline-offset-4">
-                    info@creativekidsmusic.org
+                  <a href="mailto:creativekidsmusicproject@gmail.com" className="text-forest-600 hover:text-forest-700 underline underline-offset-4">
+                    creativekidsmusicproject@gmail.com
                   </a>
                 </p>
                 <p>

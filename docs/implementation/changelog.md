@@ -4,6 +4,34 @@ Chronological log of implementation progress.
 
 ---
 
+## v1.7.1 - 2026-04-30
+
+### Summary
+Switched the public contact address from `info@creativekidsmusic.org` to `creativekidsmusicproject@gmail.com`. Removed orphan inbound MX/SPF DNS records since no domain mailbox is in use.
+
+### Site
+- Footer, contact, about, FAQ, and both terms pages now show `creativekidsmusicproject@gmail.com` as the public contact.
+- Policy docs (liability waiver, medical authorization, cancellation, media release) updated to match.
+
+### Email system
+- `lib/email.ts` `ADMIN_EMAILS` now sends admin notifications to `creativekidsmusicproject@gmail.com`. All in-email contact links updated.
+- Resend transactional outbound from `noreply@creativekidsmusic.org` is unchanged (SPF/DKIM only, no inbox).
+
+### DNS (Vercel)
+- Removed three orphan root MX records: `mx1.privateemail.com`, `mx2.privateemail.com`, `mx2.zoho.com`.
+- Removed root SPF that referenced privateemail; replaced with `v=spf1 include:amazonses.com ~all` so Resend outbound aligns on the root domain.
+- All Resend records (DKIM, `send.` MX/TXT, DMARC) untouched.
+
+### Docs
+- `info/email-setup.txt` rewritten to reflect actual current state and history.
+- `info/vercel-info.txt` added (gitignored) with API token and curl recipes for future DNS work.
+- `README.md` and `CLAUDE.md` email sections updated.
+
+### Background
+- Initial trigger was sending a workshop reminder blast and getting `address not found` for `dalves20@yahoo.com`. That parent2 email was nulled with an admin note on the William Holmes camp registration so it's skipped in future sends; correct address can be confirmed by phone and re-added later.
+
+---
+
 ## v1.7.0 - 2026-04-29
 
 ### Summary

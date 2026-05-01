@@ -129,8 +129,8 @@ export default async function BehaviorAgreementPage() {
             <p className="mb-2">{t('behaviorAcceptedElectronically')}</p>
             <p>
               {t('questionsContact')}{' '}
-              <a href="mailto:info@creativekidsmusic.org" className="text-forest-600 hover:text-forest-700">
-                info@creativekidsmusic.org
+              <a href="mailto:creativekidsmusicproject@gmail.com" className="text-forest-600 hover:text-forest-700">
+                creativekidsmusicproject@gmail.com
               </a>
             </p>
           </footer>

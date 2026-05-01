@@ -139,9 +139,9 @@ Creative Kids Music is a children's music education program in Vancouver, WA off
 ### Domain (Namecheap)
 - **Domain**: creativekidsmusic.org
 - **DNS**: Pointed to Vercel
-- **Email**: Zoho Mail
-  - jack@creativekidsmusic.org
-  - info@creativekidsmusic.org
+- **Email**: `creativekidsmusicproject@gmail.com` (public contact; Gmail account, no domain mailbox)
+  - Outbound transactional from `noreply@creativekidsmusic.org` via Resend (SPF/DKIM only, no inbox)
+  - Inbound MX records were removed (see `info/email-setup.txt` for history)
 
 ---
 
@@ -459,6 +459,7 @@ To test:
 | v1.3.0 – v1.5.7 | early 2026 | Account decoupling, admin portal enhancements, payment messaging, Phase 6 program management + attendance, family model |
 | v1.6.0 | 2026-04-11 | Spanish i18n, mobile admin layout, workshop registration filter |
 | v1.7.0 | 2026-04-29 | Split child names into first + last across forms, parent portal, admin, attendance, exports |
+| v1.7.1 | 2026-04-30 | Public contact swapped to creativekidsmusicproject@gmail.com; orphan MX/SPF DNS records removed |
 
 ### Where Version Appears
 

@@ -12,7 +12,7 @@ function getResend() {
 
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
 const ADMIN_EMAILS = [
-  'jack@creativekidsmusic.org',
+  'creativekidsmusicproject@gmail.com',
 ]
 const SITE_URL = 'https://creativekidsmusic.org'
 
@@ -188,7 +188,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         Need to make changes? Contact us at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #166534;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #78716c; font-size: 14px;">
@@ -245,7 +245,7 @@ export async function sendWorkshopConfirmation(data: WorkshopConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         \u00bfNecesitas hacer cambios? Cont\u00e1ctanos en
-        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #166534;">creativekidsmusicproject@gmail.com</a>
       </p>
       ` : ''}
     </div>
@@ -401,7 +401,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <p style="color: #78716c; font-size: 14px;">
         Need to make changes? Contact us at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #c2410c;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #c2410c;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #78716c; font-size: 14px;">
@@ -461,7 +461,7 @@ export async function sendCampConfirmation(data: CampConfirmationData): Promise<
 
       <p style="color: #78716c; font-size: 14px;">
         \u00bfNecesitas hacer cambios? Cont\u00e1ctanos en
-        <a href="mailto:info@creativekidsmusic.org" style="color: #c2410c;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #c2410c;">creativekidsmusicproject@gmail.com</a>
       </p>
       ` : ''}
     </div>
@@ -529,7 +529,7 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Reply to this email or contact us at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #44403c;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #44403c;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
@@ -552,7 +552,7 @@ export async function sendWaitlistConfirmation(data: WaitlistConfirmationData): 
 
       <p style="color: #78716c; font-size: 14px;">
         \u00bfPreguntas? Cont\u00e1ctanos en
-        <a href="mailto:info@creativekidsmusic.org" style="color: #44403c;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #44403c;">creativekidsmusicproject@gmail.com</a>
       </p>
       ` : ''}
     </div>
@@ -699,7 +699,7 @@ export async function sendFamilyInviteEmail(data: FamilyInviteData): Promise<Ema
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Contact us at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #166534;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">
@@ -808,7 +808,7 @@ export async function sendWorkshopReminder(data: WorkshopReminderData): Promise<
 
       <p style="color: #78716c; font-size: 14px;">
         Need to cancel? Please let us know as soon as possible at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #166534;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #78716c; font-size: 14px;">
@@ -895,7 +895,7 @@ export async function sendWaitlistSpotAvailable(data: WaitlistSpotData): Promise
 
       <p style="color: #78716c; font-size: 14px;">
         Questions? Contact us at
-        <a href="mailto:info@creativekidsmusic.org" style="color: #166534;">info@creativekidsmusic.org</a>
+        <a href="mailto:creativekidsmusicproject@gmail.com" style="color: #166534;">creativekidsmusicproject@gmail.com</a>
       </p>
 
       <p style="color: #a8a29e; font-size: 12px; margin-top: 24px;">

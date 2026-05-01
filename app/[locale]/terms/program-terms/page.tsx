@@ -233,8 +233,8 @@ export default async function ProgramTermsPage() {
             <p className="text-slate-600 mb-4">{tp('contactIntro')}</p>
             <address className="text-slate-600 not-italic">
               <strong>{tp('contactOrg')}</strong><br />
-              <a href="mailto:info@creativekidsmusic.org" className="text-forest-600 hover:text-forest-700">
-                info@creativekidsmusic.org
+              <a href="mailto:creativekidsmusicproject@gmail.com" className="text-forest-600 hover:text-forest-700">
+                creativekidsmusicproject@gmail.com
               </a>
             </address>
           </section>

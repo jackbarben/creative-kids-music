@@ -78,4 +78,4 @@ By checking the liability waiver checkbox on the registration form, I acknowledg
 
 ---
 
-**Questions?** Contact us at info@creativekidsmusic.org or (360) 524-2265
+**Questions?** Contact us at creativekidsmusicproject@gmail.com or (360) 524-2265

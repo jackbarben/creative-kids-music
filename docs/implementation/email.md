@@ -51,7 +51,7 @@ The `locale` parameter is passed from the form to the server action and forwarde
 
 ### Admin Notifications
 
-All registrations trigger an admin notification to `jack@creativekidsmusic.org` with:
+All registrations trigger an admin notification to `creativekidsmusicproject@gmail.com` with:
 - Parent name and email
 - Number of children
 - Tuition assistance flag (highlighted if requested)
@@ -74,7 +74,7 @@ lib/
 // Configuration
 const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM_EMAIL = 'Creative Kids Music <noreply@creativekidsmusic.org>'
-const ADMIN_EMAIL = 'jack@creativekidsmusic.org'
+const ADMIN_EMAIL = 'creativekidsmusicproject@gmail.com'
 
 // Functions
 sendWorkshopConfirmation(data)   // Workshop registration confirmed
