@@ -4,6 +4,7 @@ import { useFormState } from 'react-dom'
 import { useTranslations } from 'next-intl'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import SocialLinks from '@/components/SocialLinks'
 import { submitContactForm } from './actions'
 import { SubmitButton } from '@/components/forms'
 
@@ -132,6 +133,14 @@ export default function ContactPage() {
                   {about('churchName')}<br />
                   <span className="text-slate-500">{about('churchAddress')}</span>
                 </p>
+                <div className="flex items-center gap-4 pt-2">
+                  <span className="font-medium text-slate-700">{t('followUs')}</span>
+                  <SocialLinks
+                    containerClassName="flex gap-4"
+                    linkClassName="text-slate-500 hover:text-forest-600 transition-colors"
+                    iconClassName="h-5 w-5"
+                  />
+                </div>
               </div>
             </div>
           </div>

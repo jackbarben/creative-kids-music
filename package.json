@@ -1,6 +1,6 @@
 {
   "name": "creative-kids-music",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "private": true,
   "scripts": {
     "dev": "next dev -p 4000",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.5.0",
     "@supabase/supabase-js": "^2.45.0",
+    "lucide-react": "^1.14.0",
     "next": "^14.2.0",
     "next-intl": "^4.9.1",
     "react": "^18.3.0",

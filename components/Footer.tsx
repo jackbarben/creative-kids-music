@@ -3,6 +3,7 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import packageJson from '@/package.json'
+import SocialLinks from '@/components/SocialLinks'
 
 export default function Footer() {
   const t = useTranslations('nav')
@@ -67,6 +68,11 @@ export default function Footer() {
             >
               (360) 524-2265
             </a>
+            <SocialLinks
+              containerClassName="flex gap-5 pt-2"
+              linkClassName="text-slate-400 hover:text-cream-100 transition-colors"
+              iconClassName="h-5 w-5"
+            />
           </div>
         </div>
 
