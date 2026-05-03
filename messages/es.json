@@ -52,7 +52,8 @@
     "joinWaitlist": "Únase a la lista",
     "photoAlt": "Niños haciendo música juntos",
     "overlayText": "Island Beat Music/Nature Camp",
-    "videoTitle": "Momentos destacados de los talleres"
+    "videoTitle": "Momentos destacados de los talleres",
+    "watchHighlights": "Ver lo destacado"
   },
   "about": {
     "title": "Nosotros",
@@ -89,7 +90,14 @@
     "address": "426 E Fourth Plain Blvd, Vancouver, WA",
     "register": "Reserve su lugar",
     "registerPrice": "Reserve su lugar · $75",
-    "paymentNote": "El pago se realiza el día del evento"
+    "paymentNote": "El pago se realiza el día del evento",
+    "highlightsTitle": "Lo más destacado de la primavera 2026",
+    "highlightsBody": "Tres talleres en febrero, marzo y mayo—niños improvisando, componiendo y tocando junto a músicos profesionales.",
+    "seasonStatusLabel": "Temporada",
+    "seasonComplete": "La primavera 2026 ha terminado.",
+    "seasonCompleteBody": "Más talleres el próximo año escolar. Mientras tanto, conozca nuestros otros programas:",
+    "summerCampDates": "3–9 de agosto, 2026",
+    "musicSchoolWhen": "Otoño 2026"
   },
   "summerCamp": {
     "date": "3–9 de agosto de 2026",

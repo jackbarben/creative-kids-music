@@ -2,20 +2,24 @@ import { Link } from '@/i18n/navigation'
 import { getTranslations, getLocale } from 'next-intl/server'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getWorkshops } from '@/lib/data'
+
+const HIGHLIGHTS = [
+  { date: '2026-05-01', videoId: 'TyjkujxA-lU' },
+  { date: '2026-03-20', videoId: 'J7V7OAiYykI' },
+  { date: '2026-02-20', videoId: 'OyFniZn-kUg' },
+]
 
 export default async function WorkshopsPage() {
-  const workshops = await getWorkshops(true)
   const t = await getTranslations('workshops')
+  const nav = await getTranslations('nav')
   const locale = await getLocale()
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString + 'T00:00:00')
     return date.toLocaleDateString(locale === 'es' ? 'es-US' : 'en-US', {
-      weekday: 'long',
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })
   }
 
@@ -45,15 +49,30 @@ export default async function WorkshopsPage() {
                   <p>{t('body2')}</p>
                 </div>
 
-                <div className="mt-12">
-                  <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm">
-                    <iframe
-                      src="https://www.youtube.com/embed/OyFniZn-kUg?rel=0"
-                      title={t('videoTitle')}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full"
-                    />
+                <div className="mt-16">
+                  <h2 className="font-display text-3xl font-semibold text-slate-800">
+                    {t('highlightsTitle')}
+                  </h2>
+                  <p className="mt-3 text-slate-600 leading-relaxed">
+                    {t('highlightsBody')}
+                  </p>
+                  <div className="mt-10 space-y-12">
+                    {HIGHLIGHTS.map(({ date, videoId }) => (
+                      <div key={videoId}>
+                        <p className="text-xs text-slate-500 font-semibold tracking-widest uppercase mb-3">
+                          {formatDate(date)}
+                        </p>
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${videoId}?rel=0`}
+                            title={`${t('title')} — ${formatDate(date)}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="absolute inset-0 w-full h-full"
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -62,51 +81,40 @@ export default async function WorkshopsPage() {
               <div className="md:col-span-5">
                 <div className="md:sticky md:top-32">
                   <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
-                    {t('dates')}
+                    {t('seasonStatusLabel')}
                   </h2>
 
-                  {workshops.length === 0 ? (
-                    <p className="text-slate-500">{t('datesSoon')}</p>
-                  ) : (
-                    <div className="space-y-6">
-                      {workshops.map((workshop) => (
-                        <div
-                          key={workshop.id}
-                          className="pb-6 border-b border-slate-200 last:border-0 last:pb-0"
-                        >
-                          <p className="font-display font-semibold text-slate-800">
-                            {formatDate(workshop.date)}
-                          </p>
-                          <p className="text-sm text-slate-500 mt-2">
-                            {t('workshopTime')}<br />
-                            {t('dinnerTime')}<br />
-                            {t('performanceTime')}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="mt-10 pt-10 border-t border-slate-200 space-y-2 text-sm text-slate-600">
-                    <p>{t('ages')}</p>
-                    <p>{t('pricing')}</p>
-                    <p className="text-slate-400">{t('assistance')}</p>
-                  </div>
-
-                  <div className="mt-10 pt-10 border-t border-slate-200 text-sm text-slate-400">
-                    <p>{t('location')}</p>
-                    <p>{t('address')}</p>
-                  </div>
-
-                  <Link
-                    href="/workshops/register"
-                    className="mt-10 block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
-                  >
-                    {t('register')}
-                  </Link>
-                  <p className="mt-3 text-xs text-slate-400 text-center">
-                    {t('paymentNote')}
+                  <p className="font-display text-2xl font-semibold text-slate-800">
+                    {t('seasonComplete')}
                   </p>
+                  <p className="mt-4 text-slate-600 leading-relaxed">
+                    {t('seasonCompleteBody')}
+                  </p>
+
+                  <div className="mt-10 space-y-4">
+                    <Link
+                      href="/summer-camp"
+                      className="block p-5 bg-white rounded-lg border border-slate-200 hover:border-slate-400 transition-colors group"
+                    >
+                      <p className="text-xs text-sage-600 font-semibold tracking-widest uppercase">
+                        {t('summerCampDates')}
+                      </p>
+                      <p className="mt-1 font-display text-lg font-semibold text-slate-800 group-hover:text-slate-900">
+                        {nav('summerCamp')} →
+                      </p>
+                    </Link>
+                    <Link
+                      href="/music-school"
+                      className="block p-5 bg-white rounded-lg border border-slate-200 hover:border-slate-400 transition-colors group"
+                    >
+                      <p className="text-xs text-lavender-600 font-semibold tracking-widest uppercase">
+                        {t('musicSchoolWhen')}
+                      </p>
+                      <p className="mt-1 font-display text-lg font-semibold text-slate-800 group-hover:text-slate-900">
+                        {nav('musicSchool')} →
+                      </p>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,19 +122,7 @@ export default async function WorkshopsPage() {
         </section>
       </main>
 
-      <div className="md:hidden h-24"></div>
-
       <Footer />
-
-      {/* Mobile sticky Register button */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-cream-50/95 backdrop-blur-sm border-t border-slate-200">
-        <Link
-          href="/workshops/register"
-          className="block w-full py-4 bg-slate-800 text-white text-center text-sm font-medium tracking-wide rounded hover:bg-slate-700 transition-colors"
-        >
-          {t('registerPrice')}
-        </Link>
-      </div>
     </div>
   )
 }

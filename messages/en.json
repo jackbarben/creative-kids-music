@@ -52,7 +52,8 @@
     "joinWaitlist": "Join Waitlist",
     "photoAlt": "Children making music together",
     "overlayText": "Island Beat Music/Nature Camp",
-    "videoTitle": "Workshop Highlights"
+    "videoTitle": "Workshop Highlights",
+    "watchHighlights": "Watch Highlights"
   },
   "about": {
     "title": "About",
@@ -89,7 +90,14 @@
     "address": "426 E Fourth Plain Blvd, Vancouver, WA",
     "register": "Reserve Your Spot",
     "registerPrice": "Reserve Your Spot · $75",
-    "paymentNote": "Payment collected day-of"
+    "paymentNote": "Payment collected day-of",
+    "highlightsTitle": "Spring 2026 Highlights",
+    "highlightsBody": "Three workshops across February, March, and May—children jamming, improvising, and performing alongside professional musicians.",
+    "seasonStatusLabel": "Season",
+    "seasonComplete": "Spring 2026 is complete.",
+    "seasonCompleteBody": "More workshops coming next school year. In the meantime, check out our other programs:",
+    "summerCampDates": "August 3–9, 2026",
+    "musicSchoolWhen": "Fall 2026"
   },
   "summerCamp": {
     "date": "August 3–9, 2026",

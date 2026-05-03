@@ -67,11 +67,8 @@ export default async function Home() {
                   {t('workshopsDesc')}
                 </p>
                 <div className="mt-6 flex gap-3">
-                  <Link href="/workshops/register" className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-full hover:bg-slate-700 transition-colors">
-                    {c('reserveNow')}
-                  </Link>
-                  <Link href="/workshops" className="px-4 py-2 border border-slate-300 text-slate-600 text-sm font-medium rounded-full hover:bg-slate-50 transition-colors">
-                    {c('learnMore')}
+                  <Link href="/workshops" className="px-4 py-2 bg-slate-800 text-white text-sm font-medium rounded-full hover:bg-slate-700 transition-colors">
+                    {t('watchHighlights')}
                   </Link>
                 </div>
               </div>
@@ -144,7 +141,7 @@ export default async function Home() {
             <div className="mt-12 max-w-3xl mx-auto">
               <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm">
                 <iframe
-                  src="https://www.youtube.com/embed/OyFniZn-kUg?rel=0"
+                  src="https://www.youtube.com/embed/J7V7OAiYykI?rel=0"
                   title={t('videoTitle')}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
